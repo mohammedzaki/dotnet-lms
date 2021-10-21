@@ -1,0 +1,25 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
+
+namespace DigitalHubLMS.Core.Helpers.MySql
+{
+    public class MySqlEnumColumnAttribute : ColumnAttribute
+    {
+        /// <summary>Gets the name of the column the property is mapped to.</summary>
+        /// <returns>The name of the column the property is mapped to.</returns>
+        public Type EnumType
+        {
+            get
+            {
+                return this.EnumType;
+            }
+            [param: DisallowNull]
+            set
+            {
+                string s = string.Join("','", Enum.GetNames(value));
+                this.TypeName = "enum('"+s+"')";
+            }
+        }
+    }
+}

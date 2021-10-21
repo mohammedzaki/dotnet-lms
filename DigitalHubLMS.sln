@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.809.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalHubLMS.Web", "DigitalHubLMS.Web\DigitalHubLMS.Web.csproj", "{BDA2121E-1DAD-4390-940A-3BD5AFDF5365}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalHubLMS.API", "DigitalHubLMS.API\DigitalHubLMS.API.csproj", "{2B34E485-CCB9-4F45-82E7-E2F01F8083D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalHubLMS.Core", "DigitalHubLMS.Core\DigitalHubLMS.Core.csproj", "{9A161B0D-32AA-445C-8FA1-B4E41CC40D42}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI-CD", "CI-CD", "{809DCEEA-F0FE-4D99-8F82-28332DEC98DD}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		notes.md = notes.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MZCore", "MZCore\MZCore.csproj", "{0C50826B-C0F7-4E3A-945B-072D2C7F12A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalHubLMS.Migrations", "DigitalHubLMS.Migrations\DigitalHubLMS.Migrations.csproj", "{E0F0DAFB-9AFB-48B1-8227-B9F0162C4AEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDA2121E-1DAD-4390-940A-3BD5AFDF5365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDA2121E-1DAD-4390-940A-3BD5AFDF5365}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDA2121E-1DAD-4390-940A-3BD5AFDF5365}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDA2121E-1DAD-4390-940A-3BD5AFDF5365}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B34E485-CCB9-4F45-82E7-E2F01F8083D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B34E485-CCB9-4F45-82E7-E2F01F8083D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B34E485-CCB9-4F45-82E7-E2F01F8083D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B34E485-CCB9-4F45-82E7-E2F01F8083D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A161B0D-32AA-445C-8FA1-B4E41CC40D42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A161B0D-32AA-445C-8FA1-B4E41CC40D42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A161B0D-32AA-445C-8FA1-B4E41CC40D42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A161B0D-32AA-445C-8FA1-B4E41CC40D42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C50826B-C0F7-4E3A-945B-072D2C7F12A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C50826B-C0F7-4E3A-945B-072D2C7F12A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C50826B-C0F7-4E3A-945B-072D2C7F12A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C50826B-C0F7-4E3A-945B-072D2C7F12A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0F0DAFB-9AFB-48B1-8227-B9F0162C4AEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0F0DAFB-9AFB-48B1-8227-B9F0162C4AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0F0DAFB-9AFB-48B1-8227-B9F0162C4AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0F0DAFB-9AFB-48B1-8227-B9F0162C4AEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E43683CA-99C5-4303-9A72-8B6DDE48575B}
+	EndGlobalSection
+EndGlobal

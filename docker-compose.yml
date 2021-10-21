@@ -1,0 +1,51 @@
+version: '3.6'
+
+services:
+  mariadb:
+    image: 'docker.io/bitnami/mariadb:10.2-debian-10'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=ms_test
+      - MARIADB_DATABASE=ms_test
+      - MARIADB_PASSWORD=HNTyV+6K?Z-EtahC
+
+  novartisms.web:
+    image: novartisms-web:v1
+    build:
+      context: .
+      dockerfile: DigitalHubLMS.Web/Dockerfile
+    ports:
+      - 8081:80
+      - 9443:443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123456789
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__DefaultConnection=server=mariadb;port=3306;user=ms_test;password=HNTyV+6K?Z-EtahC;database=ms_test
+    restart: on-failure  
+    depends_on:
+      - mariadb
+    volumes:
+      - ./https:/https:ro
+
+  novartisms.api:
+    image: novartisms-api:v1
+    build:
+      context: .
+      dockerfile: DigitalHubLMS.API/Dockerfile
+    ports:
+      - 8082:80
+      - 9444:443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123456789
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__DefaultConnection=server=mariadb;port=3306;user=ms_test;password=HNTyV+6K?Z-EtahC;database=ms_test
+    restart: on-failure  
+    depends_on:
+      - mariadb
+    volumes:
+      - ./https:/https:ro
+
