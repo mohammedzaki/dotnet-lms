@@ -27,7 +27,7 @@ namespace DigitalHubLMS.API.Controllers
         // POST: api/FamilyHistory
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("login")]
-        public async Task<IActionResult> PostUsersLogin(LoginModel loginModel)
+        public async Task<ActionResult<LoginResponse>> PostUsersLogin(LoginModel loginModel)
         {
             var user = await _repository.FindByUsernamePasswordAsync(loginModel.Username, loginModel.Password);
             if (user == null)
@@ -36,11 +36,12 @@ namespace DigitalHubLMS.API.Controllers
             }
             else
             {
-                return Ok(new {
+                return new LoginResponse
+                {
                     _id = user._Id,
-                    token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZGlnaXRhbC1sbXMubG9jYWxob3N0L2xvZ2luIiwiaWF0IjoxNjM0Nzk0NzE2LCJleHAiOjE2MzUzOTk1MTYsIm5iZiI6MTYzNDc5NDcxNiwianRpIjoiRGlTcVQ1SWRUb1dTcm8zSCIsInN1YiI6MzM2LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.M5TSxsL1IudfXb1M5k6Wh25fcDwuxXMUWOz4I1NL2tY",
-                    user
-                } );
+                    token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZGlnaXRhbC1sbXMubG9jYWxob3N0L2xvZ2luIiwiaWF0IjoxNjM0ODcwNzkzLCJleHAiOjE2MzU0NzU1OTMsIm5iZiI6MTYzNDg3MDc5MywianRpIjoiN3FNem51VHZFa0I5bGd1ayIsInN1YiI6NSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.s8f6zPNGemf-wnDAtSgj29jOPRXiXx3N44Pixw8J8_s",
+                    user = user
+                };
             }
         }
     }

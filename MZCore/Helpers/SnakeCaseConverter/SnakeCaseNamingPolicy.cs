@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 
-namespace MZCore.Helpers
+namespace MZCore.Helpers.SnakeCaseConverter
 {
     public class SnakeCaseNamingPolicy : JsonNamingPolicy
     {

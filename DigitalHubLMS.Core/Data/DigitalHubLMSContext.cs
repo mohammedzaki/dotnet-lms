@@ -74,7 +74,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
             #region Generated Code
 
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            //modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Announcement>(entity =>
             {
@@ -742,6 +742,10 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e._Id).IsFixedLength(true);
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name).HasColumnName("name");
             });
 
             modelBuilder.Entity<Section>(entity =>
@@ -801,6 +805,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.Property(e => e.Id).HasColumnName("id");
+
                 entity.Property(e => e.ApiKey).IsFixedLength(true);
 
                 entity.Property(e => e.ConfirmCode).IsFixedLength(true);
@@ -816,6 +822,10 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.PasswordChangedAt).HasPrecision(0);
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
+
+                entity.Property(e => e.UserName).HasColumnName("username");
+
+                entity.Property(e => e.Email).HasColumnName("email");
             });
 
             modelBuilder.Entity<UserGroup>(entity =>
@@ -859,6 +869,10 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.CreatedAt).HasPrecision(0);
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.UserRoles)

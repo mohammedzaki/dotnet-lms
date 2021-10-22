@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace MZCore.Helpers
+namespace MZCore.Helpers.SnakeCaseConverter
 {
     public static class JsonSerializationExtensions
     {

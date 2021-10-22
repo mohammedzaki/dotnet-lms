@@ -34,9 +34,11 @@
   <ItemGroup>
     <None Remove="ExceptionHandler\" />
     <None Remove="Helpers\MySql\" />
+    <None Remove="Helpers\SnakeCaseConverter\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExceptionHandler\" />
     <Folder Include="Helpers\MySql\" />
+    <Folder Include="Helpers\SnakeCaseConverter\" />
   </ItemGroup>
 </Project>

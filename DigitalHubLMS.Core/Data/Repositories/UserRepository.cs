@@ -30,9 +30,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 if (valid)
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
-
-                    var roles = _dbContext.Roles.Where(item => userRoles.Any(n => n == item.Name)).ToList();
+                    var roles = _dbContext.Roles.Where(item => userRoles.Any(n => n == item.Name)).Select(e => new Role { Id = e.Id, _Id = e._Id, Name = e.Name, IsActive = e.IsActive, Level = e.Level }).ToList();
                     user.Roles = roles;
+                    user.PasswordHash = null;
                     return user;
                 }
                 else

@@ -12,11 +12,6 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("user_role")]
     public partial class UserRole : IdentityUserRole<long>
     {
-
-        [Column("user_id")]
-        public long UserId { get; set; }
-        [Column("role_id")]
-        public long RoleId { get; set; }
         [Column("created_by")]
         public long CreatedBy { get; set; }
         [Column("updated_by")]

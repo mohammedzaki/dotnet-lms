@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 #nullable disable
 
@@ -16,27 +16,6 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Index(nameof(UserName), Name = "users_username_unique", IsUnique = true)]
     public partial class User : IdentityUser<long>
     {
-        
-        public User()
-        {
-            AnnouncementUsers = new HashSet<AnnouncementUser>();
-            BundleEnrols = new HashSet<BundleEnrol>();
-            Bundles = new HashSet<Bundle>();
-            Certificates = new HashSet<Certificate>();
-            ClassQuizTakes = new HashSet<ClassQuizTake>();
-            ClassUserMeta = new HashSet<ClassUserMetum>();
-            CourseEnrols = new HashSet<CourseEnrol>();
-            Courses = new HashSet<Course>();
-            Notes = new HashSet<Note>();
-            Ratings = new HashSet<Rating>();
-            UserGroups = new HashSet<UserGroup>();
-            UserInfos = new HashSet<UserInfo>();
-            UserSecurityQuestions = new HashSet<UserSecurityQuestion>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("_id")]
         [StringLength(36)]
@@ -122,7 +101,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         [InverseProperty(nameof(UserSecurityQuestion.User))]
         public virtual ICollection<UserSecurityQuestion> UserSecurityQuestions { get; set; }
 
-        public List<Role> Roles {
+        [NotMapped]
+        public IList<Role> Roles {
             get; set;
         }
 

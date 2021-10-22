@@ -89,5 +89,26 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ICollection<Rating> Ratings { get; set; }
         [InverseProperty(nameof(Section.Course))]
         public virtual ICollection<Section> Sections { get; set; }
+
+        /*
+        public function completed()
+        {
+            return $this->belongsToMany('App\User', 'course_enrols')->using('App\PivotRelations')->where('progress', '=', 100)->select('display_name');
+
+        }
+
+        public function not_started()
+        {
+            return $this->belongsToMany('App\User', 'course_enrols')->using('App\PivotRelations')->where('progress', '=', 0);
+        }
+
+        public function in_progress()
+        {
+
+            return $this->belongsToMany('App\User', 'course_enrols')->using('App\PivotRelations')
+                        ->where('progress', '>', 0)
+                        ->where('progress', '<', 100);
+        }
+        */
     }
 }

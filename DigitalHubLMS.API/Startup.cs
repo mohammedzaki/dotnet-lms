@@ -21,8 +21,8 @@ using DigitalHubLMS.Core.Data;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories;
 using Swashbuckle.AspNetCore.Newtonsoft;
-using DigitalHubLMS.API.Helpers;
-using MZCore.Helpers;
+using MZCore.Helpers.SnakeCaseConverter;
+using MZCore.ExceptionHandler;
 
 namespace DigitalHubLMS.API
 {
@@ -68,19 +68,20 @@ namespace DigitalHubLMS.API
 
             services
                 .AddControllers()
-            //    .AddNewtonsoftJson(options =>
-            //{
-            //    options.SerializerSettings.Converters.Add(new StringEnumConverter());
-            //})
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                })
                 .AddJsonOptions(x =>
-            {
-                x.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
-            })
-                ;
+                {
+                    x.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
+                });
 
             services.AddSwaggerGen(options =>
             {
-                options.CustomSchemaIds(type => type.ToString().Replace("DigitalHubLMS.Core.Data.Entities.", ""));
+
+                options.CustomSchemaIds(type => type.ToString().Replace("DigitalHubLMS.API.Models.", "").Replace("DigitalHubLMS.Core.Data.Entities.", ""));
+
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "DigitalHubLMS.API", Version = "v1" });
             });
 
@@ -101,12 +102,15 @@ namespace DigitalHubLMS.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment() || env.IsStaging())
             {
+                logger.LogInformation("In Development.");
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMZCoreAPIExceptionMiddleware();
 
             app.UseSwaggerAuthorized();
             app.UseSwagger();

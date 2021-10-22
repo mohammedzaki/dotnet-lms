@@ -15,20 +15,10 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Index(nameof(Name), Name = "roles_name_unique", IsUnique = true)]
     public partial class Role : IdentityRole<long>
     {
-        public Role()
-        {
-            UserRoles = new HashSet<UserRole>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("_id")]
         [StringLength(36)]
         public string _Id { get; set; }
-        [Column("name")]
-        public string Name { get; set; }
         [Column("is_active")]
         public byte IsActive { get; set; }
         [Column("created_by")]
