@@ -24,7 +24,6 @@ namespace DigitalHubLMS.API.Controllers.Admin
             var total_quizzes = await _dbContext.Quizzes.CountAsync();
             var total_departments = await _dbContext.Groups.CountAsync();
             var total_categories = await _dbContext.Categories.CountAsync();
-            throw new Exception("Exception while fetching all the students from the storage.");
             var total_announcements = await _dbContext.Announcements.CountAsync();
             var roleId = await _dbContext.Roles.Where(e => e.Name == "instructor").FirstOrDefaultAsync();
             var total_instructors = await _dbContext.Users.Include(e => e.UserRoles).Where(e => e.UserRoles.Any(e => e.RoleId == roleId.Id)).CountAsync();
