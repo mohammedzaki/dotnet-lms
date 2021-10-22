@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 
-namespace DigitalHubLMS.API.Config
+namespace MZCore.SwaggerAuth
 {
     public static class SwaggerAuthorizeExtensions
     {

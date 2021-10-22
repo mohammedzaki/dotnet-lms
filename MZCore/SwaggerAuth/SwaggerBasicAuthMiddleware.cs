@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace DigitalHubLMS.API.Config
+namespace MZCore.SwaggerAuth
 {
     public class SwaggerBasicAuthMiddleware
     {

@@ -16,13 +16,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
-using DigitalHubLMS.API.Config;
 using DigitalHubLMS.Core.Data;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories;
 using Swashbuckle.AspNetCore.Newtonsoft;
 using MZCore.Helpers.SnakeCaseConverter;
 using MZCore.ExceptionHandler;
+using MZCore.SwaggerAuth;
 
 namespace DigitalHubLMS.API
 {
@@ -113,7 +113,9 @@ namespace DigitalHubLMS.API
             app.UseMZCoreAPIExceptionMiddleware();
 
             app.UseSwaggerAuthorized();
+
             app.UseSwagger();
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DigitalHubLMS.API v1");
