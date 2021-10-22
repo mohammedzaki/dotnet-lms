@@ -42,7 +42,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Config\" />
     <Folder Include="Controllers\Admin\" />
   </ItemGroup>
   <ItemGroup>

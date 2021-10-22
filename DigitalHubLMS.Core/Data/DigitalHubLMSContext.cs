@@ -593,7 +593,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.Property(e => e.DeletedAt).HasPrecision(0);
 
-                entity.Property(e => e.Id1).IsFixedLength(true);
+                entity.Property(e => e._Id).IsFixedLength(true);
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
             });
@@ -683,7 +683,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.Property(e => e.DeletedAt).HasPrecision(0);
 
-                entity.Property(e => e.Id1).IsFixedLength(true);
+                entity.Property(e => e._Id).IsFixedLength(true);
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
             });
@@ -836,17 +836,17 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
 
-                entity.HasOne(d => d.Group)
-                    .WithMany(p => p.UserGroups)
-                    .HasForeignKey(d => d.GroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("user_group_group_id_foreign");
+                //entity.HasOne(d => d.Group)
+                //    .WithMany(p => p.UserGroups)
+                //    .HasForeignKey(d => d.GroupId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("user_group_group_id_foreign");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserGroups)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("user_group_user_id_foreign");
+                //entity.HasOne(d => d.User)
+                //    .WithMany(p => p.UserGroups)
+                //    .HasForeignKey(d => d.UserId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("user_group_user_id_foreign");
             });
 
             modelBuilder.Entity<UserInfo>(entity =>

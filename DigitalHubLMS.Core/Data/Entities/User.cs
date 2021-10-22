@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
-#nullable disable
+using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.Core.Data.Entities 
 {
@@ -14,9 +13,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Index(nameof(_Id), Name = "users__id_unique", IsUnique = true)]
     [Index(nameof(Email), Name = "users_email_unique", IsUnique = true)]
     [Index(nameof(UserName), Name = "users_username_unique", IsUnique = true)]
-    public partial class User : IdentityUser<long>
+    public partial class User : IdentityUser<long>, IEntity<long>
     {
-        [Required]
         [Column("_id")]
         [StringLength(36)]
         public string _Id { get; set; }
@@ -35,7 +33,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         public byte IsBanned { get; set; }
         [Column("is_verified")]
         public byte IsVerified { get; set; }
-        [Required]
+        
         [Column("confirm_code")]
         [StringLength(36)]
         public string ConfirmCode { get; set; }
@@ -70,6 +68,15 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("profile_picture_id")]
         public long? ProfilePictureId { get; set; }
 
+        [NotMapped]
+        public string Username { get; set; }
+        [NotMapped]
+        public string Password { get; set; }
+        [NotMapped]
+        public string Title { get; set; }
+        [NotMapped]
+        public string Description { get; set; }
+
         [InverseProperty(nameof(AnnouncementUser.User))]
         public virtual ICollection<AnnouncementUser> AnnouncementUsers { get; set; }
         [InverseProperty(nameof(BundleEnrol.User))]
@@ -102,9 +109,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ICollection<UserSecurityQuestion> UserSecurityQuestions { get; set; }
 
         [NotMapped]
-        public IList<Role> Roles {
-            get; set;
-        }
+        public IList<Role> Roles { get; set; }
+
+        [NotMapped]
+        public IList<Group> Departments { get; set; }
 
     }
 }

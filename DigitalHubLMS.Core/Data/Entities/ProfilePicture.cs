@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("profile_pictures")]
-    [Index(nameof(Id1), Name = "profile_pictures__id_unique", IsUnique = true)]
+    [Index(nameof(_Id), Name = "profile_pictures__id_unique", IsUnique = true)]
     public partial class ProfilePicture
     {
         [Key]
@@ -18,7 +18,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Required]
         [Column("_id")]
         [StringLength(36)]
-        public string Id1 { get; set; }
+        public string _Id { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
         [Required]

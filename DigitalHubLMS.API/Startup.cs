@@ -20,9 +20,10 @@ using DigitalHubLMS.Core.Data;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories;
 using Swashbuckle.AspNetCore.Newtonsoft;
-using MZCore.Helpers.SnakeCaseConverter;
 using MZCore.ExceptionHandler;
 using MZCore.SwaggerAuth;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace DigitalHubLMS.API
 {
@@ -67,19 +68,20 @@ namespace DigitalHubLMS.API
             });
 
             services
+                .AddRouting(options => options.LowercaseUrls = true)
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                })
-                .AddJsonOptions(x =>
-                {
-                    x.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    // options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() };
                 });
+
 
             services.AddSwaggerGen(options =>
             {
-
                 options.CustomSchemaIds(type => type.ToString().Replace("DigitalHubLMS.API.Models.", "").Replace("DigitalHubLMS.Core.Data.Entities.", ""));
 
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "DigitalHubLMS.API", Version = "v1" });

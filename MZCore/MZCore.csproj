@@ -32,13 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ExceptionHandler\" />
-    <None Remove="Helpers\MySql\" />
-    <None Remove="Helpers\SnakeCaseConverter\" />
+    <None Remove="Patterns\" />
+    <None Remove="Patterns\Repositroy\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ExceptionHandler\" />
-    <Folder Include="Helpers\MySql\" />
-    <Folder Include="Helpers\SnakeCaseConverter\" />
+    <Folder Include="Patterns\" />
+    <Folder Include="Patterns\Repositroy\" />
   </ItemGroup>
 </Project>

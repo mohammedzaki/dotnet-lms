@@ -1238,7 +1238,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("deleted_at");
 
-                    b.Property<string>("Id1")
+                    b.Property<string>("_Id")
                         .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nchar(36)")
@@ -1270,7 +1270,7 @@ namespace DigitalHubLMS.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id1" }, "groups__id_unique")
+                    b.HasIndex(new[] { "_Id" }, "groups__id_unique")
                         .IsUnique();
 
                     b.HasIndex(new[] { "Name" }, "groups_name_unique")
@@ -1650,7 +1650,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("file_key");
 
-                    b.Property<string>("Id1")
+                    b.Property<string>("_Id")
                         .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nchar(36)")
@@ -1690,7 +1690,7 @@ namespace DigitalHubLMS.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id1" }, "profile_pictures__id_unique")
+                    b.HasIndex(new[] { "_Id" }, "profile_pictures__id_unique")
                         .IsUnique();
 
                     b.ToTable("profile_pictures");

@@ -9,23 +9,17 @@ using Microsoft.EntityFrameworkCore;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("groups")]
-    [Index(nameof(Id1), Name = "groups__id_unique", IsUnique = true)]
+    [Index(nameof(_Id), Name = "groups__id_unique", IsUnique = true)]
     [Index(nameof(Name), Name = "groups_name_unique", IsUnique = true)]
     public partial class Group
     {
-        public Group()
-        {
-            CourseDepartments = new HashSet<CourseDepartment>();
-            UserGroups = new HashSet<UserGroup>();
-        }
-
         [Key]
         [Column("id")]
         public long Id { get; set; }
         [Required]
         [Column("_id")]
         [StringLength(36)]
-        public string Id1 { get; set; }
+        public string _Id { get; set; }
         [Required]
         [Column("name")]
         [StringLength(255)]

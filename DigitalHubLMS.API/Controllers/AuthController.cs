@@ -11,14 +11,15 @@ using DigitalHubLMS.API.Models;
 using DigitalHubLMS.Core.Data;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 
 namespace DigitalHubLMS.API.Controllers
 {
-    public class UsersController : BaseAPIController
+    public class AuthController : BaseAPIController
     {
         private readonly IUserRepository _repository;
 
-        public UsersController(IUserRepository repository, DigitalHubLMSContext context)
+        public AuthController(IUserRepository repository, DigitalHubLMSContext context)
             : base(context)
         {
             _repository = repository;

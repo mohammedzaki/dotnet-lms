@@ -39,4 +39,7 @@
     <Folder Include="Helpers\MySql\" />
     <Folder Include="Data\Entities\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MZCore\MZCore.csproj" />
+  </ItemGroup>
 </Project>
