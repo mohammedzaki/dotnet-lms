@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DigitalHubLMS.API.Controllers.Admin
 {
+
     [Route("admin/[controller]")]
     public class BaseAdminAPIController<TDbContext> : BaseAPIController<TDbContext>
         where TDbContext : DbContext

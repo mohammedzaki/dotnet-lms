@@ -18,28 +18,15 @@ namespace DigitalHubLMS.API
             CreateHostBuilder(args).Build().Run();
         }
 
-        //public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //    Host.CreateDefaultBuilder(args)
-        //        .ConfigureLogging(logging =>
-        //        {
-        //            logging.ClearProviders();
-        //            logging.AddConsole();
-        //        })
-        //        .ConfigureWebHostDefaults(webBuilder =>
-        //        {
-        //            webBuilder.UseStartup<Startup>();
-        //        });
-
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureLogging(logging =>
-               logging.AddFilter("System", LogLevel.Debug)
-                  .AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Information)
-                  .AddFilter<ConsoleLoggerProvider>("Microsoft", LogLevel.Trace))
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
+            Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                   logging.AddFilter("System", LogLevel.Debug)
+                      .AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Information)
+                      .AddFilter<ConsoleLoggerProvider>("Microsoft", LogLevel.Trace))
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

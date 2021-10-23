@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
+using DigitalHubLMS.API.Models;
 using DigitalHubLMS.Core.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.API.Controllers.Admin
@@ -15,27 +21,23 @@ namespace DigitalHubLMS.API.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Models.Report>>> Get()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<List<ReportUser>>> Get()
         {
-            /*
-            $users = User::
-        setEagerLoads([])
-            // ->hidden(['confirmed' ])
-                     ->selectRaw('
-        users.display_name employee,
-        course_enrols.progress progress,
-        courses.title course,
-        year(courses.created_at) year,
-        monthname(courses.created_at) month
-
-        ')
-                     ->leftJoin('course_enrols', 'course_enrols.user_id', '=', 'users.id')
-                     ->leftJoin('courses', 'courses.id', '=', 'course_enrols.course_id')
-            // ->whereNull('course_enrols.progress',0)
-                     ->get()->makeHidden(['confirmed']);;
-        return response()->json($users, 200);
-            */
-            return null;
+            var list = await _dbContext.Users
+                .Include(e => e.CourseEnrols)
+                .ThenInclude(e => e.Course)
+                .SelectMany(e => e.CourseEnrols,
+                        (user, enrol) => new ReportUser
+                        {
+                            employee = user.DisplayName,
+                            progress = enrol.Progress,
+                            course = enrol.Course.Title,
+                            year = enrol.Course.CreatedAt.Value.Year,
+                            month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(enrol.Course.CreatedAt.Value.Month)
+                        }).ToListAsync();
+            return list;
         }
     }
 }

@@ -5,7 +5,7 @@ using DigitalHubLMS.Core.Data.Entities;
 
 namespace DigitalHubLMS.API.Models
 {
-    public class Dashboard
+    public class AdminDashboard
     {
         public int total_certificates { get; set; }
         public int total_quizzes { get; set; }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DigitalHubLMS.API.Models;
 using DigitalHubLMS.Core.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,9 @@ namespace DigitalHubLMS.API.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<ActionResult<Models.Dashboard>> Get()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<AdminDashboard>> Get()
         {
             var total_certificates = await _dbContext.Certificates.CountAsync();
             var total_quizzes = await _dbContext.Quizzes.CountAsync();
@@ -55,7 +58,7 @@ namespace DigitalHubLMS.API.Controllers.Admin
             int totalEnrolled = total_completed + total_not_started + total_in_progress;
             decimal completed_progress = Math.Ceiling(((decimal)total_completed / (decimal)totalEnrolled) * 100);
 
-            return new Models.Dashboard
+            return new AdminDashboard
             {
                 total_certificates = total_certificates,
                 total_quizzes = total_quizzes,

@@ -28,6 +28,8 @@ namespace MZCore.Patterns.Generices
 
         // GET: [ControllerName]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public virtual async Task<ActionResult<List<TEntity>>> Get()
         {
             return await _repository.GetAll();
@@ -40,6 +42,7 @@ namespace MZCore.Patterns.Generices
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public virtual async Task<ActionResult<TEntity>> Get(TKey id)
         {
             return await _repository.FindByIdAsync(id);
@@ -55,6 +58,7 @@ namespace MZCore.Patterns.Generices
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public virtual async Task<ActionResult<TEntity>> Put(TKey id, TEntity entity)
         {
             return await _repository.UpdateAsync(entity);
@@ -67,6 +71,7 @@ namespace MZCore.Patterns.Generices
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public virtual async Task<ActionResult<TEntity>> Post(TEntity entity)
         {
             return await _repository.SaveAsync(entity);
@@ -83,6 +88,7 @@ namespace MZCore.Patterns.Generices
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public virtual async Task<ActionResult<int>> Delete(TKey id)
         {
             return await _repository.DeleteAsync(id);
