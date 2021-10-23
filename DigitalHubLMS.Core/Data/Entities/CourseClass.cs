@@ -11,22 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("course_classes")]
     [Index(nameof(CourseId), Name = "course_classes_course_id_foreign")]
     [Index(nameof(SectionId), Name = "course_classes_section_id_foreign")]
-    public partial class CourseClass
+    public partial class CourseClass : BaseEntity
     {
-        public CourseClass()
-        {
-            ClassData = new HashSet<ClassDatum>();
-            ClassDocuments = new HashSet<ClassDocument>();
-            ClassMedia = new HashSet<ClassMedium>();
-            ClassMeta = new HashSet<ClassMetum>();
-            ClassQuizzes = new HashSet<ClassQuiz>();
-            ClassUserMeta = new HashSet<ClassUserMetum>();
-            Notes = new HashSet<Note>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("title")]
         [StringLength(255)]
         public string Title { get; set; }
@@ -53,18 +39,18 @@ namespace DigitalHubLMS.Core.Data.Entities
         [ForeignKey(nameof(SectionId))]
         [InverseProperty("CourseClasses")]
         public virtual Section Section { get; set; }
-        [InverseProperty(nameof(ClassDatum.CourseClass))]
-        public virtual ICollection<ClassDatum> ClassData { get; set; }
+        [InverseProperty(nameof(Entities.ClassData.CourseClass))]
+        public virtual ICollection<ClassData> ClassData { get; set; }
         [InverseProperty(nameof(ClassDocument.CourseClass))]
         public virtual ICollection<ClassDocument> ClassDocuments { get; set; }
-        [InverseProperty(nameof(ClassMedium.CourseClass))]
-        public virtual ICollection<ClassMedium> ClassMedia { get; set; }
-        [InverseProperty(nameof(ClassMetum.CourseClass))]
-        public virtual ICollection<ClassMetum> ClassMeta { get; set; }
+        [InverseProperty(nameof(Entities.ClassMedia.CourseClass))]
+        public virtual ICollection<ClassMedia> ClassMedia { get; set; }
+        [InverseProperty(nameof(Entities.ClassMeta.CourseClass))]
+        public virtual ICollection<ClassMeta> ClassMeta { get; set; }
         [InverseProperty(nameof(ClassQuiz.CourseClass))]
         public virtual ICollection<ClassQuiz> ClassQuizzes { get; set; }
-        [InverseProperty(nameof(ClassUserMetum.CourseClass))]
-        public virtual ICollection<ClassUserMetum> ClassUserMeta { get; set; }
+        [InverseProperty(nameof(Entities.ClassUserMeta.CourseClass))]
+        public virtual ICollection<ClassUserMeta> ClassUserMeta { get; set; }
         [InverseProperty(nameof(Note.CourseClass))]
         public virtual ICollection<Note> Notes { get; set; }
     }

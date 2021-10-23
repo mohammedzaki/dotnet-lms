@@ -8,26 +8,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DigitalHubLMS.Core.Data.Entities
 {
-    [Table("class_meta")]
-    [Index(nameof(CourseClassId), Name = "class_meta_course_class_id_foreign")]
-    public partial class ClassMetum
+    [Table("class_data")]
+    [Index(nameof(CourseClassId), Name = "class_data_course_class_id_foreign")]
+    public partial class ClassData : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("course_class_id")]
         public long CourseClassId { get; set; }
-        [Column("meta_key")]
-        public string MetaKey { get; set; }
-        [Column("meta_value")]
-        public string MetaValue { get; set; }
+        [Column("data")]
+        public string Data { get; set; }
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
         [ForeignKey(nameof(CourseClassId))]
-        [InverseProperty("ClassMeta")]
+        [InverseProperty("ClassData")]
         public virtual CourseClass CourseClass { get; set; }
     }
 }

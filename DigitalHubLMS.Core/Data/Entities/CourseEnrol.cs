@@ -11,13 +11,10 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("course_enrols")]
     [Index(nameof(CourseId), Name = "course_enrols_course_id_foreign")]
     [Index(nameof(UserId), Name = "course_enrols_user_id_foreign")]
-    public partial class CourseEnrol
+    public partial class CourseEnrol : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("course_id")]
-        public long CourseId { get; set; }
+        public long? CourseId { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
         [Column("current_class")]

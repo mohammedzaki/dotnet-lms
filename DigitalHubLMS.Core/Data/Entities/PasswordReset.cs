@@ -11,7 +11,7 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Keyless]
     [Table("password_resets")]
     [Index(nameof(Email), Name = "password_resets_email_index")]
-    public partial class PasswordReset
+    public partial class PasswordReset : BaseEntity
     {
         [Required]
         [Column("email")]

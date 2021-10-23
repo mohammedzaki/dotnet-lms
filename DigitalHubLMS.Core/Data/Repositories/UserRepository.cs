@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
+using MZCore.ExceptionHandler;
+using System.ComponentModel.DataAnnotations;
 
 namespace DigitalHubLMS.Core.Data.Repositories
 {
@@ -50,7 +52,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             }
         }
 
-        public new async Task<List<User>> GetAll()
+        public override async Task<List<User>> GetAll()
         {
             var allroles = await _dbContext.Roles.ToListAsync();
             var alldepartments = await _dbContext.Groups.ToListAsync();
@@ -87,146 +89,113 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return users;
         }
 
-        public async Task<User> CreateAsync(User user, List<Role> selectedRoles, List<Group> selectedGroups)
+        public override async Task<User> SaveAsync(User user)
         {
-            /*
-            $data = [
-                'username' => $request->username,
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'email' => $request->email,
-                'is_banned' => $request->is_banned ? 1 : 0,
-                'display_name' => $request->display_name,
-                'created_by' => $userId,
-                'updated_by' => $userId
-            ];
-            */
+            user.EmailConfirmed = true;
+            user.LockoutEnabled = false;
+            user.UserName = user.Username;
+            user.ConfirmCode = "123456";
+            user.IsLdap = 0;
+            user.IsVerified = 0;
+            user._Id = Guid.NewGuid().ToString();
 
-            // var u = new User { UserName = user.Email, Email = user.Email, EmailConfirmed = true, LockoutEnabled = false };
-            var result = await _userManager.CreateAsync(user, user.Password);
-
+            await CreateUser(user);
+            await AssignUserRoles(user);
+            await AddToGroups(user);
+            await CreateUserInfo(user);
             return user;
-
         }
 
-        /*
-          public function createUser(Request $request)
-    {
-        $userId = Auth::user()->id;
-
-        $data = ['username' => $request->username, 'first_name' => $request->first_name, 'last_name' => $request->last_name, 'email' => $request->email, 'is_banned' => $request->is_banned ? 1 : 0, 'display_name' => $request->display_name, 'created_by' => $userId, 'updated_by' => $userId,];
-
-        if (!$request->id) {
-            $data['password']     = Hash::make($request->password);
-            $data['confirm_code'] = "123456";
-        }
-        $user = User::updateOrCreate(['id' => $request->id], $data);
-
-        $roles = [];
-
-        if ($request->id) {
-            $userRoles = UserRole::where('user_id', $request->id)
-                                 ->get();
-            foreach ($userRoles as $role) {
-                $found = in_array($role->role_id, array_column($request->selectedRoles, 'id'));
-                if (!$found) {
-                    // $role->delete();
-                    User::findOrFail($request->id)
-                        ->revokeRole($role->role_id);
-
+        private async Task CreateUser(User user)
+        {
+            var result = await _userManager.CreateAsync(user, user.Password);
+            if (!result.Succeeded)
+            {
+                var ex = new AppException("create new user validation failed");
+                foreach (var item in result.Errors)
+                {
+                    ex.Errors.Add(item.Code, item.Description);
                 }
+                throw ex;
             }
-            $userGroups = UserGroup::where('user_id', $request->id)
-                                   ->get();
-            foreach ($userGroups as $group) {
-                $found = in_array($group->group_id, array_column($request->selectedGroups, 'id'));
-                if (!$found) {
-                    $group->delete();
+        }
+
+        private async Task AssignUserRoles(User user)
+        {
+            var result = await _userManager.AddToRolesAsync(user, user.SelectedRoles.Select(e => e.Name));
+            if (result.Succeeded)
+            {
+                user.Roles = user.SelectedRoles;
+            }
+            else
+            {
+                var ex = new AppException("assing user roles failed");
+                foreach (var item in result.Errors)
+                {
+                    ex.Errors.Add(item.Code, item.Description);
                 }
+                throw ex;
             }
         }
 
-        if ($request->selectedRoles) {
-            foreach ($request->selectedRoles as $role) {
-                // $user_role =  UserRole::updateOrCreate(
-                //     [
-                //         'user_id' => $user->id,
-                //         'role_id' =>
-                //     ],[
-                //         'created_by'=>$userId,
-                //         'updated_by'=>$userId,
-                //     ]
-                // );
-                User::findOrFail($request->id)
-                    ->assignRole($role['id']);
+        private async Task AddToGroups(User user)
+        {
+            foreach (var g in user.SelectedGroups)
+            {
+                //TODO: Add login user id
+                var usergroup = new UserGroup { GroupId = g.Id, UserId = user.Id, CreatedAt = DateTime.Now, CreatedBy = 1 };
+                _dbContext.UserGroups.Add(usergroup);
+                await _dbContext.SaveChangesAsync();
 
-                // $roles[]=$user_role;
+                var coursesDepartments = await _dbContext.CourseDepartments.Where(e => e.GroupId == g.Id).ToListAsync();
 
-            }
-        }
-        $user->roles = $request->selectedRoles;
-        $groups      = [];
-
-        if ($request->selectedGroups) {
-            foreach ($request->selectedGroups as $group) {
-                $user_group = UserGroup::updateOrCreate(['user_id' => $user->id, 'group_id' => $group['id']], ['created_by' => $userId, 'updated_by' => $userId,
-
-                                                                                                            ]
-                );
-
-                $coursesDepartments = CourseDepartment::where('group_id', $group['id'])->get();
-                foreach ($coursesDepartments as $course) {
-                    $courseId = $course["course_id"];
-                    $ccourse  = Course::findOrFail($courseId);
-
-                    if ($courseId) {
-                        $changeClass = CourseEnrol::updateOrCreate(['course_id' => $courseId, 'user_id' => $user->id,]);
-                        if ($changeClass->wasRecentlyCreated) {
+                foreach (var courseDept in coursesDepartments)
+                {
+                    if (courseDept.CourseId != null)
+                    {
+                        var changeClass = new CourseEnrol { CourseId = courseDept.CourseId, UserId = user.Id };
+                        _dbContext.CourseEnrols.Add(changeClass);
+                        await _dbContext.SaveChangesAsync();
+                        /*
+                         if ($changeClass->wasRecentlyCreated) {
                             if ($user->email) {
                                 dispatch(new EnrolledEmailJob($user->email, $user, $ccourse));
                             }
 
-                        }
-
+                         }
+                         */
                     }
-
                 }
             }
-        }
-        $user->departments = $request->selectedGroups;
-        $userInfo          = UserInfo::updateOrCreate(['user_id' => $user->id], ['title' => $request->title, 'description' => $request->description,]
-        );
-        $user->title       = $request->title;
-        $user->description = $request->description;
-
-        $user->profile_picture;
-
-        return response()
-            ->json($user);
-    }
-         */
-
-        /*
-         
-        public function deleteUser($userId)
-    {
-        $user = User::findOrFail($userId);
-
-        if ($user
-                ->roles
-                ->count() === 1 && $user->hasRoleByName('employee')) {
-            $user->forceDelete();
-
-            Cache::tags(['users',])
-                 ->flush();
-
-            return response()
-                ->json(['success' => true], 202);
+            user.Departments = user.SelectedGroups;
         }
 
-        return response()
-            ->json(['error' => 'User has a role other than \'employee\', cannot delete'], 404);
-    }
-         */
+        private async Task CreateUserInfo(User user)
+        {
+            var userInfo = new UserInfo { UserId = user.Id, Title = user.Title, Description = user.Description };
+            _dbContext.UserInfos.Add(userInfo);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public override async Task<int> DeleteAsync(long? id)
+        {
+            var user = await _dbContext.Users
+                .Include(e => e.UserRoles)
+                .Where(e => e.Id == id).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException("etity not exsits");
+            }
+            else
+            {
+                if (user.UserRoles.Count == 1 && user.UserRoles.FirstOrDefault().RoleId == 5)
+                {
+                    _dbContext.Remove(user);
+                    return await _dbContext.SaveChangesAsync();
+                }
+                throw new AppException("User has a role other than \'employee\', cannot delete");
+            }
+        }
     }
 }

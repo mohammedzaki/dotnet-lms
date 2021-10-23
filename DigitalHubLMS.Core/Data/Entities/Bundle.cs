@@ -10,17 +10,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("bundles")]
     [Index(nameof(InstructorId), Name = "bundles_instructor_id_foreign")]
-    public partial class Bundle
+    public partial class Bundle : BaseEntity
     {
-        public Bundle()
-        {
-            BundleCourses = new HashSet<BundleCourse>();
-            BundleEnrols = new HashSet<BundleEnrol>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("title")]
         [StringLength(255)]
         public string Title { get; set; }

@@ -24,6 +24,7 @@ using MZCore.ExceptionHandler;
 using MZCore.SwaggerAuth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.API
 {
@@ -75,8 +76,10 @@ namespace DigitalHubLMS.API
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    // options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
-                    options.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() };
+                    options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                    };
                 });
 
 
@@ -96,11 +99,17 @@ namespace DigitalHubLMS.API
 
             services.AddDefaultIdentity<User>(options => {
                 options.User.RequireUniqueEmail = true;
+                //options.Password.RequireDigit = false;
+                //options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                //options.Password.RequireUppercase = false;
+                //options.Password.RequireLowercase = false;
             })
             .AddRoles<Role>()
             .AddEntityFrameworkStores<DigitalHubLMSContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRepository<Announcement, long>, EntityRepository<DigitalHubLMSContext, Announcement, long>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

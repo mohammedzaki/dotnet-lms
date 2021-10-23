@@ -11,12 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("groups")]
     [Index(nameof(_Id), Name = "groups__id_unique", IsUnique = true)]
     [Index(nameof(Name), Name = "groups_name_unique", IsUnique = true)]
-    public partial class Group
+    public partial class Group : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
-        [Required]
         [Column("_id")]
         [StringLength(36)]
         public string _Id { get; set; }

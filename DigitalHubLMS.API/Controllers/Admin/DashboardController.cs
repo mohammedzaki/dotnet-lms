@@ -4,15 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using DigitalHubLMS.API.Models;
 using DigitalHubLMS.Core.Data.Entities;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DigitalHubLMS.API.Controllers.Admin
 {
-    public class Dashboard : BaseAdminAPIController
+    public class DashboardController : BaseAdminAPIController<DigitalHubLMSContext>
     {
-        public Dashboard(DigitalHubLMSContext context)
+        public DashboardController(DigitalHubLMSContext context)
             : base(context)
         {
         }

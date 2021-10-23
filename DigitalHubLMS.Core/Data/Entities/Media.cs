@@ -10,17 +10,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("media")]
     [Index(nameof(Uid), Name = "media_uid_unique", IsUnique = true)]
-    public partial class Medium
+    public partial class Media : BaseEntity
     {
-        public Medium()
-        {
-            ClassMedia = new HashSet<ClassMedium>();
-            CourseMedia = new HashSet<CourseMedium>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("uid")]
         [StringLength(36)]
@@ -70,9 +61,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
-        [InverseProperty(nameof(ClassMedium.Media))]
-        public virtual ICollection<ClassMedium> ClassMedia { get; set; }
-        [InverseProperty(nameof(CourseMedium.Media))]
-        public virtual ICollection<CourseMedium> CourseMedia { get; set; }
+        [InverseProperty(nameof(Entities.ClassMedia.Media))]
+        public virtual ICollection<ClassMedia> ClassMedia { get; set; }
+        [InverseProperty(nameof(Entities.CourseMedia.Media))]
+        public virtual ICollection<CourseMedia> CourseMedia { get; set; }
     }
 }

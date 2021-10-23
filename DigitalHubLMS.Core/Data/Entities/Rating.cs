@@ -11,11 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("ratings")]
     [Index(nameof(CourseId), Name = "ratings_course_id_foreign")]
     [Index(nameof(UserId), Name = "ratings_user_id_foreign")]
-    public partial class Rating
+    public partial class Rating : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("rating")]
         public double? Rating1 { get; set; }
         [Column("course_id")]

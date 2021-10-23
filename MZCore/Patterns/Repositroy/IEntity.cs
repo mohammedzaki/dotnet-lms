@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MZCore.Patterns.Repositroy
 {
@@ -11,6 +12,7 @@ namespace MZCore.Patterns.Repositroy
           IFormattable
     {
         [Key]
+        [Column("id")]
         public TKey Id { get; set; }
     }
 }

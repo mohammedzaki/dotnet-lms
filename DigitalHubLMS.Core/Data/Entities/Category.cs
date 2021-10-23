@@ -9,16 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("categories")]
-    public partial class Category
+    public partial class Category : BaseEntity
     {
-        public Category()
-        {
-            CourseCategories = new HashSet<CourseCategory>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("name")]
         [StringLength(255)]

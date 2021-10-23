@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MZCore.ExceptionHandler
@@ -34,11 +35,17 @@ namespace MZCore.ExceptionHandler
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-
+            var errorDetails = new ErrorDetails();
+            errorDetails.Success = false;
+            errorDetails.Message = exception?.Message;
             switch (exception)
             {
                 case AppException e:
+                    errorDetails.Errors = e.Errors;
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
+                case DbUpdateConcurrencyException e:
+                    context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
                     break;
                 case BadHttpRequestException e:
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -47,17 +54,12 @@ namespace MZCore.ExceptionHandler
                     context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     break;
                 default:
+                    errorDetails.Exception = exception.ToString();
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }
-
-            await context.Response.WriteAsync(new ErrorDetails()
-            {
-                StatusCode = context.Response.StatusCode,
-                Success = false,
-                Message = exception?.Message,
-                Exception = exception.ToString()
-            }.ToString());
+            errorDetails.StatusCode = context.Response.StatusCode;
+            await context.Response.WriteAsync(errorDetails.ToString());
         }
     }
 }

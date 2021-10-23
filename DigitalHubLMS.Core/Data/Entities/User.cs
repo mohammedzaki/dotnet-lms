@@ -22,7 +22,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(36)]
         public string ApiKey { get; set; }
         [Column("is_ldap")]
-        public byte IsLdap { get; set; }
+        public byte? IsLdap { get; set; }
         [Column("first_name")]
         [StringLength(255)]
         public string FirstName { get; set; }
@@ -30,9 +30,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string LastName { get; set; }
         [Column("is_banned")]
-        public byte IsBanned { get; set; }
+        public byte? IsBanned { get; set; }
         [Column("is_verified")]
-        public byte IsVerified { get; set; }
+        public byte? IsVerified { get; set; }
         
         [Column("confirm_code")]
         [StringLength(36)]
@@ -68,15 +68,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("profile_picture_id")]
         public long? ProfilePictureId { get; set; }
 
-        [NotMapped]
-        public string Username { get; set; }
-        [NotMapped]
-        public string Password { get; set; }
-        [NotMapped]
-        public string Title { get; set; }
-        [NotMapped]
-        public string Description { get; set; }
-
         [InverseProperty(nameof(AnnouncementUser.User))]
         public virtual ICollection<AnnouncementUser> AnnouncementUsers { get; set; }
         [InverseProperty(nameof(BundleEnrol.User))]
@@ -87,8 +78,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ICollection<Certificate> Certificates { get; set; }
         [InverseProperty(nameof(ClassQuizTake.User))]
         public virtual ICollection<ClassQuizTake> ClassQuizTakes { get; set; }
-        [InverseProperty(nameof(ClassUserMetum.User))]
-        public virtual ICollection<ClassUserMetum> ClassUserMeta { get; set; }
+        [InverseProperty(nameof(Entities.ClassUserMeta.User))]
+        public virtual ICollection<ClassUserMeta> ClassUserMeta { get; set; }
         [InverseProperty(nameof(CourseEnrol.User))]
         public virtual ICollection<CourseEnrol> CourseEnrols { get; set; }
         [InverseProperty(nameof(Course.Instructor))]
@@ -101,18 +92,27 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ICollection<UserGroup> UserGroups { get; set; }
         [InverseProperty(nameof(UserInfo.User))]
         public virtual ICollection<UserInfo> UserInfos { get; set; }
-
         [InverseProperty(nameof(UserRole.User))]
         public virtual ICollection<UserRole> UserRoles { get; set; }
-
         [InverseProperty(nameof(UserSecurityQuestion.User))]
         public virtual ICollection<UserSecurityQuestion> UserSecurityQuestions { get; set; }
 
         [NotMapped]
+        [Required]
+        public string Username { get; set; }
+        [NotMapped]
+        public string Password { get; set; }
+        [NotMapped]
+        public string Title { get; set; }
+        [NotMapped]
+        public string Description { get; set; }
+        [NotMapped]
+        public IList<Role> SelectedRoles { get; set; }
+        [NotMapped]
+        public IList<Group> SelectedGroups { get; set; }
+        [NotMapped]
         public IList<Role> Roles { get; set; }
-
         [NotMapped]
         public IList<Group> Departments { get; set; }
-
     }
 }

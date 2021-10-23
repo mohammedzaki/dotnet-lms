@@ -23,6 +23,11 @@ namespace MZCore.Patterns.Repositroy
             _dbContext = context;
         }
 
+        public TDbContext GetDbContext()
+        {
+            return _dbContext;
+        }
+
         public virtual async Task<List<TEntity>> GetAll()
         {
             try

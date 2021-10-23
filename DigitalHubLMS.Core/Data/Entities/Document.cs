@@ -10,17 +10,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("documents")]
     [Index(nameof(Uid), Name = "documents_uid_unique", IsUnique = true)]
-    public partial class Document
+    public partial class Document : BaseEntity
     {
-        public Document()
-        {
-            ClassDocuments = new HashSet<ClassDocument>();
-            CourseDocuments = new HashSet<CourseDocument>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("uid")]
         [StringLength(36)]

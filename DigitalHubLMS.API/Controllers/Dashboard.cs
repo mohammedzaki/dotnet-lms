@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DigitalHubLMS.API.Controllers
 {
-    public class Dashboard : BaseAPIController
+    public class Dashboard : BaseAPIController<DigitalHubLMSContext>
     {
         public Dashboard(DigitalHubLMSContext context)
             : base(context)

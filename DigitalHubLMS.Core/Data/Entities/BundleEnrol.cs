@@ -11,11 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("bundle_enrols")]
     [Index(nameof(BundleId), Name = "bundle_enrols_bundle_id_foreign")]
     [Index(nameof(UserId), Name = "bundle_enrols_user_id_foreign")]
-    public partial class BundleEnrol
+    public partial class BundleEnrol : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
         [Column("bundle_id")]

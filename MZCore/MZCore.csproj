@@ -34,9 +34,11 @@
   <ItemGroup>
     <None Remove="Patterns\" />
     <None Remove="Patterns\Repositroy\" />
+    <None Remove="Patterns\Generices\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Patterns\" />
     <Folder Include="Patterns\Repositroy\" />
+    <Folder Include="Patterns\Generices\" />
   </ItemGroup>
 </Project>

@@ -10,16 +10,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("images")]
     [Index(nameof(Uid), Name = "images_uid_unique", IsUnique = true)]
-    public partial class Image
+    public partial class Image : BaseEntity
     {
-        public Image()
-        {
-            CourseImages = new HashSet<CourseImage>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("uid")]
         [StringLength(36)]

@@ -8,26 +8,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DigitalHubLMS.Core.Data.Entities
 {
-    [Table("course_meta")]
-    [Index(nameof(CourseId), Name = "course_meta_course_id_foreign")]
-    public partial class CourseMetum
+    [Table("course_media")]
+    [Index(nameof(CourseId), Name = "course_media_course_id_foreign")]
+    [Index(nameof(MediaId), Name = "course_media_media_id_foreign")]
+    public partial class CourseMedia : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("course_id")]
         public long CourseId { get; set; }
-        [Column("meta_key")]
-        public string MetaKey { get; set; }
-        [Column("meta_value")]
-        public string MetaValue { get; set; }
+        [Column("media_id")]
+        public long? MediaId { get; set; }
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
         [ForeignKey(nameof(CourseId))]
-        [InverseProperty("CourseMeta")]
+        [InverseProperty("CourseMedia")]
         public virtual Course Course { get; set; }
+        [ForeignKey(nameof(MediaId))]
+        [InverseProperty(nameof(Entities.Media.CourseMedia))]
+        public virtual Media Media { get; set; }
     }
 }

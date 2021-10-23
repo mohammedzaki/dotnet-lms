@@ -11,11 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("user_security_question")]
     [Index(nameof(SecurityQuestionId), Name = "user_security_question_security_question_id_foreign")]
     [Index(nameof(UserId), Name = "user_security_question_user_id_foreign")]
-    public partial class UserSecurityQuestion
+    public partial class UserSecurityQuestion : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
         [Column("security_question_id")]

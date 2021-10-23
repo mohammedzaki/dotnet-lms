@@ -1,16 +1,18 @@
 ﻿using System;
 using DigitalHubLMS.Core.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DigitalHubLMS.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BaseAPIController : ControllerBase
+    public class BaseAPIController<TDbContext> : ControllerBase
+        where TDbContext : DbContext
     {
-        protected readonly DigitalHubLMSContext _dbContext;
+        protected readonly TDbContext _dbContext;
 
-        public BaseAPIController(DigitalHubLMSContext context)
+        public BaseAPIController(TDbContext context)
         {
             _dbContext = context;
         }

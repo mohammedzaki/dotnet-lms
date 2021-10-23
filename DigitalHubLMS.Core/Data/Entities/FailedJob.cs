@@ -9,11 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("failed_jobs")]
-    public partial class FailedJob
+    public partial class FailedJob : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("connection")]
         public string Connection { get; set; }

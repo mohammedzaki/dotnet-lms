@@ -11,11 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("class_document")]
     [Index(nameof(CourseClassId), Name = "class_document_course_class_id_foreign")]
     [Index(nameof(DocumentId), Name = "class_document_document_id_foreign")]
-    public partial class ClassDocument
+    public partial class ClassDocument : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("course_class_id")]
         public long CourseClassId { get; set; }
         [Column("document_id")]

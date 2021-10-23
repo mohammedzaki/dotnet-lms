@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using MZCore.Patterns.Repositroy;
 
 #nullable disable
 
@@ -10,16 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("sections")]
     [Index(nameof(CourseId), Name = "sections_course_id_foreign")]
-    public partial class Section
+    public partial class Section : BaseEntity
     {
-        public Section()
-        {
-            CourseClasses = new HashSet<CourseClass>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("title")]
         [StringLength(255)]
         public string Title { get; set; }

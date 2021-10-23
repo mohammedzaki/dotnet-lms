@@ -11,16 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("class_quiz")]
     [Index(nameof(CourseClassId), Name = "class_quiz_course_class_id_foreign")]
     [Index(nameof(QuizId), Name = "class_quiz_quiz_id_foreign")]
-    public partial class ClassQuiz
+    public partial class ClassQuiz : BaseEntity
     {
-        public ClassQuiz()
-        {
-            ClassQuizTakes = new HashSet<ClassQuizTake>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("quiz_id")]
         public long QuizId { get; set; }
         [Column("course_class_id")]

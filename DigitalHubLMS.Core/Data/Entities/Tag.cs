@@ -9,11 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("tags")]
-    public partial class Tag
+    public partial class Tag : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("tag")]
         [StringLength(255)]
         public string Tag1 { get; set; }

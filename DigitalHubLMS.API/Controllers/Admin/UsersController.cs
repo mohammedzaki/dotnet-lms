@@ -16,10 +16,10 @@ using DigitalHubLMS.API.Controllers.Admin;
 
 namespace DigitalHubLMS.API.Controllers.Admin
 {
-    public class UsersController : BaseAdminAPIRepoController<IUserRepository, User, long>
+    public class UsersController : BaseAdminAPIRepoController<User, long>
     {
-        public UsersController(DigitalHubLMSContext context, IUserRepository repository)
-            : base(context, repository)
+        public UsersController(IUserRepository repository)
+            : base(repository)
         {
         }
     }

@@ -9,11 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("migrations")]
-    public partial class Migration
+    public partial class Migration : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
         [Required]
         [Column("migration")]
         [StringLength(255)]

@@ -2,24 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("announcements")]
-    public partial class Announcement
+    public partial class Announcement : BaseEntity
     {
-        public Announcement()
-        {
-            AnnouncementData = new HashSet<AnnouncementDatum>();
-            AnnouncementUsers = new HashSet<AnnouncementUser>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("title")]
         [StringLength(255)]
@@ -42,8 +32,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
-        [InverseProperty(nameof(AnnouncementDatum.Announcement))]
-        public virtual ICollection<AnnouncementDatum> AnnouncementData { get; set; }
+        [InverseProperty(nameof(Entities.AnnouncementData.Announcement))]
+        public virtual ICollection<AnnouncementData> AnnouncementData { get; set; }
         [InverseProperty(nameof(AnnouncementUser.Announcement))]
         public virtual ICollection<AnnouncementUser> AnnouncementUsers { get; set; }
     }

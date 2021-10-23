@@ -10,11 +10,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("subtitles")]
     [Index(nameof(Uid), Name = "subtitles_uid_unique", IsUnique = true)]
-    public partial class Subtitle
+    public partial class Subtitle : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("uid")]
         [StringLength(36)]

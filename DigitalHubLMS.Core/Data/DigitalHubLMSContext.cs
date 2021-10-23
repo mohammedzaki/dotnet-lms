@@ -20,37 +20,37 @@ namespace DigitalHubLMS.Core.Data.Entities
         }
 
         public virtual DbSet<Announcement> Announcements { get; set; }
-        public virtual DbSet<AnnouncementDatum> AnnouncementData { get; set; }
+        public virtual DbSet<AnnouncementData> AnnouncementData { get; set; }
         public virtual DbSet<AnnouncementUser> AnnouncementUsers { get; set; }
         public virtual DbSet<Bundle> Bundles { get; set; }
         public virtual DbSet<BundleCourse> BundleCourses { get; set; }
         public virtual DbSet<BundleEnrol> BundleEnrols { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Certificate> Certificates { get; set; }
-        public virtual DbSet<ClassDatum> ClassData { get; set; }
+        public virtual DbSet<ClassData> ClassData { get; set; }
         public virtual DbSet<ClassDocument> ClassDocuments { get; set; }
-        public virtual DbSet<ClassMedium> ClassMedia { get; set; }
-        public virtual DbSet<ClassMetum> ClassMeta { get; set; }
+        public virtual DbSet<ClassMedia> ClassMedia { get; set; }
+        public virtual DbSet<ClassMeta> ClassMeta { get; set; }
         public virtual DbSet<ClassQuiz> ClassQuizzes { get; set; }
         public virtual DbSet<ClassQuizAnswer> ClassQuizAnswers { get; set; }
         public virtual DbSet<ClassQuizTake> ClassQuizTakes { get; set; }
-        public virtual DbSet<ClassUserMetum> ClassUserMeta { get; set; }
+        public virtual DbSet<ClassUserMeta> ClassUserMeta { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<CourseCategory> CourseCategories { get; set; }
         public virtual DbSet<CourseClass> CourseClasses { get; set; }
-        public virtual DbSet<CourseDatum> CourseData { get; set; }
+        public virtual DbSet<CourseData> CourseData { get; set; }
         public virtual DbSet<CourseDepartment> CourseDepartments { get; set; }
         public virtual DbSet<CourseDocument> CourseDocuments { get; set; }
         public virtual DbSet<CourseEnrol> CourseEnrols { get; set; }
         public virtual DbSet<CourseImage> CourseImages { get; set; }
-        public virtual DbSet<CourseMedium> CourseMedia { get; set; }
-        public virtual DbSet<CourseMetum> CourseMeta { get; set; }
+        public virtual DbSet<CourseMedia> CourseMedia { get; set; }
+        public virtual DbSet<CourseMeta> CourseMeta { get; set; }
         public virtual DbSet<Document> Documents { get; set; }
         public virtual DbSet<FailedJob> FailedJobs { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Job> Jobs { get; set; }
-        public virtual DbSet<Medium> Media { get; set; }
+        public virtual DbSet<Media> Media { get; set; }
         public virtual DbSet<Migration> Migrations { get; set; }
         public virtual DbSet<Note> Notes { get; set; }
         public virtual DbSet<Option> Options { get; set; }
@@ -87,7 +87,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
             });
 
-            modelBuilder.Entity<AnnouncementDatum>(entity =>
+            modelBuilder.Entity<AnnouncementData>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -214,7 +214,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("certificates_user_id_foreign");
             });
 
-            modelBuilder.Entity<ClassDatum>(entity =>
+            modelBuilder.Entity<ClassData>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -250,7 +250,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("class_document_document_id_foreign");
             });
 
-            modelBuilder.Entity<ClassMedium>(entity =>
+            modelBuilder.Entity<ClassMedia>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -271,7 +271,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("class_media_media_id_foreign");
             });
 
-            modelBuilder.Entity<ClassMetum>(entity =>
+            modelBuilder.Entity<ClassMeta>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -355,7 +355,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("class_quiz_takes_user_id_foreign");
             });
 
-            modelBuilder.Entity<ClassUserMetum>(entity =>
+            modelBuilder.Entity<ClassUserMeta>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -433,7 +433,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("course_classes_section_id_foreign");
             });
 
-            modelBuilder.Entity<CourseDatum>(entity =>
+            modelBuilder.Entity<CourseData>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -530,7 +530,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("course_image_image_id_foreign");
             });
 
-            modelBuilder.Entity<CourseMedium>(entity =>
+            modelBuilder.Entity<CourseMedia>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -550,7 +550,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("course_media_media_id_foreign");
             });
 
-            modelBuilder.Entity<CourseMetum>(entity =>
+            modelBuilder.Entity<CourseMeta>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -616,7 +616,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
-            modelBuilder.Entity<Medium>(entity =>
+            modelBuilder.Entity<Media>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 

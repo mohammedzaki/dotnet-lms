@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MZCore.Patterns.Repositroy;
 
 #nullable disable
 
@@ -13,9 +14,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Index(nameof(_Id), Name = "roles__id_unique", IsUnique = true)]
     [Index(nameof(Level), Name = "roles_level_unique", IsUnique = true)]
     [Index(nameof(Name), Name = "roles_name_unique", IsUnique = true)]
-    public partial class Role : IdentityRole<long>
+    public partial class Role : IdentityRole<long>, IEntity<long>
     {
-        [Required]
         [Column("_id")]
         [StringLength(36)]
         public string _Id { get; set; }

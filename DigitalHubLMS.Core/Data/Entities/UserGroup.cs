@@ -11,11 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
     [Table("user_group")]
     [Index(nameof(GroupId), Name = "user_group_group_id_foreign")]
     [Index(nameof(UserId), Name = "user_group_user_id_foreign")]
-    public partial class UserGroup
+    public partial class UserGroup : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
         [Column("group_id")]

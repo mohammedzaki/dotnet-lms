@@ -10,11 +10,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("jobs")]
     [Index(nameof(Queue), Name = "jobs_queue_index")]
-    public partial class Job
+    public partial class Job : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("queue")]
         [StringLength(255)]

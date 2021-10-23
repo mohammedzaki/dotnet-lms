@@ -9,17 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("quizzes")]
-    public partial class Quiz
+    public partial class Quiz : BaseEntity
     {
-        public Quiz()
-        {
-            ClassQuizzes = new HashSet<ClassQuiz>();
-            Questions = new HashSet<Question>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("title")]
         public string Title { get; set; }
         [Column("created_at")]

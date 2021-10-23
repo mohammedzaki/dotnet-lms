@@ -9,16 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("security_questions")]
-    public partial class SecurityQuestion
+    public partial class SecurityQuestion : BaseEntity
     {
-        public SecurityQuestion()
-        {
-            UserSecurityQuestions = new HashSet<UserSecurityQuestion>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Required]
         [Column("question")]
         [StringLength(255)]

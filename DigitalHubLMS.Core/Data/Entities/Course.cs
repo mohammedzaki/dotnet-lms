@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using MZCore.Patterns.Repositroy;
 
 #nullable disable
 
@@ -10,28 +11,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("courses")]
     [Index(nameof(InstructorId), Name = "courses_instructor_id_foreign")]
-    public partial class Course
+    public partial class Course : BaseEntity
     {
-        public Course()
-        {
-            BundleCourses = new HashSet<BundleCourse>();
-            Certificates = new HashSet<Certificate>();
-            CourseCategories = new HashSet<CourseCategory>();
-            CourseClasses = new HashSet<CourseClass>();
-            CourseData = new HashSet<CourseDatum>();
-            CourseDepartments = new HashSet<CourseDepartment>();
-            CourseDocuments = new HashSet<CourseDocument>();
-            CourseEnrols = new HashSet<CourseEnrol>();
-            CourseImages = new HashSet<CourseImage>();
-            CourseMedia = new HashSet<CourseMedium>();
-            CourseMeta = new HashSet<CourseMetum>();
-            Ratings = new HashSet<Rating>();
-            Sections = new HashSet<Section>();
-        }
-
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("title")]
         [StringLength(255)]
         public string Title { get; set; }
@@ -71,8 +52,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ICollection<CourseCategory> CourseCategories { get; set; }
         [InverseProperty(nameof(CourseClass.Course))]
         public virtual ICollection<CourseClass> CourseClasses { get; set; }
-        [InverseProperty(nameof(CourseDatum.Course))]
-        public virtual ICollection<CourseDatum> CourseData { get; set; }
+        [InverseProperty(nameof(Entities.CourseData.Course))]
+        public virtual ICollection<CourseData> CourseData { get; set; }
         [InverseProperty(nameof(CourseDepartment.Course))]
         public virtual ICollection<CourseDepartment> CourseDepartments { get; set; }
         [InverseProperty(nameof(CourseDocument.Course))]
@@ -81,10 +62,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ICollection<CourseEnrol> CourseEnrols { get; set; }
         [InverseProperty(nameof(CourseImage.Course))]
         public virtual ICollection<CourseImage> CourseImages { get; set; }
-        [InverseProperty(nameof(CourseMedium.Course))]
-        public virtual ICollection<CourseMedium> CourseMedia { get; set; }
-        [InverseProperty(nameof(CourseMetum.Course))]
-        public virtual ICollection<CourseMetum> CourseMeta { get; set; }
+        [InverseProperty(nameof(Entities.CourseMedia.Course))]
+        public virtual ICollection<CourseMedia> CourseMedia { get; set; }
+        [InverseProperty(nameof(Entities.CourseMeta.Course))]
+        public virtual ICollection<CourseMeta> CourseMeta { get; set; }
         [InverseProperty(nameof(Rating.Course))]
         public virtual ICollection<Rating> Ratings { get; set; }
         [InverseProperty(nameof(Section.Course))]

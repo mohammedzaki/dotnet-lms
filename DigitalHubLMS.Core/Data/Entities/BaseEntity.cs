@@ -1,17 +1,13 @@
-﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.Core.Data.Entities
 {
-    /// <summary>
-    /// Represents the base class for entities
-    /// </summary>
-    public abstract partial class BaseEntity
+    public abstract class BaseEntity : IEntity<long>
     {
-        /// <summary>
-        /// Gets or sets the entity identifier
-        /// </summary>
         [Key]
-        public int ID { get; set; }
+        [Column("id")]
+        public long Id { get; set; }
     }
 }

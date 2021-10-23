@@ -10,11 +10,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("user_info")]
     [Index(nameof(UserId), Name = "user_info_user_id_foreign")]
-    public partial class UserInfo
+    public partial class UserInfo : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
         [Column("title")]

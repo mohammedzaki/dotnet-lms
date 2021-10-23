@@ -10,12 +10,8 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("profile_pictures")]
     [Index(nameof(_Id), Name = "profile_pictures__id_unique", IsUnique = true)]
-    public partial class ProfilePicture
+    public partial class ProfilePicture : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
-        [Required]
         [Column("_id")]
         [StringLength(36)]
         public string _Id { get; set; }
