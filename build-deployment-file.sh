@@ -1,6 +1,7 @@
 #!/bin/bash
 
 APP_NAME="digitalhublms-$CI_DEPLOYMENT_ENV_NAME"
+APP_WEB_NAME="digitalhublms-web-$CI_DEPLOYMENT_ENV_NAME"
 APP_MIG_NAME="digitalhublms-mig-$CI_DEPLOYMENT_ENV_NAME"
 APP_API_NAME="digitalhublms-api-$CI_DEPLOYMENT_ENV_NAME"
 APP_DISK_PV_NAME="$APP_NAME-pv-claim"
@@ -32,11 +33,11 @@ cat > deployment.yml <<EOL
   metadata:
     name: $APP_DB_NAME
     labels:
-      app: $APP_NAME
+      app: $APP_DB_NAME
   spec:
     type: LoadBalancer
     selector:
-      app: $APP_NAME
+      app: $APP_DB_NAME
       tier: dbserver
     ports:
     - name: $APP_DB_NAME
@@ -63,18 +64,18 @@ cat > deployment.yml <<EOL
   metadata:
      name: $APP_DB_NAME
      labels:
-       app: $APP_NAME
+       app: $APP_DB_NAME
   spec:
     selector:
       matchLabels:
-        app: $APP_NAME
+        app: $APP_DB_NAME
         tier: dbserver
     strategy:
       type: Recreate
     template:
       metadata:
         labels:
-          app: $APP_NAME
+          app: $APP_DB_NAME
           tier: dbserver
       spec:
         containers:
@@ -137,12 +138,12 @@ cat > deployment.yml <<EOL
   apiVersion: v1
   kind: Service
   metadata:
-    name: $APP_NAME
+    name: $APP_WEB_NAME
     labels:
-      app: $APP_NAME
+      app: $APP_WEB_NAME
   spec:
     selector:
-      app: $APP_NAME
+      app: $APP_WEB_NAME
       tier: backend
     ports:
     - name: http
@@ -172,21 +173,21 @@ cat > deployment.yml <<EOL
   apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: $APP_NAME
+    name: $APP_WEB_NAME
     labels:
-      app: $APP_NAME
+      app: $APP_WEB_NAME
   spec:
     replicas: 1
     selector:
       matchLabels:
-        app: $APP_NAME
+        app: $APP_WEB_NAME
         tier: backend
     strategy:
       type: Recreate
     template:
       metadata:
         labels:
-          app: $APP_NAME
+          app: $APP_WEB_NAME
           tier: backend
       spec:
         volumes:
@@ -194,7 +195,7 @@ cat > deployment.yml <<EOL
             persistentVolumeClaim:
               claimName: $APP_DISK_PV_NAME
         containers:
-        - name: $APP_NAME
+        - name: $APP_WEB_NAME
           image: $CI_BUILD_WEB_IMAGE_VERSION
           imagePullPolicy: Always
           ports:

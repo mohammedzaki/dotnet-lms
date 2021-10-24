@@ -1,13 +1,14 @@
 #!/bin/bash
 
 DB_SERVER_HOST="mssql-$CI_DEPLOYMENT_ENV_NAME"
+APP_SECRETS_NAME="dotnetcore-app-secrets"
 
 cat > deployment-env.yml <<EOL
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: dotnetcore-app-secrets
+  name: $APP_SECRETS_NAME
 type: Opaque
 stringData:
   DB_CONNECTION: "mssql"
