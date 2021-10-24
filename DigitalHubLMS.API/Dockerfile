@@ -9,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["DigitalHubLMS.API/DigitalHubLMS.API.csproj", "DigitalHubLMS.API/"]
 COPY ["DigitalHubLMS.Core/DigitalHubLMS.Core.csproj", "DigitalHubLMS.Core/"]
+COPY ["MZCore/MZCore.csproj", "MZCore/"]
 RUN dotnet restore "DigitalHubLMS.API/DigitalHubLMS.API.csproj"
 COPY . .
 WORKDIR "/src/DigitalHubLMS.API"

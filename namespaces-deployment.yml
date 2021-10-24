@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging-backend
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: uat-backend
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production-backend
+

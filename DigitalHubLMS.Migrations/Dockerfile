@@ -7,18 +7,18 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["DigitalHubLMS.Web/DigitalHubLMS.Web.csproj", "DigitalHubLMS.Web/"]
+COPY ["DigitalHubLMS.Migrations/DigitalHubLMS.Migrations.csproj", "DigitalHubLMS.Migrations/"]
 COPY ["DigitalHubLMS.Core/DigitalHubLMS.Core.csproj", "DigitalHubLMS.Core/"]
 COPY ["MZCore/MZCore.csproj", "MZCore/"]
-RUN dotnet restore "DigitalHubLMS.Web/DigitalHubLMS.Web.csproj"
+RUN dotnet restore "DigitalHubLMS.Migrations/DigitalHubLMS.Migrations.csproj"
 COPY . .
-WORKDIR "/src/DigitalHubLMS.Web"
-RUN dotnet build "DigitalHubLMS.Web.csproj" -c Release -o /app/build
+WORKDIR "/src/DigitalHubLMS.Migrations"
+RUN dotnet build "DigitalHubLMS.Migrations.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "DigitalHubLMS.Web.csproj" -c Release -o /app/publish
+RUN dotnet publish "DigitalHubLMS.Migrations.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "DigitalHubLMS.Web.dll"]
+ENTRYPOINT ["dotnet", "DigitalHubLMS.Migrations.dll"]

@@ -1,0 +1,61 @@
+image: docker:latest
+services:
+  - docker:19.03.5-dind
+
+variables:
+  CI_STAGING_MIG_IMAGE: registry.gitlab.com/mohamedzaki.eye/digital-hub-lms/mig/staging:$CI_COMMIT_SHA
+  CI_STAGING_WEB_IMAGE: registry.gitlab.com/mohamedzaki.eye/digital-hub-lms/web/staging:$CI_COMMIT_SHA
+  CI_STAGING_API_IMAGE: registry.gitlab.com/mohamedzaki.eye/digital-hub-lms/api/staging:$CI_COMMIT_SHA
+
+stages:
+  - prepare
+  - package
+  - deploy
+
+prepare-staging-env:
+  stage: prepare
+  script:
+    - echo "prepare staging env"
+    - echo "export CI_BUILD_MIG_IMAGE_VERSION=$CI_STAGING_MIG_IMAGE;
+      export CI_BUILD_API_IMAGE_VERSION=$CI_STAGING_API_IMAGE;
+      export CI_BUILD_WEB_IMAGE_VERSION=$CI_STAGING_WEB_IMAGE;
+      export CI_DEPLOYMENT_ENV_NAME=staging;
+      export CI_DEPLOYMENT_ENV_CODE=staging;
+      export CI_DEPLOYMENT_NAMESPACE=staging-backend;" >> shared-vars.sh
+  artifacts:
+    paths:
+      - shared-vars.sh
+  only:
+    - master
+
+docker-build:
+  stage: package
+  before_script:
+    - source shared-vars.sh
+  script:
+    - echo "run docker build on $CI_DEPLOYMENT_ENV_NAME env for image $CI_BUILD_API_IMAGE_VERSION"
+    - ls .
+    - echo "run docker build on $CI_DEPLOYMENT_ENV_NAME env for image $CI_BUILD_WEB_IMAGE_VERSION"
+    - docker build -t $CI_BUILD_MIG_IMAGE_VERSION -f ./DigitalHubLMS.Migrations/Dockerfile .
+    - docker build -t $CI_BUILD_API_IMAGE_VERSION -f ./DigitalHubLMS.API/Dockerfile .
+    - docker build -t $CI_BUILD_WEB_IMAGE_VERSION -f ./DigitalHubLMS.Web/Dockerfile .
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker push $CI_BUILD_MIG_IMAGE_VERSION
+    - docker push $CI_BUILD_API_IMAGE_VERSION
+    - docker push $CI_BUILD_WEB_IMAGE_VERSION
+  only:
+    - master
+
+k8s-deploy:
+  image: google/cloud-sdk
+  stage: deploy
+  before_script:
+    - source shared-vars.sh
+  script:
+    - echo "run deploy for image $CI_BUILD_MIG_IMAGE_VERSION"
+    - echo "run deploy for image $CI_BUILD_API_IMAGE_VERSION"
+    - echo "run deploy for image $CI_BUILD_WEB_IMAGE_VERSION"
+    - ./deploy-script.sh
+  when: on_success
+  only:
+    - master

@@ -34,6 +34,9 @@
     <ProjectReference Include="..\DigitalHubLMS.Core\DigitalHubLMS.Core.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\MZCore\MZCore.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\" />
