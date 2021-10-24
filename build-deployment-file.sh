@@ -11,7 +11,7 @@ APP_DB_STORAGE_NAME="mssql-persistent-storage"
 APP_DB_STORAGE_PATH="/var/opt/mssql"
 APP_DB_DISK_PV_NAME="$APP_DB_NAME-pv-claim"
 APP_DB_IMAGE="mcr.microsoft.com/mssql/server:2017-latest"
-APP_DB_PORT=1433
+APP_DB_PORT="1433"
 
 APP_VOLUME_NAME="dotnetcore-app-volume"
 APP_SECRETS_NAME="dotnetcore-app-secrets"
@@ -43,7 +43,7 @@ cat > deployment.yml <<EOL
     - name: $APP_DB_NAME
       port: $APP_DB_PORT
       protocol: TCP
-      targetPort: 3306
+      targetPort: $APP_DB_PORT
 ---
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -81,6 +81,8 @@ cat > deployment.yml <<EOL
         containers:
         - name: $APP_DB_NAME
           image: $APP_DB_IMAGE
+          ports:
+          - containerPort: $APP_DB_PORT
           env:
           - name: MSSQL_PID
             value: "Developer"
@@ -91,8 +93,6 @@ cat > deployment.yml <<EOL
               secretKeyRef:
                 name: $APP_SECRETS_NAME
                 key: DB_PASSWORD
-          ports:
-          - containerPort: $APP_DB_PORT
             name: $APP_DB_NAME
           volumeMounts:
           - name: $APP_DB_STORAGE_NAME
