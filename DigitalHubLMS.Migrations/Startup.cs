@@ -32,25 +32,11 @@ namespace DigitalHubLMS.Migrations
             services.AddDbContext<DigitalHubLMSContext>(options =>
                 options.UseSqlServer(mySqlConnectionString, b => b.MigrationsAssembly(migrationsAssembly))
             );
-
-            services.AddDefaultIdentity<User>(options => {
-                options.User.RequireUniqueEmail = true;
-            })
-            .AddRoles<Role>()
-            .AddEntityFrameworkStores<DigitalHubLMSContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
         }
     }
 }
