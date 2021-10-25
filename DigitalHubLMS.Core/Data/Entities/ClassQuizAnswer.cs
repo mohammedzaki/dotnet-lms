@@ -34,9 +34,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ClassQuizTake ClassQuizTake { get; set; }
         [ForeignKey(nameof(OptionId))]
         [InverseProperty("ClassQuizAnswers")]
-        public virtual Option Option { get; set; }
+        public virtual Options Option { get; set; }
         [ForeignKey(nameof(QuestionId))]
         [InverseProperty("ClassQuizAnswers")]
-        public virtual Question Question { get; set; }
+        public virtual Questions Question { get; set; }
     }
 }

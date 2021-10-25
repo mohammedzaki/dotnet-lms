@@ -53,10 +53,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual DbSet<Media> Media { get; set; }
         public virtual DbSet<Migration> Migrations { get; set; }
         public virtual DbSet<Note> Notes { get; set; }
-        public virtual DbSet<Option> Options { get; set; }
+        public virtual DbSet<Options> Options { get; set; }
         public virtual DbSet<PasswordReset> PasswordResets { get; set; }
         public virtual DbSet<ProfilePicture> ProfilePictures { get; set; }
-        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Questions> Questions { get; set; }
         public virtual DbSet<Quiz> Quizzes { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
@@ -655,7 +655,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("notes_user_id_foreign");
             });
 
-            modelBuilder.Entity<Option>(entity =>
+            modelBuilder.Entity<Options>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -688,7 +688,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
             });
 
-            modelBuilder.Entity<Question>(entity =>
+            modelBuilder.Entity<Questions>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 

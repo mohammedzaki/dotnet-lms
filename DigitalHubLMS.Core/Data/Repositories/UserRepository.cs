@@ -177,7 +177,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public override async Task<int> DeleteAsync(long? id)
+        public override async Task<int> DeleteAsync(long id)
         {
             var user = await _dbContext.Users
                 .Include(e => e.UserRoles)

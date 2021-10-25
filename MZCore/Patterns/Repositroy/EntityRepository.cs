@@ -40,7 +40,7 @@ namespace MZCore.Patterns.Repositroy
             }
         }
 
-        public virtual async Task<TEntity> FindByIdAsync(TKey? id)
+        public virtual async Task<TEntity> FindByIdAsync(TKey id)
         {
             try
             {
@@ -110,12 +110,12 @@ namespace MZCore.Patterns.Repositroy
             }
         }
 
-        public virtual async Task<int> DeleteAsync(TKey? id)
+        public virtual async Task<int> DeleteAsync(TKey id)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException($"{nameof(DeleteAsync)} id must not be null");
-            }
+            //if (id == 0)
+            //{
+            //    throw new ArgumentNullException($"{nameof(DeleteAsync)} id must not be null");
+            //}
 
             try
             {

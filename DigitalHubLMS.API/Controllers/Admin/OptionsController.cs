@@ -4,9 +4,9 @@ using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.API.Controllers.Admin
 {
-    public class OptionsController : BaseAdminAPIRepoController<Option, long>
+    public class OptionsController : BaseAdminAPIRepoController<Options, long>
     {
-        public OptionsController(IRepository<Option, long> repository)
+        public OptionsController(IRepository<Options, long> repository)
             : base(repository)
         {
         }

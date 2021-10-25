@@ -18,7 +18,7 @@ namespace MZCore.Patterns.Repositroy
     {
         Task<List<TEntity>> GetAll();
 
-        Task<TEntity> FindByIdAsync(TKey? id);
+        Task<TEntity> FindByIdAsync(TKey id);
 
         Task<TEntity> SaveAsync(TEntity entity);
 
@@ -26,7 +26,7 @@ namespace MZCore.Patterns.Repositroy
 
         Task<int> DeleteAsync(TEntity entity);
 
-        Task<int> DeleteAsync(TKey? id);
+        Task<int> DeleteAsync(TKey id);
 
         Task<TEntity> CreateOrUpdateAsync(TEntity entity);
     }

@@ -10,10 +10,10 @@ namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("questions")]
     [Index(nameof(QuizId), Name = "questions_quiz_id_foreign")]
-    public partial class Question : BaseEntity
+    public partial class Questions : BaseEntity
     {
         [Column("question")]
-        public string Question1 { get; set; }
+        public string Question { get; set; }
         [Column("quiz_id")]
         public long QuizId { get; set; }
         [Column("order")]
@@ -28,7 +28,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual Quiz Quiz { get; set; }
         [InverseProperty(nameof(ClassQuizAnswer.Question))]
         public virtual ICollection<ClassQuizAnswer> ClassQuizAnswers { get; set; }
-        [InverseProperty(nameof(Option.Question))]
-        public virtual ICollection<Option> Options { get; set; }
+        [InverseProperty(nameof(Entities.Options.Question))]
+        public virtual ICollection<Options> Options { get; set; }
     }
 }

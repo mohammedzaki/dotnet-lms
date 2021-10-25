@@ -20,7 +20,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
         [InverseProperty(nameof(ClassQuiz.Quiz))]
         public virtual ICollection<ClassQuiz> ClassQuizzes { get; set; }
-        [InverseProperty(nameof(Question.Quiz))]
-        public virtual ICollection<Question> Questions { get; set; }
+        [InverseProperty(nameof(Entities.Questions.Quiz))]
+        public virtual ICollection<Questions> Questions { get; set; }
     }
 }
