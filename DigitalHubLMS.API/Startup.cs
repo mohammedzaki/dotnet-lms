@@ -51,7 +51,7 @@ namespace DigitalHubLMS.API
             var mySqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            
+
             var directoryPath = Configuration["LettuceEncrypt:PersistDataDirectory"];
 
             if (!_env.IsDevelopment())
@@ -80,7 +80,8 @@ namespace DigitalHubLMS.API
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     // options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
-                    options.SerializerSettings.ContractResolver = new DefaultContractResolver {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver
+                    {
                         NamingStrategy = new SnakeCaseNamingStrategy()
                     };
                 });
@@ -151,7 +152,8 @@ namespace DigitalHubLMS.API
                 .UseSqlServer(mySqlConnectionString)
             );
 
-            services.AddDefaultIdentity<User>(options => {
+            services.AddDefaultIdentity<User>(options =>
+            {
                 options.User.RequireUniqueEmail = true;
                 //options.Password.RequireDigit = false;
                 //options.Password.RequiredLength = 6;
@@ -164,6 +166,30 @@ namespace DigitalHubLMS.API
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRepository<Announcement, long>, EntityRepository<DigitalHubLMSContext, Announcement, long>>();
+            services.AddScoped<IRepository<Course, long>, CourseRepository>();
+            services.AddScoped<IRepository<Group, long>, EntityRepository<DigitalHubLMSContext, Group, long>>();
+            services.AddScoped<IRepository<Category, long>, EntityRepository<DigitalHubLMSContext, Category, long>>();
+            services.AddScoped<IRepository<User, long>, EntityRepository<DigitalHubLMSContext, User, long>>();
+            services.AddScoped<IRepository<Quiz, long>, EntityRepository<DigitalHubLMSContext, Quiz, long>>();
+            services.AddScoped<IRepository<Section, long>, EntityRepository<DigitalHubLMSContext, Section, long>>();
+            services.AddScoped<IRepository<Question, long>, EntityRepository<DigitalHubLMSContext, Question, long>>();
+            services.AddScoped<IRepository<Option, long>, EntityRepository<DigitalHubLMSContext, Option, long>>();
+            services.AddScoped<IRepository<CourseClass, long>, EntityRepository<DigitalHubLMSContext, CourseClass, long>>();
+            services.AddScoped<IRepository<Role, long>, EntityRepository<DigitalHubLMSContext, Role, long>>();
+            services.AddScoped<IRepository<Document, long>, EntityRepository<DigitalHubLMSContext, Document, long>>();
+            services.AddScoped<IRepository<Subtitle, long>, EntityRepository<DigitalHubLMSContext, Subtitle, long>>();
+            services.AddScoped<IRepository<Certificate, long>, EntityRepository<DigitalHubLMSContext, Certificate, long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

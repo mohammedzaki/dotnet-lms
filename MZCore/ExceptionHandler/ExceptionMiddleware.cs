@@ -38,6 +38,8 @@ namespace MZCore.ExceptionHandler
             var errorDetails = new ErrorDetails();
             errorDetails.Success = false;
             errorDetails.Message = exception?.Message;
+            errorDetails.Status = "error";
+            errorDetails.Error = exception?.Message;
             switch (exception)
             {
                 case AppException e:

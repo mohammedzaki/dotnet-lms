@@ -69,10 +69,9 @@ namespace DigitalHubLMS.API.Controllers
                 );
 
                 return response()->json($output, 200);
-
-
             }
             */
+            await _dbContext.SaveChangesAsync();
             return new UserDashboard
             {
                 latest_course = null,
