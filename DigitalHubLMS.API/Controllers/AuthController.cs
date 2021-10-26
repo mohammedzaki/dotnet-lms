@@ -12,23 +12,20 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace DigitalHubLMS.API.Controllers
 {
     public class AuthController : BaseAPIController<DigitalHubLMSContext>
     {
         private readonly IUserRepository _repository;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public AuthController(IUserRepository repository, DigitalHubLMSContext context, UserManager<User> userManager,
-            SignInManager<User> signInManager, IConfiguration configuration)
+
+        public AuthController(IUserRepository repository, DigitalHubLMSContext context, IConfiguration configuration)
             : base(context)
         {
             _repository = repository;
-            _userManager = userManager;
-            _signInManager = signInManager;
             _configuration = configuration;
         }
 
@@ -44,7 +41,7 @@ namespace DigitalHubLMS.API.Controllers
             }
             else
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
+                var userRoles = await _repository.GetUserManager().GetRolesAsync(user);
 
                 var authClaims = new List<Claim>
                 {
@@ -67,21 +64,10 @@ namespace DigitalHubLMS.API.Controllers
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
 
-                //return StatusCode(StatusCodes.Status200OK, new
-                //{
-                //    status = true,
-                //    code = 200,
-                //    message = "User Loginned Successfully!",
-                //    //token = new JwtSecurityTokenHandler().WriteToken(token),
-                //    //expiration = token.ValidTo,
-                //    data = new { id = user.Id, fullName = user.FullName }
-                //});
-
                 return new LoginResponse
                 {
                     _id = user._Id,
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    //token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZGlnaXRhbC1sbXMubG9jYWxob3N0L2xvZ2luIiwiaWF0IjoxNjM0ODcwNzkzLCJleHAiOjE2MzU0NzU1OTMsIm5iZiI6MTYzNDg3MDc5MywianRpIjoiN3FNem51VHZFa0I5bGd1ayIsInN1YiI6NSwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.s8f6zPNGemf-wnDAtSgj29jOPRXiXx3N44Pixw8J8_s",
                     user = user
                 };
             }

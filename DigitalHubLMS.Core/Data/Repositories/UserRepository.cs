@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
 using MZCore.ExceptionHandler;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
 
 namespace DigitalHubLMS.Core.Data.Repositories
 {
@@ -22,6 +24,16 @@ namespace DigitalHubLMS.Core.Data.Repositories
         {
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+        public UserManager<User> GetUserManager()
+        {
+            return _userManager;
+        }
+
+        public SignInManager<User> GetSignInManager()
+        {
+            return _signInManager;
         }
 
         public async Task<User> FindByUsernamePasswordAsync(string username, string password)
