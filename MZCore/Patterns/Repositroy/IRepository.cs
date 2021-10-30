@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MZCore.Patterns.Repositroy
 {
-    public interface IRepository<TEntity, TKey>
+    public interface IRepository<TEntity, TKey> : IBaseRepository
         where TKey : struct,
           IComparable,
           IComparable<TKey>,

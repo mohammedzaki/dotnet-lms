@@ -223,7 +223,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
 
                 entity.HasOne(d => d.CourseClass)
-                    .WithMany(p => p.ClassData)
+                    .WithMany(p => p.ClassDatum)
                     .HasForeignKey(d => d.CourseClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("class_data_course_class_id_foreign");
@@ -300,11 +300,11 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("class_quiz_course_class_id_foreign");
 
-                entity.HasOne(d => d.Quiz)
-                    .WithMany(p => p.ClassQuizzes)
-                    .HasForeignKey(d => d.QuizId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("class_quiz_quiz_id_foreign");
+                //entity.HasOne(d => d.Quiz)
+                //    .WithMany(p => p.ClassQuizzes)
+                //    .HasForeignKey(d => d.QuizId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("class_quiz_quiz_id_foreign");
             });
 
             modelBuilder.Entity<ClassQuizAnswer>(entity =>
@@ -420,12 +420,6 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
 
-                entity.HasOne(d => d.Course)
-                    .WithMany(p => p.CourseClasses)
-                    .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("course_classes_course_id_foreign");
-
                 entity.HasOne(d => d.Section)
                     .WithMany(p => p.CourseClasses)
                     .HasForeignKey(d => d.SectionId)
@@ -442,7 +436,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
 
                 entity.HasOne(d => d.Course)
-                    .WithMany(p => p.CourseData)
+                    .WithMany(p => p.CourseDatum)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("course_data_course_id_foreign");
@@ -836,17 +830,17 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
 
-                //entity.HasOne(d => d.Group)
-                //    .WithMany(p => p.UserGroups)
-                //    .HasForeignKey(d => d.GroupId)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("user_group_group_id_foreign");
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.UserGroups)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("user_group_group_id_foreign");
 
-                //entity.HasOne(d => d.User)
-                //    .WithMany(p => p.UserGroups)
-                //    .HasForeignKey(d => d.UserId)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("user_group_user_id_foreign");
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserGroups)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("user_group_user_id_foreign");
             });
 
             modelBuilder.Entity<UserInfo>(entity =>

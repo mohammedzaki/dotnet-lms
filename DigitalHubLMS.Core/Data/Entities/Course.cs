@@ -46,14 +46,15 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual User Instructor { get; set; }
         [InverseProperty(nameof(BundleCourse.Course))]
         public virtual ICollection<BundleCourse> BundleCourses { get; set; }
-        [InverseProperty(nameof(Certificate.Course))]
+        [InverseProperty(nameof(Entities.Certificate.Course))]
         public virtual ICollection<Certificate> Certificates { get; set; }
         [InverseProperty(nameof(CourseCategory.Course))]
         public virtual ICollection<CourseCategory> CourseCategories { get; set; }
-        [InverseProperty(nameof(CourseClass.Course))]
-        public virtual ICollection<CourseClass> CourseClasses { get; set; }
+
+
         [InverseProperty(nameof(Entities.CourseData.Course))]
-        public virtual ICollection<CourseData> CourseData { get; set; }
+        public virtual ICollection<CourseData> CourseDatum { get; set; }
+
         [InverseProperty(nameof(CourseDepartment.Course))]
         public virtual ICollection<CourseDepartment> CourseDepartments { get; set; }
         [InverseProperty(nameof(CourseDocument.Course))]
@@ -71,25 +72,28 @@ namespace DigitalHubLMS.Core.Data.Entities
         [InverseProperty(nameof(Section.Course))]
         public virtual ICollection<Section> Sections { get; set; }
 
-        /*
-        public function completed()
-        {
-            return $this->belongsToMany('App\User', 'course_enrols')->using('App\PivotRelations')->where('progress', '=', 100)->select('display_name');
+        [NotMapped]
+        public string CourseData { get; set; }
+        [NotMapped]
+        public virtual ICollection<Category> Categories { get; set; }
+        [NotMapped]
+        public virtual ICollection<Group> Departments { get; set; }
+        [NotMapped]
+        public int Studying { get; set; }
+        [NotMapped]
+        public DateTime? CourseEnds { get; set; }
+        [NotMapped]
+        public long? Progress { get; set; }
+        [NotMapped]
+        public int ClassesCount { get; set; }
+        [NotMapped]
+        public bool HasCertificate { get; set; }
+        [NotMapped]
+        public string Certificate { get; set; }
+        [NotMapped]
+        public string CertificateSlug { get; set; }
+        [NotMapped]
+        public string CertificateName { get; set; }
 
-        }
-
-        public function not_started()
-        {
-            return $this->belongsToMany('App\User', 'course_enrols')->using('App\PivotRelations')->where('progress', '=', 0);
-        }
-
-        public function in_progress()
-        {
-
-            return $this->belongsToMany('App\User', 'course_enrols')->using('App\PivotRelations')
-                        ->where('progress', '>', 0)
-                        ->where('progress', '<', 100);
-        }
-        */
     }
 }

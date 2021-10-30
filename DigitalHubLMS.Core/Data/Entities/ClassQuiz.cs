@@ -26,7 +26,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         [InverseProperty("ClassQuizzes")]
         public virtual CourseClass CourseClass { get; set; }
         [ForeignKey(nameof(QuizId))]
-        [InverseProperty("ClassQuizzes")]
         public virtual Quiz Quiz { get; set; }
         [InverseProperty(nameof(ClassQuizTake.ClassQuiz))]
         public virtual ICollection<ClassQuizTake> ClassQuizTakes { get; set; }

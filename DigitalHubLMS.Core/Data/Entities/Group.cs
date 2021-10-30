@@ -35,6 +35,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
+        [NotMapped]
+        public int UsersCount { get; set; }
+
         [InverseProperty(nameof(CourseDepartment.Group))]
         public virtual ICollection<CourseDepartment> CourseDepartments { get; set; }
         [InverseProperty(nameof(UserGroup.Group))]

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.Core.Data.Entities
@@ -9,5 +10,16 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Key]
         [Column("id")]
         public long Id { get; set; }
+
+        protected ILazyLoader LazyLoader { get; set; }
+
+        public BaseEntity()
+        {
+        }
+
+        public BaseEntity(ILazyLoader lazyLoader)
+        {
+            LazyLoader = lazyLoader;
+        }
     }
 }

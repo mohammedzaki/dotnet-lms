@@ -7,20 +7,20 @@ namespace DigitalHubLMS.API.Models
 {
     public class UserDashboard
     {
-        public CurrentUserCourse latest_course { get; set; }
-        public int in_progress { get; set; }
-        public List<int> line { get; set; }
-        public int done { get; set; }
-        public int total_courses { get; set; }
-        public int total_certificates { get; set; }
-        public int not_started { get; set; }
+        public CurrentUserCourse LatestCourse { get; set; }
+        public double InProgress { get; set; }
+        public List<long> Line { get; set; }
+        public double Done { get; set; }
+        public int TotalCourses { get; set; }
+        public int TotalCertificates { get; set; }
+        public double NotStarted { get; set; }
     }
 
     public class CurrentUserCourse
     {
         public string Title { get; set; }
-        public string thumbnail { get; set; }
-        public string slug { get; set; }
-        public int progress { get; set; }
+        public string Thumbnail { get; set; }
+        public string Slug { get; set; }
+        public long? Progress { get; set; }
     }
 }

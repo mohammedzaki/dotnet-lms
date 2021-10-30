@@ -9,6 +9,7 @@
     <EmbeddedResource Remove="Data\Entities\Patient\RelapseVisit\**" />
     <None Remove="Data\Entities\Patient\RelapseVisit\**" />
     <None Remove="Data\Base\" />
+    <None Remove="Data\Repositories\Contracts\" />
   </ItemGroup>
   
   <ItemGroup>
@@ -38,6 +39,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Helpers\MySql\" />
     <Folder Include="Data\Entities\" />
+    <Folder Include="Data\Repositories\Contracts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MZCore\MZCore.csproj" />

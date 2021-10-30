@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using DigitalHubLMS.Core.Data.Repositories.Contracts;
 
 namespace DigitalHubLMS.API.Controllers
 {
@@ -47,6 +48,7 @@ namespace DigitalHubLMS.API.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                 };
 
                 foreach (var userRole in userRoles)

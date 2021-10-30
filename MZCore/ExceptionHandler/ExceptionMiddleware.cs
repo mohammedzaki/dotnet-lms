@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Ubiety.Dns.Core;
 
 namespace MZCore.ExceptionHandler
 {
@@ -38,8 +39,6 @@ namespace MZCore.ExceptionHandler
             var errorDetails = new ErrorDetails();
             errorDetails.Success = false;
             errorDetails.Message = exception?.Message;
-            errorDetails.Status = "error";
-            errorDetails.Error = exception?.Message;
             switch (exception)
             {
                 case AppException e:
@@ -61,7 +60,7 @@ namespace MZCore.ExceptionHandler
                     break;
             }
             errorDetails.StatusCode = context.Response.StatusCode;
-            await context.Response.WriteAsync(errorDetails.ToString());
+            await context.Response.WriteAsJsonAsync(errorDetails);
         }
     }
 }

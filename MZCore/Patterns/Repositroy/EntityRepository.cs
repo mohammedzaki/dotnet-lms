@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace MZCore.Patterns.Repositroy
 {
@@ -16,40 +16,26 @@ namespace MZCore.Patterns.Repositroy
           IEquatable<TKey>,
           IFormattable
     {
-        protected readonly TDbContext _dbContext;
+        public TDbContext _dbContext { get; set; }
 
         public EntityRepository(TDbContext context)
         {
             _dbContext = context;
         }
 
-        public TDbContext GetDbContext()
-        {
-            return _dbContext;
-        }
-
         public virtual async Task<List<TEntity>> GetAll()
         {
-            try
-            {
-                return await _dbContext.Set<TEntity>().ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
-            }
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
         public virtual async Task<TEntity> FindByIdAsync(TKey id)
         {
-            try
+            var entity = await _dbContext.Set<TEntity>().FindAsync(id);
+            if (entity == null)
             {
-                return await _dbContext.Set<TEntity>().FindAsync(id);
+                throw new KeyNotFoundException($"{typeof(TEntity).ShortDisplayName()} Not Found");
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
-            }
+            return entity;
         }
 
         public virtual async Task<TEntity> SaveAsync(TEntity entity)
@@ -58,18 +44,9 @@ namespace MZCore.Patterns.Repositroy
             {
                 throw new ArgumentNullException($"{nameof(SaveAsync)} entity must not be null");
             }
-            try
-            {
-                await _dbContext.AddAsync(entity);
-                await _dbContext.SaveChangesAsync();
-                return entity;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(entity)} could not be saved: {ex.Message}");
-            }
-
-
+            await _dbContext.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
         }
 
         public virtual async Task<TEntity> UpdateAsync(TEntity entity)
@@ -78,18 +55,9 @@ namespace MZCore.Patterns.Repositroy
             {
                 throw new ArgumentNullException($"{nameof(UpdateAsync)} entity must not be null");
             }
-
-            try
-            {
-                _dbContext.Update(entity);
-                await _dbContext.SaveChangesAsync();
-
-                return entity;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(entity)} could not be updated: {ex.Message}");
-            }
+            _dbContext.Update(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
         }
 
         public virtual async Task<int> DeleteAsync(TEntity entity)
@@ -98,35 +66,15 @@ namespace MZCore.Patterns.Repositroy
             {
                 throw new ArgumentNullException($"{nameof(DeleteAsync)} entity must not be null");
             }
-
-            try
-            {
-                _dbContext.Remove(entity);
-                return await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(entity)} could not be deleted: {ex.Message}");
-            }
+            _dbContext.Remove(entity);
+            return await _dbContext.SaveChangesAsync();
         }
 
         public virtual async Task<int> DeleteAsync(TKey id)
         {
-            //if (id == 0)
-            //{
-            //    throw new ArgumentNullException($"{nameof(DeleteAsync)} id must not be null");
-            //}
-
-            try
-            {
-                var entity = await _dbContext.Set<TEntity>().FindAsync(id);
-                _dbContext.Remove(entity);
-                return await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(TEntity)}->{id} could not be deleted: {ex.Message}");
-            }
+            var entity = await FindByIdAsync(id);
+            _dbContext.Remove(entity);
+            return await _dbContext.SaveChangesAsync();
         }
 
         public virtual async Task<TEntity> CreateOrUpdateAsync(TEntity entity)
@@ -135,18 +83,9 @@ namespace MZCore.Patterns.Repositroy
             {
                 throw new ArgumentNullException($"{nameof(CreateOrUpdateAsync)} entity must not be null");
             }
-
-            try
-            {
-                _dbContext.Update(entity);
-                await _dbContext.SaveChangesAsync();
-
-                return entity;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{nameof(entity)} could not be created or updated: {ex.Message}");
-            }
+            _dbContext.Update(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
         }
     }
 }

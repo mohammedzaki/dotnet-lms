@@ -45,34 +45,34 @@ namespace DigitalHubLMS.API.Controllers.Admin
                 {
                     Id = e.Id,
                     Title = e.Title,
-                    completed_count = e.CourseEnrols.Where(e => e.Progress == 100).Count(),
-                    not_started_count = e.CourseEnrols.Where(e => e.Progress == 0).Count(),
-                    in_progress_count = e.CourseEnrols.Where(e => e.Progress > 0 && e.Progress < 100).Count()
+                    CompletedCount = e.CourseEnrols.Where(e => e.Progress == 100).Count(),
+                    NotStartedCount = e.CourseEnrols.Where(e => e.Progress == 0).Count(),
+                    InProgressCount = e.CourseEnrols.Where(e => e.Progress > 0 && e.Progress < 100).Count()
                 })
                 .ToListAsync();
             var total_courses = courses.Count;
-            int total_completed = courses.Sum(e => e.completed_count);
-            int total_not_started = courses.Sum(e => e.not_started_count);
-            int total_in_progress = courses.Sum(e => e.in_progress_count);
+            int total_completed = courses.Sum(e => e.CompletedCount);
+            int total_not_started = courses.Sum(e => e.NotStartedCount);
+            int total_in_progress = courses.Sum(e => e.InProgressCount);
 
             int totalEnrolled = total_completed + total_not_started + total_in_progress;
             decimal completed_progress = Math.Ceiling(((decimal)total_completed / (decimal)totalEnrolled) * 100);
 
             return new AdminDashboard
             {
-                total_certificates = total_certificates,
-                total_quizzes = total_quizzes,
-                total_departments = total_departments,
-                total_categories = total_categories,
-                total_announcements = total_announcements,
-                total_instructors = total_instructors,
-                total_employees = total_employees,
-                completed_progress = completed_progress,
-                total_courses = total_courses,
-                total_completed = total_completed,
-                total_not_started = total_not_started,
-                total_in_progress = total_in_progress,
-                year_courses = year_courses,
+                TotalCertificates = total_certificates,
+                TotalQuizzes = total_quizzes,
+                TotalDepartments = total_departments,
+                TotalCategories = total_categories,
+                TotalAnnouncements = total_announcements,
+                TotalInstructors = total_instructors,
+                TotalEmployees = total_employees,
+                CompletedProgress = completed_progress,
+                TotalCourses = total_courses,
+                TotalCompleted = total_completed,
+                TotalNotStarted = total_not_started,
+                TotalInProgress = total_in_progress,
+                YearCourses = year_courses,
                 CourseUserProgresses = courses
             };
         }

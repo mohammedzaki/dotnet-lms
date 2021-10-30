@@ -38,5 +38,16 @@ namespace DigitalHubLMS.Core.Data.Entities
         [ForeignKey(nameof(UserId))]
         [InverseProperty("Certificates")]
         public virtual User User { get; set; }
+
+        [NotMapped]
+        public string Username { get; set; }
+        [NotMapped]
+        public string Coursename { get; set; }
+        [NotMapped]
+        public string Title { get; set; }
+        [NotMapped]
+        public string Description { get; set; }
+        [NotMapped]
+        public string Thumbnail { get; set; }
     }
 }

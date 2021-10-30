@@ -36,5 +36,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [ForeignKey(nameof(UserId))]
         [InverseProperty("CourseEnrols")]
         public virtual User User { get; set; }
+
+        [NotMapped]
+        public int Lectures { get; set; }
+        [NotMapped]
+        public int Quizes { get; set; }
+        [NotMapped]
+        public double Duration { get; set; }
     }
 }

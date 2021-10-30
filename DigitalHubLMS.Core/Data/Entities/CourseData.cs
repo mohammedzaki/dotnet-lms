@@ -22,7 +22,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         public DateTime? UpdatedAt { get; set; }
 
         [ForeignKey(nameof(CourseId))]
-        [InverseProperty("CourseData")]
+        [InverseProperty(nameof(Entities.Course.CourseDatum))]
         public virtual Course Course { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using MZCore.ExceptionHandler;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using DigitalHubLMS.Core.Data.Repositories.Contracts;
 
 namespace DigitalHubLMS.Core.Data.Repositories
 {
@@ -173,7 +174,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
                             if ($user->email) {
                                 dispatch(new EnrolledEmailJob($user->email, $user, $ccourse));
                             }
-
                          }
                          */
                     }
@@ -208,6 +208,45 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 }
                 throw new AppException("User has a role other than \'employee\', cannot delete");
             }
+        }
+
+        public async Task<SecurityQuestion> GetSecurityQuestionByUsername(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user != null)
+            {
+                throw new KeyNotFoundException("User Not found");
+            }
+            var uquestion = await _dbContext.UserSecurityQuestions.Where(e => e.UserId == user.Id).FirstOrDefaultAsync();
+            var squestion = await _dbContext.SecurityQuestions.Where(e => e.Id == uquestion.SecurityQuestionId).FirstOrDefaultAsync();
+            return squestion;
+        }
+
+        public async Task<bool> CheckSecurityQuestionAnswer(string username, string securityAnswer)
+        {
+            /*
+             $user = User::where('username', $request->username)
+                    ->first();
+
+            if (!$user) {
+                $this->throwValidationExceptionMessage('User Not found');
+            }
+
+            $question = UserSecurityQuestion::where('user_id', $user->id)
+                                            ->first();
+
+            if (!$question) {
+                $this->throwValidationExceptionMessage('No Question');
+            }
+
+            if (!Hash::check($request->security_answer, $question->security_answer)) {
+                $this->throwValidationExceptionMessage('There was a problem checking Answer.');
+            }
+
+            return response('OK', 200);
+             */
+
+            throw new NotImplementedException();
         }
     }
 }

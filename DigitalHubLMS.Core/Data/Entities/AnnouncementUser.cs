@@ -30,5 +30,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [ForeignKey(nameof(UserId))]
         [InverseProperty("AnnouncementUsers")]
         public virtual User User { get; set; }
+
+        [NotMapped]
+        public string Title { get; set; }
+        [NotMapped]
+        public string Message { get; set; }
+        [NotMapped]
+        public string Priority { get; set; }
     }
 }

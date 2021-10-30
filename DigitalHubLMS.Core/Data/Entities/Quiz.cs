@@ -18,8 +18,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
-        [InverseProperty(nameof(ClassQuiz.Quiz))]
-        public virtual ICollection<ClassQuiz> ClassQuizzes { get; set; }
         [InverseProperty(nameof(Entities.Questions.Quiz))]
         public virtual ICollection<Questions> Questions { get; set; }
     }

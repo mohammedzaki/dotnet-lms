@@ -28,6 +28,9 @@ using MZCore.Patterns.Repositroy;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DigitalHubLMS.Core.Data.Repositories.Contracts;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace DigitalHubLMS.API
 {
@@ -164,11 +167,13 @@ namespace DigitalHubLMS.API
             .AddRoles<Role>()
             .AddEntityFrameworkStores<DigitalHubLMSContext>();
 
+            services.AddTransient(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRepository<Announcement, long>, EntityRepository<DigitalHubLMSContext, Announcement, long>>();
             services.AddScoped<IRepository<Course, long>, CourseRepository>();
-            services.AddScoped<IRepository<Group, long>, EntityRepository<DigitalHubLMSContext, Group, long>>();
-            services.AddScoped<IRepository<Category, long>, EntityRepository<DigitalHubLMSContext, Category, long>>();
+            services.AddScoped<IRepository<Group, long>, DepartmentRepository>();
+            services.AddScoped<IRepository<Category, long>, CategoryRepository>();
             services.AddScoped<IRepository<User, long>, EntityRepository<DigitalHubLMSContext, User, long>>();
             services.AddScoped<IRepository<Quiz, long>, QuizRepository>();
             services.AddScoped<IRepository<Section, long>, EntityRepository<DigitalHubLMSContext, Section, long>>();
@@ -179,12 +184,13 @@ namespace DigitalHubLMS.API
             services.AddScoped<IRepository<Document, long>, EntityRepository<DigitalHubLMSContext, Document, long>>();
             services.AddScoped<IRepository<Subtitle, long>, EntityRepository<DigitalHubLMSContext, Subtitle, long>>();
             services.AddScoped<IRepository<Certificate, long>, EntityRepository<DigitalHubLMSContext, Certificate, long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            services.AddScoped<IRepository<Media, long>, EntityRepository<DigitalHubLMSContext, Media, long>>();
+            services.AddScoped<IRepository<Image, long>, EntityRepository<DigitalHubLMSContext, Image, long>>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+            services.AddScoped<ICertificatesRepository, CertificateRepository>();
+            services.AddScoped<ICourseClassRepository, CourseClassRepository>();
+            services.AddScoped<IRepository<SecurityQuestion, long>, EntityRepository<DigitalHubLMSContext, SecurityQuestion, long>>();
             // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
             // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
             // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();

@@ -34,6 +34,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+        [NotMapped]
+        public int CoursesCount { get; set; }
+
         [InverseProperty(nameof(CourseCategory.Category))]
         public virtual ICollection<CourseCategory> CourseCategories { get; set; }
     }

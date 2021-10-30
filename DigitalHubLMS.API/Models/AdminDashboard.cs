@@ -7,19 +7,19 @@ namespace DigitalHubLMS.API.Models
 {
     public class AdminDashboard
     {
-        public int total_certificates { get; set; }
-        public int total_quizzes { get; set; }
-        public int total_departments { get; set; }
-        public int total_categories { get; set; }
-        public int total_announcements { get; set; }
-        public int total_instructors { get; set; }
-        public int total_employees { get; set; }
-        public decimal completed_progress { get; set; }
-        public int total_courses { get; set; }
-        public int total_completed { get; set; }
-        public int total_not_started { get; set; }
-        public int total_in_progress { get; set; }
-        public IList year_courses { get; set; }
+        public int TotalCertificates { get; set; }
+        public int TotalQuizzes { get; set; }
+        public int TotalDepartments { get; set; }
+        public int TotalCategories { get; set; }
+        public int TotalAnnouncements { get; set; }
+        public int TotalInstructors { get; set; }
+        public int TotalEmployees { get; set; }
+        public decimal CompletedProgress { get; set; }
+        public int TotalCourses { get; set; }
+        public int TotalCompleted { get; set; }
+        public int TotalNotStarted { get; set; }
+        public int TotalInProgress { get; set; }
+        public IList YearCourses { get; set; }
         public IList<CourseUserProgress> CourseUserProgresses { get; set; }
     }
 
@@ -27,8 +27,8 @@ namespace DigitalHubLMS.API.Models
     {
         public long Id { get; set; }
         public string Title { get; set; }
-        public int completed_count { get; set; }
-        public int not_started_count { get; set; }
-        public int in_progress_count { get; set; }
+        public int CompletedCount { get; set; }
+        public int NotStartedCount { get; set; }
+        public int InProgressCount { get; set; }
     }
 }
