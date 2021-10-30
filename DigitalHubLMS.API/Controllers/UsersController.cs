@@ -147,7 +147,7 @@ namespace DigitalHubLMS.API.Controllers
                 _dbContext.Update(question);
             }
             await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok("Ok");
         }
 
         [HttpPut("change-password")]
@@ -158,45 +158,34 @@ namespace DigitalHubLMS.API.Controllers
             var userId = User.GetLoggedInUserId<long>();
             var user = await _dbContext.Users.Where(e => e.UserName == username).FirstOrDefaultAsync();
             var validCredentials = await _repository.GetUserManager().CheckPasswordAsync(user, password);
-            if (validCredentials)
+            if (!validCredentials)
             {
                 throw new BadHttpRequestException("There was a problem changing the password.");
             }
             await _repository.GetUserManager().ChangePasswordAsync(user, password, newpassword);
-            return Ok();
+            return Ok("Ok");
         }
 
 
         [HttpPost("forget-password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public virtual async Task<IActionResult> ForgetPassword()
+        public virtual async Task<IActionResult> ForgetPassword([Required] string password, [Required] string username)
         {
-            // export const changePassUser = `${ Origin }/user/change_password`;
-            // in Forget-Password
-
-            //public function changeUserPassword(Request $request)
-            //{
-
-            //$this->validate($request, ['password' => 'required|string', 'username' => 'required|string',]);
-
-            //$user = User::where('username', $request->username)
-            //            ->first();
-            //    if (!$user) {
-            //    $this->throwValidationExceptionMessage('There was a problem changing the password.');
-            //    }
-
-            //$user->password = Hash::make($request['password']);
-            //$user->updated_by = $user->id;
-            //$user->is_banned = 1;
-            //$user->is_verified = 0;
-
-            //$user->save();
-
-            //    return response('OK', 200);
-
-            //}
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.Where(e => e.UserName == username).FirstOrDefaultAsync();
+            if (user == null) {
+                throw new BadHttpRequestException("There was a problem changing the password.");
+            }
+            var hasher = new PasswordHasher<User>();
+            var SecurityStamp = Guid.NewGuid().ToString();
+            var hasedPassword = hasher.HashPassword(null, password);
+            user.PasswordHash = hasedPassword;
+            user.UpdatedBy = user.Id;
+            user.IsBanned = 1;
+            user.IsVerified = 0;
+            _dbContext.Update(user);
+            await _dbContext.SaveChangesAsync();
+            return Ok("Ok");
         }
 
         [HttpPut("update-info")]
@@ -221,7 +210,7 @@ namespace DigitalHubLMS.API.Controllers
                 _dbContext.Update(userInfo);
             }
             await _dbContext.SaveChangesAsync();
-            return Ok();
+            return Ok("Ok");
         }
     }
 }
