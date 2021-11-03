@@ -10,7 +10,7 @@ using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public abstract class BaseAPIRepoController<TRepository> : ControllerBase

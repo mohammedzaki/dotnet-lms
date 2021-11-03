@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DigitalHubLMS.Core.Services;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -23,8 +25,13 @@ namespace DigitalHubLMS.Core.Data.Entities
         public long UserId { get; set; }
         [Column("course_id")]
         public long CourseId { get; set; }
+
         [Column("url")]
-        public string Url { get; set; }
+        [JsonIgnore]
+        public string _Url { get; set; }
+        [NotMapped]
+        public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
+
         [Column("status")]
         public byte Status { get; set; }
         [Column("created_at")]

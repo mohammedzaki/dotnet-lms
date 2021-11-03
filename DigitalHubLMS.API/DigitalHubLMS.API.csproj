@@ -33,6 +33,7 @@
     <PackageReference Include="LettuceEncrypt" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.11" />
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,10 +46,49 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Admin\" />
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\assets\" />
+    <Folder Include="wwwroot\assets\pdf-cert\" />
+    <Folder Include="wwwroot\temp\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controllers\Admin\" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
+    <None Remove="DinkToPdf" />
+    <None Remove="libwkhtmltox.so" />
+    <None Remove="libwkhtmltox.dylib" />
+    <None Remove="libwkhtmltox.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\" />
+    <Content Remove="wwwroot\assets\" />
+    <Content Remove="wwwroot\assets\pdf-cert\" />
+    <Content Remove="wwwroot\temp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="libwkhtmltox.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="libwkhtmltox.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="libwkhtmltox.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="libwkhtmltox.dylib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="libwkhtmltox.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libwkhtmltox.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libwkhtmltox.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

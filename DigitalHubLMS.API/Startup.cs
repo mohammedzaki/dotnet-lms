@@ -31,6 +31,12 @@ using System.Text;
 using DigitalHubLMS.Core.Data.Repositories.Contracts;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using MZCore.Helpers;
+using Microsoft.Extensions.FileProviders;
+using DigitalHubLMS.Core.Services.Contracts;
+using DigitalHubLMS.Core.Services;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace DigitalHubLMS.API
 {
@@ -59,9 +65,9 @@ namespace DigitalHubLMS.API
 
             if (!_env.IsDevelopment())
             {
-                services
-                    .AddLettuceEncrypt()
-                    .PersistDataToDirectory(new DirectoryInfo(directoryPath), "MmR!#63^V5Fu7m!T");
+                //services
+                //    .AddLettuceEncrypt()
+                //    .PersistDataToDirectory(new DirectoryInfo(directoryPath), "MmR!#63^V5Fu7m!T");
             }
 
             services.AddCors(options =>
@@ -77,6 +83,15 @@ namespace DigitalHubLMS.API
             services
                 .AddRouting(options => options.LowercaseUrls = true)
                 .AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problems = new APIBadRequestResponse(context);
+
+                        return new BadRequestObjectResult(problems);
+                    };
+                })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
@@ -121,6 +136,8 @@ namespace DigitalHubLMS.API
                     Title = "Digital-Hub LMS APIs",
                     Description = "Digital-Hub LMS APIs"
                 });
+
+                options.OperationFilter<SwaggerFileOperationFilter>();
 
                 // To Enable authorization using Swagger (JWT)    
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -168,14 +185,19 @@ namespace DigitalHubLMS.API
             .AddEntityFrameworkStores<DigitalHubLMSContext>();
 
             services.AddTransient(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
-
+            services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRepository<Announcement, long>, EntityRepository<DigitalHubLMSContext, Announcement, long>>();
+            services.AddScoped<IRepository<Quiz, long>, QuizRepository>();
             services.AddScoped<IRepository<Course, long>, CourseRepository>();
             services.AddScoped<IRepository<Group, long>, DepartmentRepository>();
             services.AddScoped<IRepository<Category, long>, CategoryRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+            services.AddScoped<ICertificatesRepository, CertificateRepository>();
+            services.AddScoped<ICourseClassRepository, CourseClassRepository>();
+
+            services.AddScoped<IRepository<Announcement, long>, EntityRepository<DigitalHubLMSContext, Announcement, long>>();
             services.AddScoped<IRepository<User, long>, EntityRepository<DigitalHubLMSContext, User, long>>();
-            services.AddScoped<IRepository<Quiz, long>, QuizRepository>();
             services.AddScoped<IRepository<Section, long>, EntityRepository<DigitalHubLMSContext, Section, long>>();
             services.AddScoped<IRepository<Questions, long>, EntityRepository<DigitalHubLMSContext, Questions, long>>();
             services.AddScoped<IRepository<Options, long>, EntityRepository<DigitalHubLMSContext, Options, long>>();
@@ -186,16 +208,14 @@ namespace DigitalHubLMS.API
             services.AddScoped<IRepository<Certificate, long>, EntityRepository<DigitalHubLMSContext, Certificate, long>>();
             services.AddScoped<IRepository<Media, long>, EntityRepository<DigitalHubLMSContext, Media, long>>();
             services.AddScoped<IRepository<Image, long>, EntityRepository<DigitalHubLMSContext, Image, long>>();
-            services.AddScoped<ICourseRepository, CourseRepository>();
-            services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
-            services.AddScoped<ICertificatesRepository, CertificateRepository>();
-            services.AddScoped<ICourseClassRepository, CourseClassRepository>();
             services.AddScoped<IRepository<SecurityQuestion, long>, EntityRepository<DigitalHubLMSContext, SecurityQuestion, long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
-            // services.AddScoped<IRepository<, long>, EntityRepository<DigitalHubLMSContext, , long>>();
+            services.AddScoped<IRepository<UserSecurityQuestion, long>, EntityRepository<DigitalHubLMSContext, UserSecurityQuestion, long>>();
+            services.AddScoped<IRepository<UserInfo, long>, EntityRepository<DigitalHubLMSContext, UserInfo, long>>();
+            services.AddScoped<IRepository<CourseEnrol, long>, EntityRepository<DigitalHubLMSContext, CourseEnrol, long>>();
+            services.AddScoped<IRepository<ClassQuizAnswer, long>, EntityRepository<DigitalHubLMSContext, ClassQuizAnswer, long>>();
+            services.AddScoped<IRepository<ClassUserMeta, long>, EntityRepository<DigitalHubLMSContext, ClassUserMeta, long>>();
+            services.AddScoped<IRepository<ProfilePicture, long>, EntityRepository<DigitalHubLMSContext, ProfilePicture, long>>();
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -207,8 +227,6 @@ namespace DigitalHubLMS.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMZCoreAPIExceptionMiddleware();
-
             app.UseSwaggerAuthorized();
 
             app.UseSwagger();
@@ -218,7 +236,11 @@ namespace DigitalHubLMS.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DigitalHubLMS.API v1");
             });
 
+            app.UseMZCoreAPIExceptionMiddleware();
+
             app.UseHttpsRedirection();
+
+            app.UseAppStorage();
 
             app.UseRouting();
 

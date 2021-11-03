@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories.Contracts;
+using DigitalHubLMS.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -34,8 +35,8 @@ namespace DigitalHubLMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public virtual IActionResult DownLoadCertificate(string url)
         {
-            var storageDirectoryPath = Configuration["Storage:MainPath"];
-            var certPath = storageDirectoryPath + @"/App/Certificates/template.pdf";
+            var storageDirectoryPath = Configuration.GetStoragePath();
+            var certPath = storageDirectoryPath + @"/certificates/template.pdf";
             return new PhysicalFileResult(certPath, "application/pdf");
         }
     }

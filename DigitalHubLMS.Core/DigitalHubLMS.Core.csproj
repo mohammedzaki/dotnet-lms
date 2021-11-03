@@ -10,6 +10,8 @@
     <None Remove="Data\Entities\Patient\RelapseVisit\**" />
     <None Remove="Data\Base\" />
     <None Remove="Data\Repositories\Contracts\" />
+    <None Remove="Services\" />
+    <None Remove="Services\Contracts\" />
   </ItemGroup>
   
   <ItemGroup>
@@ -40,6 +42,8 @@
     <Folder Include="Helpers\MySql\" />
     <Folder Include="Data\Entities\" />
     <Folder Include="Data\Repositories\Contracts\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Contracts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MZCore\MZCore.csproj" />

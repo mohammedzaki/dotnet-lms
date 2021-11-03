@@ -17,6 +17,16 @@ namespace DigitalHubLMS.Core.Data.Repositories.Contracts
 
         public Task<bool> CheckSecurityQuestionAnswer(string username, string securityAnswer);
 
+        public Task<bool> ChangeUserPassword(long userId, string username, string password, string newpassword);
+
+        public Task<bool> SetUserForgetPassword(string password, string username);
+
+        public Task<bool> SetFirstLoginChangePassAndQues(long userId, string password, long question_id, string security_answer);
+
+        public Task<bool> UpdateUserInfo(long userId, string title, string description);
+
+        public Task<ProfilePicture> SaveUserProfilePicture(User user, ProfilePicture profilePicture);
+
         public UserManager<User> GetUserManager();
 
         public SignInManager<User> GetSignInManager();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -44,6 +45,7 @@ namespace MZCore.Patterns.Repositroy
             {
                 throw new ArgumentNullException($"{nameof(SaveAsync)} entity must not be null");
             }
+            entity.Id = GenerateNewID();
             await _dbContext.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
@@ -86,6 +88,23 @@ namespace MZCore.Patterns.Repositroy
             _dbContext.Update(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
+        }
+
+        public TKey GenerateNewID()
+        {
+            dynamic maxId = GetMaxId();
+            return (TKey)Convert.ChangeType((maxId + 1), typeof(TKey));
+        }
+
+        public TKey GetMaxId()
+        {
+            var dbSet = _dbContext.Set<TEntity>();
+            var i = dbSet.OrderByDescending(e => e.Id).FirstOrDefault();
+            if (i == null)
+            {
+                return (TKey)Convert.ChangeType(0, typeof(TKey));
+            }
+            return i.Id;
         }
     }
 }

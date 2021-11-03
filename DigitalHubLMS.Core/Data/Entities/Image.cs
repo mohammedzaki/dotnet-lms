@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DigitalHubLMS.Core.Services;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -20,10 +22,14 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("name")]
         [StringLength(255)]
         public string Name { get; set; }
+
         [Required]
         [Column("url")]
-        [StringLength(255)]
-        public string Url { get; set; }
+        [JsonIgnore]
+        public string _Url { get; set; }
+        [NotMapped]
+        public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
+
         [Required]
         [Column("size")]
         [StringLength(255)]

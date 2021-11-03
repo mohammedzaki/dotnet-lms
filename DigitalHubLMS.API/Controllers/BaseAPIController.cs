@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DigitalHubLMS.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class BaseAPIController<TDbContext> : ControllerBase

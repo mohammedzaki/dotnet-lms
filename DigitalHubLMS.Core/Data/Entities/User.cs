@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DigitalHubLMS.Core.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
+using Newtonsoft.Json;
 
 namespace DigitalHubLMS.Core.Data.Entities 
 {
@@ -45,8 +47,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string DisplayName { get; set; }
         [Column("user_url")]
-        [StringLength(255)]
-        public string UserUrl { get; set; }
+        [JsonIgnore]
+        public string _UserUrl { get; set; }
+        [NotMapped]
+        public string UserUrl { get => _UserUrl.ToHostUrl(); set => _UserUrl = value; }
         [Column("created_by")]
         public long CreatedBy { get; set; }
         [Column("updated_by")]

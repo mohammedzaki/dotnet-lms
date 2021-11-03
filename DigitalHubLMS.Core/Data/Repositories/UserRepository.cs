@@ -19,12 +19,24 @@ namespace DigitalHubLMS.Core.Data.Repositories
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IRepository<UserInfo, long> UserInfoRepository;
+        private readonly IRepository<UserSecurityQuestion, long> UserSecurityQuestionRepository;
+        private readonly IRepository<ProfilePicture, long> ProfilePictureRepository;
 
-        public UserRepository(DigitalHubLMSContext context, UserManager<User> userManager,
-            SignInManager<User> signInManager) : base(context)
+        public UserRepository(
+            DigitalHubLMSContext context,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            IRepository<UserInfo, long> userInfoRepository,
+            IRepository<ProfilePicture, long> profilePictureRepository,
+            IRepository<UserSecurityQuestion, long> userSecurityQuestionRepository)
+            : base(context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            UserInfoRepository = userInfoRepository;
+            UserSecurityQuestionRepository = userSecurityQuestionRepository;
+            ProfilePictureRepository = profilePictureRepository;
         }
 
         public UserManager<User> GetUserManager()
@@ -213,7 +225,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
         public async Task<SecurityQuestion> GetSecurityQuestionByUsername(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            if (user != null)
+            if (user == null)
             {
                 throw new KeyNotFoundException("User Not found");
             }
@@ -224,29 +236,143 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public async Task<bool> CheckSecurityQuestionAnswer(string username, string securityAnswer)
         {
-            /*
-             $user = User::where('username', $request->username)
-                    ->first();
-
-            if (!$user) {
-                $this->throwValidationExceptionMessage('User Not found');
+            var hasher = new PasswordHasher<User>();
+            var user = await _dbContext.Users.Where(e => e.UserName == username).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User Not found");
             }
-
-            $question = UserSecurityQuestion::where('user_id', $user->id)
-                                            ->first();
-
-            if (!$question) {
-                $this->throwValidationExceptionMessage('No Question');
+            var uquestion = await _dbContext.UserSecurityQuestions.Where(e => e.UserId == user.Id).FirstOrDefaultAsync();
+            if (uquestion == null)
+            {
+                throw new KeyNotFoundException("Question Not found");
             }
-
-            if (!Hash::check($request->security_answer, $question->security_answer)) {
-                $this->throwValidationExceptionMessage('There was a problem checking Answer.');
+            var result = hasher.VerifyHashedPassword(user, uquestion.SecurityAnswer, securityAnswer);
+            if (result == PasswordVerificationResult.Success)
+            {
+                return true;
             }
+            else
+            {
+                throw new AppException("Wrong answer!.");
+            }
+        }
 
-            return response('OK', 200);
-             */
+        public async Task<bool> ChangeUserPassword(long userId, string username, string password, string newpassword)
+        {
+            var user = await _dbContext.Users.Where(e => e.UserName == username).FirstOrDefaultAsync();
+            var validCredentials = await _userManager.CheckPasswordAsync(user, password);
+            if (!validCredentials)
+            {
+                throw new BadHttpRequestException("There was a problem changing the password.");
+            }
+            var result = await _userManager.ChangePasswordAsync(user, password, newpassword);
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                var ex = new AppException("assing user roles failed");
+                foreach (var item in result.Errors)
+                {
+                    ex.Errors.Add(item.Code, item.Description);
+                }
+                throw ex;
+            }
+        }
 
-            throw new NotImplementedException();
+        public async Task<bool> SetUserForgetPassword(string password, string username)
+        {
+            var user = await _dbContext.Users.Where(e => e.UserName == username).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                throw new BadHttpRequestException("There was a problem changing the password.");
+            }
+            var hasher = new PasswordHasher<User>();
+            var SecurityStamp = Guid.NewGuid().ToString();
+            var hasedPassword = hasher.HashPassword(user, password);
+            user.PasswordHash = hasedPassword;
+            user.UpdatedBy = user.Id;
+            user.IsBanned = 1;
+            user.IsVerified = 0;
+            _dbContext.Update(user);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateUserInfo(long userId, string title, string description)
+        {
+            var userInfo = await _dbContext.UserInfos.Where(e => e.UserId == userId).FirstOrDefaultAsync();
+            if (userInfo == null)
+            {
+                userInfo = new UserInfo();
+                userInfo.UserId = userId;
+                userInfo = await UserInfoRepository.SaveAsync(userInfo);
+                userInfo.Title = title;
+                userInfo.Description = description;
+            }
+            else
+            {
+                userInfo.Title = title;
+                userInfo.Description = description;
+                userInfo = await UserInfoRepository.UpdateAsync(userInfo);
+            }
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> SetFirstLoginChangePassAndQues(long userId, string password, long question_id, string security_answer)
+        {
+            var user = await _dbContext.Users.FindAsync(userId);
+            if (user.PasswordChangedAt != null)
+            {
+                throw new BadHttpRequestException("Password already Changed");
+            }
+            var hasher = new PasswordHasher<User>();
+            var SecurityStamp = Guid.NewGuid().ToString();
+            var hasedPassword = hasher.HashPassword(user, password);
+            user.PasswordHash = hasedPassword;
+            user.UpdatedBy = userId;
+
+            user.PasswordChangedAt = DateTime.Now;
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+            var question = await _dbContext.UserSecurityQuestions.Where(e => e.UserId == userId).FirstOrDefaultAsync();
+            if (question == null)
+            {
+                question = new UserSecurityQuestion();
+                question.UserId = userId;
+                question.SecurityQuestionId = question_id;
+                question.SecurityAnswer = hasher.HashPassword(user, security_answer);
+                question = await UserSecurityQuestionRepository.SaveAsync(question);
+            }
+            else
+            {
+                question.UserId = userId;
+                question.SecurityQuestionId = question_id;
+                question.SecurityAnswer = hasher.HashPassword(user, security_answer);
+                question = await UserSecurityQuestionRepository.UpdateAsync(question);
+            }
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<ProfilePicture> SaveUserProfilePicture(User user, ProfilePicture profilePicture)
+        {
+            var pp = _dbContext.ProfilePictures.Where(e => e.UserId == profilePicture.UserId).FirstOrDefaultAsync();
+            if (pp == null)
+            {
+                var newProfile = await ProfilePictureRepository.SaveAsync(profilePicture);
+                user.ProfilePictureId = newProfile.Id;
+                await UpdateAsync(user);
+                return newProfile;
+            }
+            else
+            {
+                profilePicture.Id = pp.Id;
+                return await ProfilePictureRepository.UpdateAsync(profilePicture);
+            }
         }
     }
 }
