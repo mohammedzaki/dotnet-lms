@@ -54,7 +54,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual DbSet<Migration> Migrations { get; set; }
         public virtual DbSet<Note> Notes { get; set; }
         public virtual DbSet<Options> Options { get; set; }
-        public virtual DbSet<PasswordReset> PasswordResets { get; set; }
         public virtual DbSet<ProfilePicture> ProfilePictures { get; set; }
         public virtual DbSet<Questions> Questions { get; set; }
         public virtual DbSet<Quiz> Quizzes { get; set; }
@@ -664,11 +663,6 @@ namespace DigitalHubLMS.Core.Data.Entities
                     .HasConstraintName("options_question_id_foreign");
             });
 
-            modelBuilder.Entity<PasswordReset>(entity =>
-            {
-                entity.Property(e => e.CreatedAt).HasPrecision(0);
-            });
-
             modelBuilder.Entity<ProfilePicture>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -732,8 +726,6 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.CreatedAt).HasPrecision(0);
 
                 entity.Property(e => e.DeletedAt).HasPrecision(0);
-
-                entity.Property(e => e._Id).IsFixedLength(true);
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
 
@@ -928,11 +920,9 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "system",
                     NormalizedName = "system".ToUpper(),
-                    _Id = "7be3e993-425f-4575-a642-8715ab1fd7c1",
                     IsActive = 1,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    Level = 0,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 },
@@ -942,11 +932,9 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "admin",
                     NormalizedName = "admin".ToUpper(),
-                    _Id = "0c515869-132e-4f65-b078-e9646aaabfd1",
                     IsActive = 1,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    Level = 1,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 },
@@ -956,11 +944,9 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "supervisor",
                     NormalizedName = "supervisor".ToUpper(),
-                    _Id = "aa9930ca-cb8e-492d-8058-63edff77c5e4",
                     IsActive = 1,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    Level = 3,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 },
@@ -970,11 +956,9 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "instructor",
                     NormalizedName = "instructor".ToUpper(),
-                    _Id = "55ec9f9c-43bd-4a37-bf53-a0312d7b544f",
                     IsActive = 1,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    Level = 4,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 },
@@ -984,11 +968,9 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "employee",
                     NormalizedName = "employee".ToUpper(),
-                    _Id = "dd3c0e71-e0cb-45a0-af9b-401090882087",
                     IsActive = 1,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    Level = 5,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 }

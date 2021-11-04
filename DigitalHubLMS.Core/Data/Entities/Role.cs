@@ -12,22 +12,16 @@ using Newtonsoft.Json;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("roles")]
-    [Index(nameof(_Id), Name = "roles__id_unique", IsUnique = true)]
-    [Index(nameof(Level), Name = "roles_level_unique", IsUnique = true)]
     [Index(nameof(Name), Name = "roles_name_unique", IsUnique = true)]
     public partial class Role : IdentityRole<long>, IEntity<long>
     {
-        [Column("_id")]
-        [StringLength(36)]
-        public string _Id { get; set; }
         [Column("is_active")]
         public byte IsActive { get; set; }
         [Column("created_by")]
         public long CreatedBy { get; set; }
         [Column("updated_by")]
         public long UpdatedBy { get; set; }
-        [Column("level")]
-        public int Level { get; set; }
+        
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
         [Column("updated_at")]

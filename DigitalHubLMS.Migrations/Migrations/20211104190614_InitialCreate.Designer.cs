@@ -10,14 +10,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalHubLMS.Migrations.Migrations
 {
     [DbContext(typeof(DigitalHubLMSContext))]
-    [Migration("20211022002920_InitialCreate")]
+    [Migration("20211104190614_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -73,7 +72,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("announcements");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.AnnouncementDatum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.AnnouncementData", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -222,11 +221,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
-
-                    b.Property<string>("VideoUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("video_url");
 
                     b.HasKey("Id");
 
@@ -389,13 +383,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("url");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
+
+                    b.Property<string>("_Url")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("url");
 
                     b.HasKey("Id");
 
@@ -406,7 +400,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("certificates");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassDatum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassData", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -470,7 +464,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("class_document");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassMedium", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassMedia", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -503,7 +497,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("class_media");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassMetum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassMeta", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -663,7 +657,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("class_quiz_takes");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassUserMetum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassUserMeta", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -851,7 +845,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("course_classes");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseDatum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseData", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -888,7 +882,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    b.Property<long>("CourseId")
+                    b.Property<long?>("CourseId")
                         .HasColumnType("bigint")
                         .HasColumnName("course_id");
 
@@ -954,7 +948,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    b.Property<long>("CourseId")
+                    b.Property<long?>("CourseId")
                         .HasColumnType("bigint")
                         .HasColumnName("course_id");
 
@@ -1028,7 +1022,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("course_image");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseMedium", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseMedia", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1061,7 +1055,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("course_media");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseMetum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseMeta", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1164,15 +1158,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("url");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
+
+                    b.Property<string>("_Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("url");
 
                     b.HasKey("Id");
 
@@ -1238,13 +1231,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("deleted_at");
 
-                    b.Property<string>("_Id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .HasColumnType("nchar(36)")
-                        .HasColumnName("_id")
-                        .IsFixedLength(true);
-
                     b.Property<byte>("IsActive")
                         .HasColumnType("tinyint")
                         .HasColumnName("is_active");
@@ -1268,10 +1254,17 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
+                    b.Property<string>("_Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nchar(36)")
+                        .HasColumnName("_id")
+                        .IsFixedLength(true);
+
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "_Id" }, "groups__id_unique")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[_id] IS NOT NULL");
 
                     b.HasIndex(new[] { "Name" }, "groups_name_unique")
                         .IsUnique();
@@ -1347,15 +1340,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("url");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
+
+                    b.Property<string>("_Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("url");
 
                     b.HasKey("Id");
 
@@ -1405,7 +1397,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("jobs");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Medium", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Media", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1485,15 +1477,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("url");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
+
+                    b.Property<string>("_Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("url");
 
                     b.HasKey("Id");
 
@@ -1505,8 +1496,8 @@ namespace DigitalHubLMS.Migrations.Migrations
 
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Migration", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
 
                     b.Property<int>("Batch")
@@ -1561,7 +1552,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("notes");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Option", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Options", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1576,7 +1567,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("Option1")
+                    b.Property<string>("Option")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("option");
 
@@ -1598,30 +1589,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.HasIndex(new[] { "QuestionId" }, "options_question_id_foreign");
 
                     b.ToTable("options");
-                });
-
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.PasswordReset", b =>
-                {
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasPrecision(0)
-                        .HasColumnType("datetime2(0)")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("email");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("token");
-
-                    b.HasIndex(new[] { "Email" }, "password_resets_email_index");
-
-                    b.ToTable("password_resets");
                 });
 
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ProfilePicture", b =>
@@ -1650,13 +1617,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("file_key");
 
-                    b.Property<string>("_Id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .HasColumnType("nchar(36)")
-                        .HasColumnName("_id")
-                        .IsFixedLength(true);
-
                     b.Property<string>("Mime")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -1678,25 +1638,31 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("url");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
+                    b.Property<string>("_Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("nchar(36)")
+                        .HasColumnName("_id")
+                        .IsFixedLength(true);
+
+                    b.Property<string>("_Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("url");
+
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "_Id" }, "profile_pictures__id_unique")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[_id] IS NOT NULL");
 
                     b.ToTable("profile_pictures");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Question", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Questions", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1711,7 +1677,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("int")
                         .HasColumnName("order");
 
-                    b.Property<string>("Question1")
+                    b.Property<string>("Question")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("question");
 
@@ -1827,12 +1793,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("tinyint")
                         .HasColumnName("is_active");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int")
-                        .HasColumnName("level");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
                         .HasColumnName("name");
@@ -1850,16 +1811,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("_Id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .HasColumnType("nchar(36)")
-                        .HasColumnName("_id")
-                        .IsFixedLength(true);
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
@@ -1867,16 +1818,9 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex(new[] { "_Id" }, "roles__id_unique")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "Level" }, "roles_level_unique")
-                        .IsUnique();
-
                     b.HasIndex(new[] { "Name" }, "roles_name_unique")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[name] IS NOT NULL");
 
                     b.ToTable("roles");
 
@@ -1885,71 +1829,61 @@ namespace DigitalHubLMS.Migrations.Migrations
                         {
                             Id = 1L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 162, DateTimeKind.Local).AddTicks(1490),
+                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 356, DateTimeKind.Local).AddTicks(1770),
                             CreatedBy = 1L,
                             IsActive = (byte)1,
-                            Level = 0,
                             Name = "system",
                             NormalizedName = "SYSTEM",
-                            UpdatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(600),
-                            UpdatedBy = 1L,
-                            _Id = "7be3e993-425f-4575-a642-8715ab1fd7c1"
+                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(2080),
+                            UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 2L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1300),
+                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3390),
                             CreatedBy = 1L,
                             IsActive = (byte)1,
-                            Level = 1,
                             Name = "admin",
                             NormalizedName = "ADMIN",
-                            UpdatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1310),
-                            UpdatedBy = 1L,
-                            _Id = "0c515869-132e-4f65-b078-e9646aaabfd1"
+                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3400),
+                            UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 3L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1320),
+                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3420),
                             CreatedBy = 1L,
                             IsActive = (byte)1,
-                            Level = 3,
                             Name = "supervisor",
                             NormalizedName = "SUPERVISOR",
-                            UpdatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1320),
-                            UpdatedBy = 1L,
-                            _Id = "aa9930ca-cb8e-492d-8058-63edff77c5e4"
+                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3430),
+                            UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 4L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1330),
+                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3440),
                             CreatedBy = 1L,
                             IsActive = (byte)1,
-                            Level = 4,
                             Name = "instructor",
                             NormalizedName = "INSTRUCTOR",
-                            UpdatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1330),
-                            UpdatedBy = 1L,
-                            _Id = "55ec9f9c-43bd-4a37-bf53-a0312d7b544f"
+                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3450),
+                            UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 5L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1340),
+                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3460),
                             CreatedBy = 1L,
                             IsActive = (byte)1,
-                            Level = 5,
                             Name = "employee",
                             NormalizedName = "EMPLOYEE",
-                            UpdatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1340),
-                            UpdatedBy = 1L,
-                            _Id = "dd3c0e71-e0cb-45a0-af9b-401090882087"
+                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3470),
+                            UpdatedBy = 1L
                         });
                 });
 
@@ -2121,15 +2055,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("url");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
+
+                    b.Property<string>("_Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("url");
 
                     b.HasKey("Id");
 
@@ -2201,7 +2134,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConfirmCode")
-                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nchar(36)")
                         .HasColumnName("confirm_code")
@@ -2231,7 +2163,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnName("display_name");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
                         .HasColumnName("email");
@@ -2324,22 +2255,19 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnName("updated_by");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
                         .HasColumnName("username");
 
-                    b.Property<string>("UserUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("user_url");
-
                     b.Property<string>("_Id")
-                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nchar(36)")
                         .HasColumnName("_id")
                         .IsFixedLength(true);
+
+                    b.Property<string>("_UserUrl")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("user_url");
 
                     b.HasKey("Id");
 
@@ -2352,13 +2280,16 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.HasIndex(new[] { "_Id" }, "users__id_unique")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[_id] IS NOT NULL");
 
                     b.HasIndex(new[] { "Email" }, "users_email_unique")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[email] IS NOT NULL");
 
                     b.HasIndex(new[] { "UserName" }, "users_username_unique")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[username] IS NOT NULL");
 
                     b.ToTable("users");
 
@@ -2369,7 +2300,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7",
                             ConfirmCode = "1234                                ",
-                            CreatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 172, DateTimeKind.Local).AddTicks(6410),
+                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 377, DateTimeKind.Local).AddTicks(3020),
                             CreatedBy = 1L,
                             DisplayName = "Abdalla Salah",
                             Email = "ahmed.kamal@mped.gov.eg",
@@ -2382,12 +2313,12 @@ namespace DigitalHubLMS.Migrations.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "AHMED.KAMAL@MPED.GOV.EG",
                             NormalizedUserName = "ADMIN",
-                            PasswordChangedAt = new DateTime(2021, 10, 22, 2, 29, 20, 172, DateTimeKind.Local).AddTicks(2930),
+                            PasswordChangedAt = new DateTime(2021, 11, 4, 21, 6, 11, 376, DateTimeKind.Local).AddTicks(5620),
                             PasswordHash = "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "27c0b512-9f7e-4ce7-bcff-6563379cbe20",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2021, 10, 22, 2, 29, 20, 172, DateTimeKind.Local).AddTicks(7020),
+                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 377, DateTimeKind.Local).AddTicks(4170),
                             UpdatedBy = 1L,
                             UserName = "admin",
                             _Id = "edfeb122-3656-483b-b477-17c827f44cd4"
@@ -2496,12 +2427,10 @@ namespace DigitalHubLMS.Migrations.Migrations
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.UserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -2632,12 +2561,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -2647,7 +2574,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("user_tokens");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.AnnouncementDatum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.AnnouncementData", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Announcement", "Announcement")
                         .WithMany("AnnouncementData")
@@ -2745,10 +2672,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassDatum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassData", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.CourseClass", "CourseClass")
-                        .WithMany("ClassData")
+                        .WithMany("ClassDatum")
                         .HasForeignKey("CourseClassId")
                         .HasConstraintName("class_data_course_class_id_foreign")
                         .IsRequired();
@@ -2775,7 +2702,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("Document");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassMedium", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassMedia", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.CourseClass", "CourseClass")
                         .WithMany("ClassMedia")
@@ -2783,7 +2710,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasConstraintName("class_media_course_class_id_foreign")
                         .IsRequired();
 
-                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Medium", "Media")
+                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Media", "Media")
                         .WithMany("ClassMedia")
                         .HasForeignKey("MediaId")
                         .HasConstraintName("class_media_media_id_foreign")
@@ -2794,7 +2721,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("Media");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassMetum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassMeta", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.CourseClass", "CourseClass")
                         .WithMany("ClassMeta")
@@ -2814,9 +2741,9 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Quiz", "Quiz")
-                        .WithMany("ClassQuizzes")
+                        .WithMany()
                         .HasForeignKey("QuizId")
-                        .HasConstraintName("class_quiz_quiz_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CourseClass");
@@ -2832,13 +2759,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasConstraintName("class_quiz_answers_class_quiz_take_id_foreign")
                         .IsRequired();
 
-                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Option", "Option")
+                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Options", "Option")
                         .WithMany("ClassQuizAnswers")
                         .HasForeignKey("OptionId")
                         .HasConstraintName("class_quiz_answers_option_id_foreign")
                         .IsRequired();
 
-                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Question", "Question")
+                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Questions", "Question")
                         .WithMany("ClassQuizAnswers")
                         .HasForeignKey("QuestionId")
                         .HasConstraintName("class_quiz_answers_question_id_foreign")
@@ -2870,7 +2797,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassUserMetum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.ClassUserMeta", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.CourseClass", "CourseClass")
                         .WithMany("ClassUserMeta")
@@ -2921,27 +2848,19 @@ namespace DigitalHubLMS.Migrations.Migrations
 
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseClass", b =>
                 {
-                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
-                        .WithMany("CourseClasses")
-                        .HasForeignKey("CourseId")
-                        .HasConstraintName("course_classes_course_id_foreign")
-                        .IsRequired();
-
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Section", "Section")
                         .WithMany("CourseClasses")
                         .HasForeignKey("SectionId")
                         .HasConstraintName("course_classes_section_id_foreign")
                         .IsRequired();
 
-                    b.Navigation("Course");
-
                     b.Navigation("Section");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseDatum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseData", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
-                        .WithMany("CourseData")
+                        .WithMany("CourseDatum")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("course_data_course_id_foreign")
                         .IsRequired();
@@ -2954,8 +2873,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
                         .WithMany("CourseDepartments")
                         .HasForeignKey("CourseId")
-                        .HasConstraintName("course_department_course_id_foreign")
-                        .IsRequired();
+                        .HasConstraintName("course_department_course_id_foreign");
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Group", "Group")
                         .WithMany("CourseDepartments")
@@ -2991,8 +2909,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
                         .WithMany("CourseEnrols")
                         .HasForeignKey("CourseId")
-                        .HasConstraintName("course_enrols_course_id_foreign")
-                        .IsRequired();
+                        .HasConstraintName("course_enrols_course_id_foreign");
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("CourseEnrols")
@@ -3023,7 +2940,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("Image");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseMedium", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseMedia", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
                         .WithMany("CourseMedia")
@@ -3031,7 +2948,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasConstraintName("course_media_course_id_foreign")
                         .IsRequired();
 
-                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Medium", "Media")
+                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Media", "Media")
                         .WithMany("CourseMedia")
                         .HasForeignKey("MediaId")
                         .HasConstraintName("course_media_media_id_foreign");
@@ -3041,7 +2958,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("Media");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseMetum", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseMeta", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
                         .WithMany("CourseMeta")
@@ -3071,9 +2988,9 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Option", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Options", b =>
                 {
-                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Question", "Question")
+                    b.HasOne("DigitalHubLMS.Core.Data.Entities.Questions", "Question")
                         .WithMany("Options")
                         .HasForeignKey("QuestionId")
                         .HasConstraintName("options_question_id_foreign")
@@ -3082,7 +2999,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Question", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Questions", b =>
                 {
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Quiz", "Quiz")
                         .WithMany("Questions")
@@ -3110,13 +3027,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Role", b =>
-                {
-                    b.HasOne("DigitalHubLMS.Core.Data.Entities.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.RoleClaim", b =>
@@ -3271,9 +3181,7 @@ namespace DigitalHubLMS.Migrations.Migrations
 
                     b.Navigation("CourseCategories");
 
-                    b.Navigation("CourseClasses");
-
-                    b.Navigation("CourseData");
+                    b.Navigation("CourseDatum");
 
                     b.Navigation("CourseDepartments");
 
@@ -3294,7 +3202,7 @@ namespace DigitalHubLMS.Migrations.Migrations
 
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.CourseClass", b =>
                 {
-                    b.Navigation("ClassData");
+                    b.Navigation("ClassDatum");
 
                     b.Navigation("ClassDocuments");
 
@@ -3328,19 +3236,19 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("CourseImages");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Medium", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Media", b =>
                 {
                     b.Navigation("ClassMedia");
 
                     b.Navigation("CourseMedia");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Option", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Options", b =>
                 {
                     b.Navigation("ClassQuizAnswers");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Question", b =>
+            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Questions", b =>
                 {
                     b.Navigation("ClassQuizAnswers");
 
@@ -3349,8 +3257,6 @@ namespace DigitalHubLMS.Migrations.Migrations
 
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Quiz", b =>
                 {
-                    b.Navigation("ClassQuizzes");
-
                     b.Navigation("Questions");
                 });
 
@@ -3390,8 +3296,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.Navigation("Notes");
 
                     b.Navigation("Ratings");
-
-                    b.Navigation("Roles");
 
                     b.Navigation("UserGroups");
 

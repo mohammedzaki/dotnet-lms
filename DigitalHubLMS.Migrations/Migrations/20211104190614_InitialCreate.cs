@@ -53,7 +53,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     uid = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     size = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     file_key = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -92,7 +92,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
-                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
+                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     is_ldap = table.Column<byte>(type: "tinyint", nullable: false),
                     is_active = table.Column<byte>(type: "tinyint", nullable: false),
@@ -114,7 +114,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     uid = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     size = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     file_key = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -156,7 +156,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     uid = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     size = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     file_key = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -180,7 +180,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                 name: "migrations",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false),
+                    id = table.Column<long>(type: "bigint", nullable: false),
                     migration = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     batch = table.Column<int>(type: "int", nullable: false)
                 },
@@ -190,27 +190,15 @@ namespace DigitalHubLMS.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "password_resets",
-                columns: table => new
-                {
-                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    token = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
-                },
-                constraints: table =>
-                {
-                });
-
-            migrationBuilder.CreateTable(
                 name: "profile_pictures",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
-                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
+                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     file_key = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     created_by = table.Column<long>(type: "bigint", nullable: false),
                     updated_by = table.Column<long>(type: "bigint", nullable: false),
@@ -235,6 +223,27 @@ namespace DigitalHubLMS.Migrations.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_quizzes", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "roles",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    is_active = table.Column<byte>(type: "tinyint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: false),
+                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_roles", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -273,7 +282,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     uid = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     created_by = table.Column<long>(type: "bigint", nullable: false),
@@ -310,20 +319,18 @@ namespace DigitalHubLMS.Migrations.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
+                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     api_key = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
-                    username = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     is_ldap = table.Column<byte>(type: "tinyint", nullable: false),
                     first_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     last_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     is_banned = table.Column<byte>(type: "tinyint", nullable: false),
                     is_verified = table.Column<byte>(type: "tinyint", nullable: false),
-                    confirm_code = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
+                    confirm_code = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     confirmed_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     password_changed_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     display_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    user_url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    user_url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     created_by = table.Column<long>(type: "bigint", nullable: false),
                     updated_by = table.Column<long>(type: "bigint", nullable: false),
                     remember_token = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -333,7 +340,9 @@ namespace DigitalHubLMS.Migrations.Migrations
                     otp = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     otp_created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     profile_picture_id = table.Column<long>(type: "bigint", nullable: true),
+                    username = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -395,6 +404,27 @@ namespace DigitalHubLMS.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "role_claims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<long>(type: "bigint", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_role_claims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_role_claims_roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "announcement_users",
                 columns: table => new
                 {
@@ -438,7 +468,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                     created_by = table.Column<int>(type: "int", nullable: true),
                     instructor_id = table.Column<long>(type: "bigint", nullable: false),
                     thumbnail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    video_url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     is_top_course = table.Column<int>(type: "int", nullable: true),
                     is_admin = table.Column<int>(type: "int", nullable: true),
                     published = table.Column<byte>(type: "tinyint", nullable: true),
@@ -481,36 +510,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                     table.ForeignKey(
                         name: "courses_instructor_id_foreign",
                         column: x => x.instructor_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "roles",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: false),
-                    name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    is_active = table.Column<byte>(type: "tinyint", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
-                    level = table.Column<int>(type: "int", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    UserId = table.Column<long>(type: "bigint", nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_roles", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_roles_users_UserId",
-                        column: x => x.UserId,
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
@@ -592,8 +591,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                 name: "user_logins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -606,6 +605,34 @@ namespace DigitalHubLMS.Migrations.Migrations
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_role",
+                columns: table => new
+                {
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    role_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: false),
+                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_role", x => new { x.user_id, x.role_id });
+                    table.ForeignKey(
+                        name: "user_role_role_id_foreign",
+                        column: x => x.role_id,
+                        principalTable: "roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "user_role_user_id_foreign",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -641,8 +668,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<long>(type: "bigint", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -818,7 +845,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
                     group_id = table.Column<long>(type: "bigint", nullable: false),
-                    course_id = table.Column<long>(type: "bigint", nullable: false),
+                    course_id = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
                 },
@@ -871,7 +898,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
-                    course_id = table.Column<long>(type: "bigint", nullable: false),
+                    course_id = table.Column<long>(type: "bigint", nullable: true),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     current_class = table.Column<long>(type: "bigint", nullable: true),
                     progress = table.Column<long>(type: "bigint", nullable: true),
@@ -1025,55 +1052,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "role_claims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<long>(type: "bigint", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_role_claims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_role_claims_roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "roles",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "user_role",
-                columns: table => new
-                {
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    role_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_user_role", x => new { x.user_id, x.role_id });
-                    table.ForeignKey(
-                        name: "user_role_role_id_foreign",
-                        column: x => x.role_id,
-                        principalTable: "roles",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "user_role_user_id_foreign",
-                        column: x => x.user_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "course_classes",
                 columns: table => new
                 {
@@ -1090,12 +1068,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_course_classes", x => x.id);
-                    table.ForeignKey(
-                        name: "course_classes_course_id_foreign",
-                        column: x => x.course_id,
-                        principalTable: "courses",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "course_classes_section_id_foreign",
                         column: x => x.section_id,
@@ -1221,11 +1193,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "class_quiz_quiz_id_foreign",
+                        name: "FK_class_quiz_quizzes_quiz_id",
                         column: x => x.quiz_id,
                         principalTable: "quizzes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1352,20 +1324,20 @@ namespace DigitalHubLMS.Migrations.Migrations
 
             migrationBuilder.InsertData(
                 table: "roles",
-                columns: new[] { "id", "ConcurrencyStamp", "created_at", "created_by", "deleted_at", "is_active", "level", "name", "NormalizedName", "updated_at", "updated_by", "UserId", "_id" },
+                columns: new[] { "id", "ConcurrencyStamp", "created_at", "created_by", "deleted_at", "is_active", "name", "NormalizedName", "updated_at", "updated_by" },
                 values: new object[,]
                 {
-                    { 1L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 10, 22, 2, 29, 20, 162, DateTimeKind.Local).AddTicks(1490), 1L, null, (byte)1, 0, "system", "SYSTEM", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(600), 1L, null, "7be3e993-425f-4575-a642-8715ab1fd7c1" },
-                    { 2L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1300), 1L, null, (byte)1, 1, "admin", "ADMIN", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1310), 1L, null, "0c515869-132e-4f65-b078-e9646aaabfd1" },
-                    { 3L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1320), 1L, null, (byte)1, 3, "supervisor", "SUPERVISOR", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1320), 1L, null, "aa9930ca-cb8e-492d-8058-63edff77c5e4" },
-                    { 4L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1330), 1L, null, (byte)1, 4, "instructor", "INSTRUCTOR", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1330), 1L, null, "55ec9f9c-43bd-4a37-bf53-a0312d7b544f" },
-                    { 5L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1340), 1L, null, (byte)1, 5, "employee", "EMPLOYEE", new DateTime(2021, 10, 22, 2, 29, 20, 169, DateTimeKind.Local).AddTicks(1340), 1L, null, "dd3c0e71-e0cb-45a0-af9b-401090882087" }
+                    { 1L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 356, DateTimeKind.Local).AddTicks(1770), 1L, null, (byte)1, "system", "SYSTEM", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(2080), 1L },
+                    { 2L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3390), 1L, null, (byte)1, "admin", "ADMIN", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3400), 1L },
+                    { 3L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3420), 1L, null, (byte)1, "supervisor", "SUPERVISOR", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3430), 1L },
+                    { 4L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3440), 1L, null, (byte)1, "instructor", "INSTRUCTOR", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3450), 1L },
+                    { 5L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3460), 1L, null, (byte)1, "employee", "EMPLOYEE", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3470), 1L }
                 });
 
             migrationBuilder.InsertData(
                 table: "users",
-                columns: new[] { "id", "AccessFailedCount", "api_key", "ConcurrencyStamp", "confirm_code", "confirmed_at", "created_at", "created_by", "deleted_at", "display_name", "email", "EmailConfirmed", "first_name", "is_banned", "is_ldap", "is_verified", "last_name", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "otp", "otp_created_at", "password_changed_at", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "profile_picture_id", "remember_token", "SecurityStamp", "TwoFactorEnabled", "updated_at", "updated_by", "username", "user_url", "_id" },
-                values: new object[] { 1L, 0, null, "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7", "1234                                ", null, new DateTime(2021, 10, 22, 2, 29, 20, 172, DateTimeKind.Local).AddTicks(6410), 1L, null, "Abdalla Salah", "ahmed.kamal@mped.gov.eg", true, "Abe", (byte)0, (byte)0, (byte)0, "Sal", false, null, "AHMED.KAMAL@MPED.GOV.EG", "ADMIN", null, null, new DateTime(2021, 10, 22, 2, 29, 20, 172, DateTimeKind.Local).AddTicks(2930), "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", null, false, null, null, "27c0b512-9f7e-4ce7-bcff-6563379cbe20", false, new DateTime(2021, 10, 22, 2, 29, 20, 172, DateTimeKind.Local).AddTicks(7020), 1L, "admin", null, "edfeb122-3656-483b-b477-17c827f44cd4" });
+                columns: new[] { "id", "AccessFailedCount", "api_key", "ConcurrencyStamp", "confirm_code", "confirmed_at", "created_at", "created_by", "deleted_at", "display_name", "email", "EmailConfirmed", "first_name", "is_banned", "is_ldap", "is_verified", "last_name", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "otp", "otp_created_at", "password_changed_at", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "profile_picture_id", "remember_token", "SecurityStamp", "TwoFactorEnabled", "updated_at", "updated_by", "username", "_id", "user_url" },
+                values: new object[] { 1L, 0, null, "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7", "1234                                ", null, new DateTime(2021, 11, 4, 21, 6, 11, 377, DateTimeKind.Local).AddTicks(3020), 1L, null, "Abdalla Salah", "ahmed.kamal@mped.gov.eg", true, "Abe", (byte)0, (byte)0, (byte)0, "Sal", false, null, "AHMED.KAMAL@MPED.GOV.EG", "ADMIN", null, null, new DateTime(2021, 11, 4, 21, 6, 11, 376, DateTimeKind.Local).AddTicks(5620), "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", null, false, null, null, "27c0b512-9f7e-4ce7-bcff-6563379cbe20", false, new DateTime(2021, 11, 4, 21, 6, 11, 377, DateTimeKind.Local).AddTicks(4170), 1L, "admin", "edfeb122-3656-483b-b477-17c827f44cd4", null });
 
             migrationBuilder.InsertData(
                 table: "user_role",
@@ -1599,7 +1571,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                 name: "groups__id_unique",
                 table: "groups",
                 column: "_id",
-                unique: true);
+                unique: true,
+                filter: "[_id] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "groups_name_unique",
@@ -1640,15 +1613,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                 column: "question_id");
 
             migrationBuilder.CreateIndex(
-                name: "password_resets_email_index",
-                table: "password_resets",
-                column: "email");
-
-            migrationBuilder.CreateIndex(
                 name: "profile_pictures__id_unique",
                 table: "profile_pictures",
                 column: "_id",
-                unique: true);
+                unique: true,
+                filter: "[_id] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "questions_quiz_id_foreign",
@@ -1671,11 +1640,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_roles_UserId",
-                table: "roles",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "roles",
                 column: "NormalizedName",
@@ -1683,22 +1647,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "roles__id_unique",
-                table: "roles",
-                column: "_id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "roles_level_unique",
-                table: "roles",
-                column: "level",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "roles_name_unique",
                 table: "roles",
                 column: "name",
-                unique: true);
+                unique: true,
+                filter: "[name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "sections_course_id_foreign",
@@ -1767,19 +1720,22 @@ namespace DigitalHubLMS.Migrations.Migrations
                 name: "users__id_unique",
                 table: "users",
                 column: "_id",
-                unique: true);
+                unique: true,
+                filter: "[_id] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "users_email_unique",
                 table: "users",
                 column: "email",
-                unique: true);
+                unique: true,
+                filter: "[email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "users_username_unique",
                 table: "users",
                 column: "username",
-                unique: true);
+                unique: true,
+                filter: "[username] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1852,9 +1808,6 @@ namespace DigitalHubLMS.Migrations.Migrations
 
             migrationBuilder.DropTable(
                 name: "notes");
-
-            migrationBuilder.DropTable(
-                name: "password_resets");
 
             migrationBuilder.DropTable(
                 name: "profile_pictures");

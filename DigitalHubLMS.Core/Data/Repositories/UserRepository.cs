@@ -58,7 +58,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var roles = _dbContext.Roles
                     .Where(item => userRoles.Any(n => n == item.Name))
-                    .Select(e => new Role { Id = e.Id, _Id = e._Id, Name = e.Name, IsActive = e.IsActive, Level = e.Level, ConcurrencyStamp = null }).ToList();
+                    .Select(e => new Role { Id = e.Id, Name = e.Name, IsActive = e.IsActive, ConcurrencyStamp = null }).ToList();
                 user.Username = user.UserName;
                 user.Roles = roles;
                 user.PasswordHash = null;
