@@ -17,25 +17,18 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public override async Task<Quiz> FindByIdAsync(long id)
         {
-            try
-            {
-                var quiz = await _dbContext.Quizzes
-                    .Include(e => e.Questions)
-                    .ThenInclude(e => e.Options)
-                    .Where(e => e.Id == id).FirstOrDefaultAsync();
+            var quiz = await _dbContext.Quizzes
+                .Include(e => e.Questions)
+                .ThenInclude(e => e.Options)
+                .Where(e => e.Id == id).FirstOrDefaultAsync();
 
-                if (quiz != null)
-                {
-                    return quiz;
-                }
-                else
-                {
-                    throw new KeyNotFoundException($"quiz with id: {id} not exist!");
-                }
-            }
-            catch (Exception ex)
+            if (quiz != null)
             {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
+                return quiz;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"quiz with id: {id} not exist!");
             }
         }
     }

@@ -17,21 +17,15 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public override async Task<List<Category>> GetAll()
         {
-            try
+            var list = await _dbContext.Categories
+                .Include(e => e.CourseCategories)
+                .ToListAsync();
+            list.ForEach(e =>
             {
-                var list = await _dbContext.Categories
-                    .Include(e => e.CourseCategories)
-                    .ToListAsync();
-                list.ForEach(e => {
-                    e.CoursesCount = e.CourseCategories.Count;
-                    e.CourseCategories = null;
-                });
-                return list;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
-            }
+                e.CoursesCount = e.CourseCategories.Count;
+                e.CourseCategories = null;
+            });
+            return list;
         }
     }
 }

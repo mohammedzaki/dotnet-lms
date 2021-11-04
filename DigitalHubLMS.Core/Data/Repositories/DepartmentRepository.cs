@@ -17,17 +17,10 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public override async Task<List<Group>> GetAll()
         {
-            try
-            {
-                return await _dbContext.Groups
-                    .Include(e => e.UserGroups)
-                    .Select(g => new Group { UsersCount = g.UserGroups.Count, Id = g.Id, _Id = g._Id, Name = g.Name, IsLdap = g.IsLdap, IsActive = g.IsActive})
-                    .ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
-            }
+            return await _dbContext.Groups
+                .Include(e => e.UserGroups)
+                .Select(g => new Group { UsersCount = g.UserGroups.Count, Id = g.Id, _Id = g._Id, Name = g.Name, IsLdap = g.IsLdap, IsActive = g.IsActive })
+                .ToListAsync();
         }
     }
 }

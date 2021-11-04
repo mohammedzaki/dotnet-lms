@@ -46,12 +46,12 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     .Include(e => e.ClassQuizAnswers)
                     .Where(e => e.ClassQuizId == quiz.Id && e.UserId == userId).FirstOrDefaultAsync();
                 if (classQuizTake != null) {
-                    //        $classQuizMatch = ['quiz_id' => $quiz->id, 'course_class_id' => $courseClassId];
-                    //        $classQuiz      = ClassQuiz::where($classQuizMatch)->first();
                     var classQuiz = courseClass.ClassQuizzes.First();
+                    var newId = _dbContext.ClassQuizTakes.Max(e => e.Id) + 1;
                     var newClassQuizTake = new ClassQuizTake {
+                        Id = newId,
                         ClassQuizId = classQuiz.Id,
-                        //Score = quiz.Questions.Count * 10,
+                        Score = (byte)(quiz.Questions.Count * 10),
                         UserId = userId,
                         Attempt = 0
                     };

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -41,34 +42,56 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+        //no
         [ForeignKey(nameof(InstructorId))]
         [InverseProperty(nameof(User.Courses))]
         public virtual User Instructor { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(BundleCourse.Course))]
         public virtual ICollection<BundleCourse> BundleCourses { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.Certificate.Course))]
         public virtual ICollection<Certificate> Certificates { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(CourseCategory.Course))]
         public virtual ICollection<CourseCategory> CourseCategories { get; set; }
 
-
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.CourseData.Course))]
         public virtual ICollection<CourseData> CourseDatum { get; set; }
 
+        [JsonIgnore]
         [InverseProperty(nameof(CourseDepartment.Course))]
         public virtual ICollection<CourseDepartment> CourseDepartments { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(CourseDocument.Course))]
         public virtual ICollection<CourseDocument> CourseDocuments { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(CourseEnrol.Course))]
         public virtual ICollection<CourseEnrol> CourseEnrols { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(CourseImage.Course))]
         public virtual ICollection<CourseImage> CourseImages { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.CourseMedia.Course))]
         public virtual ICollection<CourseMedia> CourseMedia { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.CourseMeta.Course))]
         public virtual ICollection<CourseMeta> CourseMeta { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Rating.Course))]
         public virtual ICollection<Rating> Ratings { get; set; }
+
+        //no
         [InverseProperty(nameof(Section.Course))]
         public virtual ICollection<Section> Sections { get; set; }
 

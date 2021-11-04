@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 using DigitalHubLMS.Core.Services;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -67,8 +67,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.ClassMedia.Media))]
         public virtual ICollection<ClassMedia> ClassMedia { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.CourseMedia.Media))]
         public virtual ICollection<CourseMedia> CourseMedia { get; set; }
     }

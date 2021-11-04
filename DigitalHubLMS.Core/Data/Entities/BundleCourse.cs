@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -22,9 +23,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+        [JsonIgnore]
         [ForeignKey(nameof(BundleId))]
         [InverseProperty("BundleCourses")]
         public virtual Bundle Bundle { get; set; }
+
+        [JsonIgnore]
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("BundleCourses")]
         public virtual Course Course { get; set; }

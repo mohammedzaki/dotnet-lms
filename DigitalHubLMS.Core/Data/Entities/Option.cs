@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -25,9 +26,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+        [JsonIgnore]
         [ForeignKey(nameof(QuestionId))]
         [InverseProperty("Options")]
         public virtual Questions Question { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(ClassQuizAnswer.Option))]
         public virtual ICollection<ClassQuizAnswer> ClassQuizAnswers { get; set; }
     }

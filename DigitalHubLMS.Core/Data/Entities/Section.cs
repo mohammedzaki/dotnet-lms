@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -27,9 +28,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+        [JsonIgnore]
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("Sections")]
         public virtual Course Course { get; set; }
+        
+        //no
         [InverseProperty(nameof(CourseClass.Section))]
         public virtual ICollection<CourseClass> CourseClasses { get; set; }
     }

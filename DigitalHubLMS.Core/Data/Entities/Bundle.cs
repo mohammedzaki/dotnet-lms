@@ -59,11 +59,16 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
+        [JsonIgnore]
         [ForeignKey(nameof(InstructorId))]
         [InverseProperty(nameof(User.Bundles))]
         public virtual User Instructor { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(BundleCourse.Bundle))]
         public virtual ICollection<BundleCourse> BundleCourses { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(BundleEnrol.Bundle))]
         public virtual ICollection<BundleEnrol> BundleEnrols { get; set; }
     }

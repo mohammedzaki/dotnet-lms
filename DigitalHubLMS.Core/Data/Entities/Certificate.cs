@@ -39,9 +39,13 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+
+        [JsonIgnore]
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("Certificates")]
         public virtual Course Course { get; set; }
+
+        [JsonIgnore]
         [ForeignKey(nameof(UserId))]
         [InverseProperty("Certificates")]
         public virtual User User { get; set; }

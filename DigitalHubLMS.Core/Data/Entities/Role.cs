@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -34,6 +35,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
+        [JsonIgnore]
         [InverseProperty(nameof(UserRole.Role))]
         public virtual ICollection<UserRole> UserRoles { get; set; }
     }

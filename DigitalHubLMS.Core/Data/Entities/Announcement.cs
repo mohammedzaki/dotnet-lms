@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -32,8 +33,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.AnnouncementData.Announcement))]
         public virtual ICollection<AnnouncementData> AnnouncementData { get; set; }
+        [JsonIgnore]
         [InverseProperty(nameof(AnnouncementUser.Announcement))]
         public virtual ICollection<AnnouncementUser> AnnouncementUsers { get; set; }
     }

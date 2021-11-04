@@ -72,32 +72,59 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("profile_picture_id")]
         public long? ProfilePictureId { get; set; }
 
+        [JsonIgnore]
         [InverseProperty(nameof(AnnouncementUser.User))]
         public virtual ICollection<AnnouncementUser> AnnouncementUsers { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(BundleEnrol.User))]
         public virtual ICollection<BundleEnrol> BundleEnrols { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Bundle.Instructor))]
         public virtual ICollection<Bundle> Bundles { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Certificate.User))]
         public virtual ICollection<Certificate> Certificates { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(ClassQuizTake.User))]
         public virtual ICollection<ClassQuizTake> ClassQuizTakes { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.ClassUserMeta.User))]
         public virtual ICollection<ClassUserMeta> ClassUserMeta { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(CourseEnrol.User))]
         public virtual ICollection<CourseEnrol> CourseEnrols { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Course.Instructor))]
         public virtual ICollection<Course> Courses { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Note.User))]
         public virtual ICollection<Note> Notes { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Rating.User))]
         public virtual ICollection<Rating> Ratings { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(UserGroup.User))]
         public virtual ICollection<UserGroup> UserGroups { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(UserInfo.User))]
         public virtual ICollection<UserInfo> UserInfos { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(UserRole.User))]
         public virtual ICollection<UserRole> UserRoles { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(UserSecurityQuestion.User))]
         public virtual ICollection<UserSecurityQuestion> UserSecurityQuestions { get; set; }
 

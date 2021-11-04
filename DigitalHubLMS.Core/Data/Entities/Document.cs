@@ -57,8 +57,11 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
+        [JsonIgnore]
         [InverseProperty(nameof(ClassDocument.Document))]
         public virtual ICollection<ClassDocument> ClassDocuments { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(CourseDocument.Document))]
         public virtual ICollection<CourseDocument> CourseDocuments { get; set; }
     }

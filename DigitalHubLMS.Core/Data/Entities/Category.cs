@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -37,6 +38,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [NotMapped]
         public int CoursesCount { get; set; }
 
+        [JsonIgnore]
         [InverseProperty(nameof(CourseCategory.Category))]
         public virtual ICollection<CourseCategory> CourseCategories { get; set; }
     }

@@ -51,29 +51,22 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public async Task<User> FindByUsernamePasswordAsync(string username, string password)
         {
-            try
+            var user = await _userManager.FindByNameAsync(username);
+            var valid = await _signInManager.UserManager.CheckPasswordAsync(user, password);
+            if (valid)
             {
-                var user = await _userManager.FindByNameAsync(username);
-                var valid = await _signInManager.UserManager.CheckPasswordAsync(user, password);
-                if (valid)
-                {
-                    var userRoles = await _userManager.GetRolesAsync(user);
-                    var roles = _dbContext.Roles
-                        .Where(item => userRoles.Any(n => n == item.Name))
-                        .Select(e => new Role { Id = e.Id, _Id = e._Id, Name = e.Name, IsActive = e.IsActive, Level = e.Level, ConcurrencyStamp = null }).ToList();
-                    user.Username = user.UserName;
-                    user.Roles = roles;
-                    user.PasswordHash = null;
-                    return user;
-                }
-                else
-                {
-                    return null;
-                }
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var roles = _dbContext.Roles
+                    .Where(item => userRoles.Any(n => n == item.Name))
+                    .Select(e => new Role { Id = e.Id, _Id = e._Id, Name = e.Name, IsActive = e.IsActive, Level = e.Level, ConcurrencyStamp = null }).ToList();
+                user.Username = user.UserName;
+                user.Roles = roles;
+                user.PasswordHash = null;
+                return user;
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
+                return null;
             }
         }
 

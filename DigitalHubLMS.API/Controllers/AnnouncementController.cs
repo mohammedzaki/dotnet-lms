@@ -20,7 +20,8 @@ namespace DigitalHubLMS.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public virtual async Task<ActionResult<List<AnnouncementUser>>> Get() => await _repository.GetUserAnnouncements(this.User.GetLoggedInUserId<long>());
+        public virtual async Task<ActionResult<List<AnnouncementUser>>> Get()
+            => await _repository.GetUserAnnouncements(this.User.GetLoggedInUserId<long>());
 
 
         // GET: [ControllerName]

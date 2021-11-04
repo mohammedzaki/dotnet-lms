@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -26,9 +27,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("review")]
         public string Review { get; set; }
 
+        [JsonIgnore]
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("Ratings")]
         public virtual Course Course { get; set; }
+
+        [JsonIgnore]
         [ForeignKey(nameof(UserId))]
         [InverseProperty("Ratings")]
         public virtual User User { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -33,24 +34,36 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
-        // ClassMeta, e.ClassMedia, e.ClassDatum
-
-        
+        [JsonIgnore]
         [ForeignKey(nameof(SectionId))]
         [InverseProperty("CourseClasses")]
         public virtual Section Section { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.ClassData.CourseClass))]
         public virtual ICollection<ClassData> ClassDatum { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(ClassDocument.CourseClass))]
         public virtual ICollection<ClassDocument> ClassDocuments { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.ClassMedia.CourseClass))]
         public virtual ICollection<ClassMedia> ClassMedia { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.ClassMeta.CourseClass))]
         public virtual ICollection<ClassMeta> ClassMeta { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(ClassQuiz.CourseClass))]
         public virtual ICollection<ClassQuiz> ClassQuizzes { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Entities.ClassUserMeta.CourseClass))]
         public virtual ICollection<ClassUserMeta> ClassUserMeta { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(Note.CourseClass))]
         public virtual ICollection<Note> Notes { get; set; }
 

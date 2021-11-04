@@ -44,6 +44,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 cert.Title = cert.Course.Title;
                 cert.Description = cert.Course.Description;
                 cert.Thumbnail = cert.Course.Thumbnail;
+                cert.Course = null;
             });
             return certificates;
         }

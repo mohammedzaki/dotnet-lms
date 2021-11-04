@@ -83,7 +83,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     }
                     else
                     {
-                        courseClass.Media = (ICollection<Media>)courseClass.ClassMedia.Select(e => { return e.Media; }).ToList();
+                        courseClass.Media = courseClass.ClassMedia.Select(e => { return e.Media; }).ToList();
                         courseClass.ClassData = courseClass.ClassDatum.FirstOrDefault()?.Data;
                     }
                 });
@@ -94,8 +94,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
         public async Task<List<CourseEnrol>> GetEnrolledCourses(long userId)
         {
             var courseEnrols = await _dbContext.CourseEnrols
-                .Include(e => e.Course)
-                .ThenInclude(e => e.CourseMeta)
+                //.Include(e => e.Course)
+                //.ThenInclude(e => e.CourseMeta)
                 .Where(e => e.UserId == userId && e.Type == "course").ToListAsync();
             courseEnrols.ForEach(en =>
             {
@@ -123,7 +123,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 en.Lectures = classes.Count - quiz;
                 en.Quizes = quiz;
                 en.Duration = duration;
-                var course = en.Course;
+                //var course = en.Course;
                 //var coursemeta = $course->course_meta;
                 //foreach (var m in en.Course.CourseMeta)
                 //{
@@ -142,7 +142,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 .ThenInclude(e => e.CourseClasses)
                 .Include(e => e.CourseCategories)
                 .ThenInclude(e => e.Category)
-                .Include(e => e.CourseMeta)
+                //.Include(e => e.CourseMeta)
                 .Include(e => e.Instructor)
                 .ThenInclude(e => e.UserInfos)
                 .Where(e => e.Slug == courseSlug).FirstOrDefaultAsync();
@@ -152,7 +152,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
                 if (enroll != null)
                 {
-                    //$course->description     = html_entity_decode($course->description);
                     var insInfo = course.Instructor.UserInfos.FirstOrDefault();
                     course.Instructor.Title = insInfo?.Title;
                     course.Instructor.Description = insInfo?.Description;
@@ -197,7 +196,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 .ThenInclude(e => e.CourseClasses)
                 .Include(e => e.CourseCategories)
                 .ThenInclude(e => e.Category)
-                .Include(e => e.CourseMeta)
+                //.Include(e => e.CourseMeta)
                 .Include(e => e.Instructor)
                 .ThenInclude(e => e.UserInfos)
                 .Where(e => e.Slug == courseSlug).FirstOrDefaultAsync();
@@ -206,7 +205,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 var enroll = await _dbContext.CourseEnrols.Where(e => e.UserId == userId && e.CourseId == course.Id).FirstOrDefaultAsync();
                 if (enroll != null)
                 {
-                    //$course->description     = html_entity_decode($course->description);
                     var insInfo = course.Instructor.UserInfos.FirstOrDefault();
                     course.Instructor.Title = insInfo?.Title;
                     course.Instructor.Description = insInfo?.Description;

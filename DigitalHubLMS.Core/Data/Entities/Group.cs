@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 #nullable disable
 
@@ -35,12 +36,15 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
-        [NotMapped]
-        public int UsersCount { get; set; }
-
+        [JsonIgnore]
         [InverseProperty(nameof(CourseDepartment.Group))]
         public virtual ICollection<CourseDepartment> CourseDepartments { get; set; }
+
+        [JsonIgnore]
         [InverseProperty(nameof(UserGroup.Group))]
         public virtual ICollection<UserGroup> UserGroups { get; set; }
+
+        [NotMapped]
+        public int UsersCount { get; set; }
     }
 }
