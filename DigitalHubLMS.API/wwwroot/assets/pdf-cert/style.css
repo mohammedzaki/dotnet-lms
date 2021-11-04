@@ -1,0 +1,49 @@
+html {
+    width: 100%;
+}
+
+body {
+    width: 100%;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+#bg {
+    width: 99.8%;
+    position: absolute;
+    margin: auto;
+    text-align: center;
+}
+
+#userName {
+    position: absolute;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 27.2cm;
+    font-style: italic;
+    text-align: center;
+    width: 100%;
+    top: 310cm;
+    font-weight: 400;
+}
+
+#courseTitle {
+    position: absolute;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 18.9cm;
+    text-align: center;
+    width: 100%;
+    top: 400cm;
+    font-weight: 400;
+}
+
+#issuedDate {
+    position: absolute;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 21cm;
+    top: 460cm;
+    left: 165cm;
+    font-weight: 400;
+}

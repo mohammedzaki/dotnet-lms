@@ -28,8 +28,8 @@ namespace DigitalHubLMS.Core.Services
             {
                 Directory.CreateDirectory(StorageDirectoryPath);
             }
-            Configuration.GetStorageAppURL();
             Configuration.GetStorageURLName();
+            Configuration.GetStorageAppURL();
             return StorageDirectoryPath;
         }
 

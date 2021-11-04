@@ -186,26 +186,40 @@ namespace DigitalHubLMS.API.Controllers
 
         private FileInfo GeneratePDF(string name, string title)
         {
-            // var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/pdf-cert/src/template.pdf");
-            var outTempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/temp", Guid.NewGuid().ToString());
             var certImg = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/pdf-cert/src/template.jpg");
+            var certTempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/temp", Guid.NewGuid().ToString());
+            var UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/pdf-cert/style.css");
+            var dateStr = DateTime.Today.ToString("dd'/'MM'/'yyyy");
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Landscape,
                 PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = 0, Bottom = 0, Left = 0, Right = 0 },
+                Margins = new MarginSettings { Top = -1, Bottom = -1, Left = -1, Right = -1 },
                 DocumentTitle = "PDF Certificate",
-                Out = outTempFilePath
+                Out = certTempFilePath
             };
             var objectSettings = new ObjectSettings
             {
-                PagesCount = true,
-                HtmlContent = $"<html><head></head><body><h1 style=\"position: absolute;top: 20px;left: 20px;\">{name}</h1><img src=\"{ certImg }\" style=\"width: 100%; height: 100 %;\"></body></html>",
-                // HtmlContent = $"<html><head></head><body></body></html>",
-                WebSettings = { DefaultEncoding = "utf-8" },
-                //HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
-                //FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
+                HtmlContent = @$"
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                    <link rel='preconnect' href='https://fonts.googleapis.com'>
+                                    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+                                    <link href='https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap' rel='stylesheet'>
+                                </head>
+                                <body>
+                                    <div class='container'>
+                                        <img id='bg' src='{certImg}' />
+                                        <label id='userName'>{name}</label>
+                                        <label id='courseTitle'>{title}</label>
+                                        <label id='issuedDate'>{dateStr}</label>
+                                    </div>
+                                </body>
+                                </html>
+                                ",
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = UserStyleSheet }
             };
             var pdf = new HtmlToPdfDocument()
             {
@@ -213,26 +227,7 @@ namespace DigitalHubLMS.API.Controllers
                 Objects = { objectSettings }
             };
             Converter.Convert(pdf);
-            //$pdf = new FPDI('L', 'in');
-
-            //// Reference the PDF you want to use (use relative path)
-            //$pagecount = $pdf->setSourceFile($file_path);
-            //$tpl = $pdf->importPage(1);
-            //$pdf->AddPage();
-            //$pdf->useTemplate($tpl);
-            //$pdf->SetFont('Exo2', 'm');
-            //$pdf->SetFontSize('36'); // set font size
-            //$pdf->SetXY(0, 4.1); // set the position of the box
-            //$pdf->Cell(11.6891, 0, userDisplayName, 0, 0, 'C'); // add the text, align to Center of cell
-            //$pdf->SetFontSize('20');
-            //$pdf->SetXY(0, 5.1775);
-            //$pdf->Cell(11.6891, 0, courseTitle, 0, 0, 'C');
-            //$pdf->SetFontSize('20');
-            //$pdf->SetXY(1.4, 6.1);
-            //$pdf->Cell(2.8821, 0, date("d/m/Y"), 0, 0, 'C');
-            //$pdf->Output($filledPath, 'F');
-
-            return new FileInfo(globalSettings.Out);
+            return new FileInfo(certTempFilePath);
         }
     }
 }

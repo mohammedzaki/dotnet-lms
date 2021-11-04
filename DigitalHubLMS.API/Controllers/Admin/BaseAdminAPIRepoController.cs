@@ -10,7 +10,7 @@ using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.API.Controllers.Admin
 {
-    //[Authorize]
+    [Authorize]
     [Route("admin/[controller]")]
     public class BaseAdminAPIRepoController<TEntity, TKey> : GenericAPIRepoController<IRepository<TEntity, TKey>, TEntity, TKey>
         where TEntity : class, IEntity<TKey>, new()
