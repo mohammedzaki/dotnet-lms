@@ -51,6 +51,7 @@ namespace DigitalHubLMS.API.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Image>> UploadImage(
             [Required]
+            [MaxFileSize(5 * 1024 * 1024)]
             [FromForm] IFormFile file) => await StorageService.SaveImage(file);
 
         [HttpPost("media")]

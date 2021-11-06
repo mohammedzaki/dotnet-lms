@@ -117,6 +117,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         public string CertificateSlug { get; set; }
         [NotMapped]
         public string CertificateName { get; set; }
+        [NotMapped]
+        public Dictionary<string, string> Meta { get; set; }
 
     }
 }

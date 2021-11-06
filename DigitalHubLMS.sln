@@ -13,6 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI-CD", "CI-CD", "{809DCEEA
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 		notes.md = notes.md
+		namespaces-deployment.yml = namespaces-deployment.yml
+		build-deployment-env-file.sh = build-deployment-env-file.sh
+		build-deployment-file.sh = build-deployment-file.sh
+		deploy-script.sh = deploy-script.sh
+		google.key.json = google.key.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MZCore", "MZCore\MZCore.csproj", "{0C50826B-C0F7-4E3A-945B-072D2C7F12A1}"

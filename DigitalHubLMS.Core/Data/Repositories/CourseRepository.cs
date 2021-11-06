@@ -34,7 +34,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 e.Categories = e.CourseCategories.Select(e => new Category { Id = e.Category.Id, Name = e.Category.Name }).ToList();
                 e.Departments = e.CourseDepartments.Select(e => new Group { Id = e.Group.Id, _Id = e.Group._Id, Name = e.Group.Name, IsLdap = e.Group.IsLdap, IsActive = e.Group.IsActive }).ToList();
                 e.Studying = e.CourseEnrols.Count;
-                e.CourseEnds = e.CreatedAt.Value.AddDays(e.Duration.Value);
+                e.CourseEnds = e.CreatedAt?.AddDays(e.Duration.GetValueOrDefault());
                 e.CourseDatum = null;
                 e.CourseCategories = null;
                 e.CourseDepartments = null;
@@ -67,6 +67,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 .ThenInclude(e => e.CourseClasses.OrderBy(e => e.Order))
                 .ThenInclude(e => e.ClassDatum)
 
+                .Include(e => e.CourseMeta)
                 .Where(e => e.Id == id)
                 .FirstOrDefaultAsync();
             if (course == null)
@@ -80,6 +81,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     if (courseClass.Type == "quiz")
                     {
                         courseClass.Quiz = courseClass.ClassQuizzes.FirstOrDefault()?.Quiz;
+                        courseClass.ClassData = courseClass.Quiz.Id.ToString();
                     }
                     else
                     {
@@ -88,14 +90,19 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     }
                 });
             });
+            course.Meta = new Dictionary<string, string>();
+            foreach (var m in course.CourseMeta)
+            {
+                course.Meta.Add(m.MetaKey, m.MetaValue);
+            }
             return course;
         }
 
         public async Task<List<CourseEnrol>> GetEnrolledCourses(long userId)
         {
             var courseEnrols = await _dbContext.CourseEnrols
-                //.Include(e => e.Course)
-                //.ThenInclude(e => e.CourseMeta)
+                .Include(e => e.Course)
+                .ThenInclude(e => e.CourseMeta)
                 .Where(e => e.UserId == userId && e.Type == "course").ToListAsync();
             courseEnrols.ForEach(en =>
             {
@@ -123,14 +130,11 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 en.Lectures = classes.Count - quiz;
                 en.Quizes = quiz;
                 en.Duration = duration;
-                //var course = en.Course;
-                //var coursemeta = $course->course_meta;
-                //foreach (var m in en.Course.CourseMeta)
-                //{
-                //    // //show loan info
-                //    $meta[$m->meta_key] = $m->meta_value;
-                //}
-                // $course->meta = $meta;
+                en.Course.Meta = new Dictionary<string, string>();
+                foreach (var m in en.Course.CourseMeta)
+                {
+                    en.Course.Meta.Add(m.MetaKey, m.MetaValue);
+                }
             });
             return courseEnrols;
         }
@@ -142,7 +146,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 .ThenInclude(e => e.CourseClasses)
                 .Include(e => e.CourseCategories)
                 .ThenInclude(e => e.Category)
-                //.Include(e => e.CourseMeta)
+                .Include(e => e.CourseMeta)
                 .Include(e => e.Instructor)
                 .ThenInclude(e => e.UserInfos)
                 .Where(e => e.Slug == courseSlug).FirstOrDefaultAsync();
@@ -172,6 +176,11 @@ namespace DigitalHubLMS.Core.Data.Repositories
                         course.CertificateSlug = certificate.Slug;
                         course.CertificateName = certificate.Name;
                     }
+                    course.Meta = new Dictionary<string, string>();
+                    foreach (var m in course.CourseMeta)
+                    {
+                        course.Meta.Add(m.MetaKey, m.MetaValue);
+                    }
                     return course;
                 }
             }
@@ -196,7 +205,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 .ThenInclude(e => e.CourseClasses)
                 .Include(e => e.CourseCategories)
                 .ThenInclude(e => e.Category)
-                //.Include(e => e.CourseMeta)
+                .Include(e => e.CourseMeta)
                 .Include(e => e.Instructor)
                 .ThenInclude(e => e.UserInfos)
                 .Where(e => e.Slug == courseSlug).FirstOrDefaultAsync();
@@ -228,6 +237,11 @@ namespace DigitalHubLMS.Core.Data.Repositories
                         });
                     });
                     course.ClassesCount = classCount;
+                    course.Meta = new Dictionary<string, string>();
+                    foreach (var m in course.CourseMeta)
+                    {
+                        course.Meta.Add(m.MetaKey, m.MetaValue);
+                    }
                     return course;
                 }
             }

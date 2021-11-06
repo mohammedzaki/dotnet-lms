@@ -137,8 +137,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         public string Title { get; set; }
         [NotMapped]
         public string Description { get; set; }
+        [Required]
         [NotMapped]
         public IList<Role> SelectedRoles { get; set; }
+        [Required]
         [NotMapped]
         public IList<Group> SelectedGroups { get; set; }
         [NotMapped]

@@ -81,8 +81,8 @@ namespace DigitalHubLMS.API.Controllers
         [HttpPost("forget-password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public virtual async Task<ActionResult<bool>> ForgetPassword([Required] string password, [Required] string username)
-            => await _repository.SetUserForgetPassword(password, username);
+        public virtual async Task<ActionResult<bool>> ForgetPassword([Required] string username)
+            => await _repository.SetUserForgetPassword(username);
 
         [HttpPut("update-info")]
         [ProducesResponseType(StatusCodes.Status200OK)]

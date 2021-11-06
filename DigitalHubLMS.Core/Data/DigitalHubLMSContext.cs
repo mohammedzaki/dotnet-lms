@@ -896,7 +896,13 @@ namespace DigitalHubLMS.Core.Data.Entities
             #endregion
 
             modelBuilder.Entity<User>().ToTable("users");
-            modelBuilder.Entity<Role>().ToTable("roles");
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.ToTable("roles");
+
+            });
             modelBuilder.Entity<UserRole>().ToTable("user_role");
             modelBuilder.Entity<UserClaim>().ToTable("user_claims");
             modelBuilder.Entity<UserLogin>().ToTable("user_logins");
@@ -1018,7 +1024,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 }
             );
 
-            ////Seeding the relation between our user and role to AspNetUserRoles table
+            //Seeding the relation between our user and role to AspNetUserRoles table
             modelBuilder.Entity<UserRole>().HasData(
                 new UserRole
                 {
@@ -1047,6 +1053,19 @@ namespace DigitalHubLMS.Core.Data.Entities
                 }
             );
 
+            //Seeding Defualt SecurityQuestions
+            modelBuilder.Entity<SecurityQuestion>().HasData(
+                new SecurityQuestion { Id = 1, Question = "What was the street name you lived in as a child?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 2, Question = "What primary school did you attend?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 3, Question = "In what city or town was your first job?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 4, Question = "What was the make and model of your first car?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 5, Question = "What is your oldest cousin's first and last name?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 6, Question = "What was the street name you lived in as a child?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 7, Question = "What primary school did you attend?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 8, Question = "In what city or town was your first job?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 9, Question = "What was the make and model of your first car?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new SecurityQuestion { Id = 10, Question = "What is your oldest cousin's first and last name?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now }
+            );
         }
     }
 }

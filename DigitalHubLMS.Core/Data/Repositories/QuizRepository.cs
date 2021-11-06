@@ -18,10 +18,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
         public override async Task<Quiz> FindByIdAsync(long id)
         {
             var quiz = await _dbContext.Quizzes
-                .Include(e => e.Questions)
-                .ThenInclude(e => e.Options)
+                .Include(e => e.Questions.OrderBy(e => e.Order))
+                .ThenInclude(e => e.Options.OrderBy(e => e.Order))
                 .Where(e => e.Id == id).FirstOrDefaultAsync();
-
             if (quiz != null)
             {
                 return quiz;

@@ -32,7 +32,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         public DateTime? UpdatedAt { get; set; }
 
 
-        [JsonIgnore]
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("CourseEnrols")]
         public virtual Course Course { get; set; }

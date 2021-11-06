@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using MZCore.Helpers.DataAnnotations;
 using Newtonsoft.Json;
 
 #nullable disable
@@ -33,6 +34,25 @@ namespace DigitalHubLMS.Core.Data.Entities
         public DateTime? CreatedAt { get; set; }
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
+
+        [NotMapped]
+        [RequiredIf(nameof(Type), "document")]
+        public string DocumentUrl { get; set; }
+
+        [NotMapped]
+        [RequiredIf(nameof(Type), "video")]
+        public string Data { get; set; }
+
+        [NotMapped]
+        [RequiredIf(nameof(Type), "text")]
+        public string Description { get; set; }
+
+        [NotMapped]
+        [RequiredIf(nameof(Type), "quiz")]
+        public string SelectedQuiz { get; set; }
+
+        [NotMapped]
+        public string NewQuiz { get; set; }
 
         [JsonIgnore]
         [ForeignKey(nameof(SectionId))]
@@ -68,9 +88,35 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ICollection<Note> Notes { get; set; }
 
         [NotMapped]
-        public virtual string ClassData { get; set; }
-        [NotMapped]
         public virtual Quiz Quiz { get; set; }
+
+        [NotMapped]
+        private string _ClassData;
+        [NotMapped]
+        public virtual string ClassData {
+            set
+            {
+                switch (Type)
+                {
+                    case "video":
+                        Data = value;
+                        break;
+                    case "document":
+                        DocumentUrl = value;
+                        break;
+                    case "text":
+                        Description = value;
+                        break;
+                    case "quiz":
+                        SelectedQuiz = value;
+                        break;
+                    default:
+                        break;
+                }
+                _ClassData = value;
+            }
+            get => _ClassData;
+        }
         [NotMapped]
         public virtual ICollection<Media> Media { get; set; }
         [NotMapped]

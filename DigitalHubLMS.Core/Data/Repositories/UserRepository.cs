@@ -116,11 +116,12 @@ namespace DigitalHubLMS.Core.Data.Repositories
             user.IsLdap = 0;
             user.IsVerified = 0;
             user._Id = Guid.NewGuid().ToString();
-
+            using var transaction = _dbContext.Database.BeginTransaction();
             await CreateUser(user);
             await AssignUserRoles(user);
             await AddToGroups(user);
             await CreateUserInfo(user);
+            await transaction.CommitAsync();
             return user;
         }
 
@@ -275,7 +276,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             }
         }
 
-        public async Task<bool> SetUserForgetPassword(string password, string username)
+        public async Task<bool> SetUserForgetPassword(string username)
         {
             var user = await _dbContext.Users.Where(e => e.UserName == username).FirstOrDefaultAsync();
             if (user == null)
@@ -284,7 +285,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             }
             var hasher = new PasswordHasher<User>();
             var SecurityStamp = Guid.NewGuid().ToString();
-            var hasedPassword = hasher.HashPassword(user, password);
+            var hasedPassword = hasher.HashPassword(user, "1q2w3e4r5t");
             user.PasswordHash = hasedPassword;
             user.UpdatedBy = user.Id;
             user.IsBanned = 1;

@@ -216,7 +216,9 @@ namespace DigitalHubLMS.API
             services.AddScoped<IRepository<ClassUserMeta, long>, EntityRepository<DigitalHubLMSContext, ClassUserMeta, long>>();
             services.AddScoped<IRepository<ProfilePicture, long>, EntityRepository<DigitalHubLMSContext, ProfilePicture, long>>();
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
-        }
+            services.AddScoped<IRepository<ClassQuiz, long>, EntityRepository<DigitalHubLMSContext, ClassQuiz, long>>();
+            services.AddScoped<IRepository<ClassData, long>, EntityRepository<DigitalHubLMSContext, ClassData, long>>();
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)

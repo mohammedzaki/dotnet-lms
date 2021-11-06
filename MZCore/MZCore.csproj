@@ -30,25 +30,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="LettuceEncrypt" Version="1.0.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Patterns\" />
-    <None Remove="Patterns\Repositroy\" />
-    <None Remove="Patterns\Generices\" />
-    <None Remove="Helpers\FileAnnotations\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Patterns\" />
-    <Folder Include="Patterns\Repositroy\" />
-    <Folder Include="Patterns\Generices\" />
-    <Folder Include="Helpers\FileAnnotations\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Helpers\FileAnnotations\AllowedExtensionsAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Helpers\FileAnnotations\AllowedExtensionsAttribute.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 </Project>

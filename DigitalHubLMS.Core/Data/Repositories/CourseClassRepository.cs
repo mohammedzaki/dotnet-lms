@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Contributors;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories.Contracts;
@@ -14,9 +15,141 @@ namespace DigitalHubLMS.Core.Data.Repositories
 {
     public class CourseClassRepository : EntityRepository<DigitalHubLMSContext, CourseClass, long>, ICourseClassRepository
     {
-        public CourseClassRepository(DigitalHubLMSContext context)
+        protected readonly IRepository<Quiz, long> QuizRepository;
+        protected readonly IRepository<ClassQuiz, long> ClassQuizRepository;
+        protected readonly IRepository<ClassData, long> ClassDataQuizRepository;
+
+        public CourseClassRepository(DigitalHubLMSContext context,
+            IRepository<Quiz, long> quizRepository,
+            IRepository<ClassQuiz, long> classQuizRepository,
+            IRepository<ClassData, long> classDataQuizRepository)
             : base(context)
         {
+            QuizRepository = quizRepository;
+            ClassQuizRepository = classQuizRepository;
+            ClassDataQuizRepository = classDataQuizRepository;
+        }
+
+        public override async Task<CourseClass> SaveAsync(CourseClass entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException($"{nameof(SaveAsync)} entity must not be null");
+            }
+            using var transaction = _dbContext.Database.BeginTransaction();
+            entity.Id = GenerateNewID();
+            await _dbContext.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+            switch (entity.Type) {
+                case "video":
+                    entity.ClassData = entity.Data;
+                    break;
+                case "document":
+                    entity.ClassData = entity.DocumentUrl;
+                    break;
+                case "text":
+                    entity.ClassData = entity.Description;
+                    break;
+                case "quiz":
+                    var classQuiz = new ClassQuiz {
+                        CourseClassId = entity.Id
+                    };
+                    if (entity.SelectedQuiz != "")
+                    { 
+                        classQuiz.QuizId = long.Parse(entity.SelectedQuiz);
+                    }
+                    else
+                    {
+                        var quiz = await QuizRepository.SaveAsync(new Quiz
+                        {
+                            Title = entity.NewQuiz
+                        });
+                        classQuiz.QuizId = quiz.Id;
+                    }
+                    entity.ClassData = classQuiz.QuizId.ToString();
+                    classQuiz = await ClassQuizRepository.SaveAsync(classQuiz);
+                    entity.Quiz = await QuizRepository.FindByIdAsync(classQuiz.QuizId);
+                    break;
+                default:
+                    break;
+            }
+            await ClassDataQuizRepository.SaveAsync(new ClassData
+            {
+                CourseClassId = entity.Id,
+                Data = entity.ClassData
+            });
+            await transaction.CommitAsync();
+            return entity;
+        }
+
+        public override async Task<CourseClass> UpdateAsync(CourseClass entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException($"{nameof(UpdateAsync)} entity must not be null");
+            }
+            using var transaction = _dbContext.Database.BeginTransaction();
+            _dbContext.Update(entity);
+            await _dbContext.SaveChangesAsync();
+            switch (entity.Type)
+            {
+                case "video":
+                    entity.ClassData = entity.Data;
+                    break;
+                case "document":
+                    entity.ClassData = entity.DocumentUrl;
+                    break;
+                case "text":
+                    entity.ClassData = entity.Description;
+                    break;
+                case "quiz":
+                    var classQuiz = await _dbContext.ClassQuizzes.Where(e => e.CourseClassId == entity.Id).FirstOrDefaultAsync();
+                    if (classQuiz == null)
+                    {
+                        classQuiz = new ClassQuiz
+                        {
+                            CourseClassId = entity.Id
+                        };
+                    }
+                    if (entity.SelectedQuiz != "")
+                    {
+                        classQuiz.QuizId = long.Parse(entity.SelectedQuiz);
+                    }
+                    else
+                    {
+                        var quiz = await QuizRepository.SaveAsync(new Quiz
+                        {
+                            Title = entity.NewQuiz
+                        });
+                        classQuiz.QuizId = quiz.Id;
+                    }
+                    if (classQuiz.Id == 0)
+                        classQuiz = await ClassQuizRepository.SaveAsync(classQuiz);
+                    else
+                        classQuiz = await ClassQuizRepository.UpdateAsync(classQuiz);
+
+                    entity.ClassData = classQuiz.QuizId.ToString();
+                    entity.Quiz = await QuizRepository.FindByIdAsync(classQuiz.QuizId);
+                    break;
+                default:
+                    break;
+            }
+            var classData = await _dbContext.ClassData.Where(e => e.CourseClassId == entity.Id).FirstOrDefaultAsync();
+            if (classData == null)
+            {
+                await ClassDataQuizRepository.SaveAsync(new ClassData
+                {
+                    CourseClassId = entity.Id,
+                    Data = entity.ClassData
+                });
+            }
+            else
+            {
+                classData.Data = entity.ClassData;
+                await ClassDataQuizRepository.UpdateAsync(classData);
+            }
+            await transaction.CommitAsync();
+            return entity;
         }
 
         public async Task<CourseClass> GetUserCourseClass(long userId, long courseClassId)

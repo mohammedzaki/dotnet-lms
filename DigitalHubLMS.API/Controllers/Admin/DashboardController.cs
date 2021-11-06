@@ -56,7 +56,9 @@ namespace DigitalHubLMS.API.Controllers.Admin
             int total_in_progress = courses.Sum(e => e.InProgressCount);
 
             int totalEnrolled = total_completed + total_not_started + total_in_progress;
-            decimal completed_progress = Math.Ceiling(((decimal)total_completed / (decimal)totalEnrolled) * 100);
+            decimal completed_progress = 0;
+            if (total_completed > 0)
+                completed_progress = Math.Ceiling(((decimal)total_completed / (decimal)totalEnrolled) * 100);
 
             return new AdminDashboard
             {
