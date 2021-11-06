@@ -24,7 +24,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(36)]
         public string ApiKey { get; set; }
         [Column("is_ldap")]
-        public byte IsLdap { get; set; }
+        public bool IsLdap { get; set; }
         [Column("first_name")]
         [StringLength(255)]
         public string FirstName { get; set; }
@@ -32,9 +32,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string LastName { get; set; }
         [Column("is_banned")]
-        public byte IsBanned { get; set; }
+        public bool IsBanned { get; set; }
         [Column("is_verified")]
-        public byte IsVerified { get; set; }
+        public bool IsVerified { get; set; }
         
         [Column("confirm_code")]
         [StringLength(36)]

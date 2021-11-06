@@ -51,7 +51,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("is_admin")]
         public int? IsAdmin { get; set; }
         [Column("published")]
-        public byte? Published { get; set; }
+        public bool? Published { get; set; }
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
         [Column("updated_at")]

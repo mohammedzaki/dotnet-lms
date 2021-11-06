@@ -22,9 +22,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string Name { get; set; }
         [Column("is_ldap")]
-        public byte IsLdap { get; set; }
+        public bool IsLdap { get; set; }
         [Column("is_active")]
-        public byte IsActive { get; set; }
+        public bool IsActive { get; set; }
         [Column("created_by")]
         public long CreatedBy { get; set; }
         [Column("updated_by")]

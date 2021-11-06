@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalHubLMS.Migrations.Migrations
 {
     [DbContext(typeof(DigitalHubLMSContext))]
-    [Migration("20211104190614_InitialCreate")]
+    [Migration("20211106221501_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -190,8 +190,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("outcomes");
 
-                    b.Property<byte?>("Published")
-                        .HasColumnType("tinyint")
+                    b.Property<bool?>("Published")
+                        .HasColumnType("bit")
                         .HasColumnName("published");
 
                     b.Property<string>("Requirements")
@@ -373,8 +373,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("slug");
 
-                    b.Property<byte>("Status")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit")
                         .HasColumnName("status")
                         .HasComment("1-published 0-Not Published");
 
@@ -721,8 +721,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("instructor_id");
 
-                    b.Property<byte>("Published")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("Published")
+                        .HasColumnType("bit")
                         .HasColumnName("published");
 
                     b.Property<string>("ShortDescription")
@@ -1132,8 +1132,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
-                    b.Property<byte>("Private")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("Private")
+                        .HasColumnType("bit")
                         .HasColumnName("private");
 
                     b.Property<string>("Size")
@@ -1175,42 +1175,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.ToTable("documents");
                 });
 
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.FailedJob", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Connection")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("connection");
-
-                    b.Property<string>("Exception")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("exception");
-
-                    b.Property<DateTime>("FailedAt")
-                        .HasPrecision(0)
-                        .HasColumnType("datetime2(0)")
-                        .HasColumnName("failed_at");
-
-                    b.Property<string>("Payload")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("payload");
-
-                    b.Property<string>("Queue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("queue");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("failed_jobs");
-                });
-
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Group", b =>
                 {
                     b.Property<long>("Id")
@@ -1231,12 +1195,12 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("deleted_at");
 
-                    b.Property<byte>("IsActive")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
                         .HasColumnName("is_active");
 
-                    b.Property<byte>("IsLdap")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("IsLdap")
+                        .HasColumnType("bit")
                         .HasColumnName("is_ldap");
 
                     b.Property<string>("Name")
@@ -1314,8 +1278,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
-                    b.Property<byte>("Private")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("Private")
+                        .HasColumnType("bit")
                         .HasColumnName("private");
 
                     b.Property<string>("Size")
@@ -1355,46 +1319,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .IsUnique();
 
                     b.ToTable("images");
-                });
-
-            modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Job", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    b.Property<byte>("Attempts")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("attempts");
-
-                    b.Property<int>("AvailableAt")
-                        .HasColumnType("int")
-                        .HasColumnName("available_at");
-
-                    b.Property<int>("CreatedAt")
-                        .HasColumnType("int")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("Payload")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("payload");
-
-                    b.Property<string>("Queue")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("queue");
-
-                    b.Property<int?>("ReservedAt")
-                        .HasColumnType("int")
-                        .HasColumnName("reserved_at");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Queue" }, "jobs_queue_index");
-
-                    b.ToTable("jobs");
                 });
 
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Media", b =>
@@ -1445,8 +1369,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
-                    b.Property<byte>("Private")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("Private")
+                        .HasColumnType("bit")
                         .HasColumnName("private");
 
                     b.Property<string>("Quality")
@@ -1558,8 +1482,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    b.Property<byte>("Correct")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("Correct")
+                        .HasColumnType("bit")
                         .HasColumnName("correct");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -1766,10 +1690,8 @@ namespace DigitalHubLMS.Migrations.Migrations
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Role", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("id");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -1789,8 +1711,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("deleted_at");
 
-                    b.Property<byte>("IsActive")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
                         .HasColumnName("is_active");
 
                     b.Property<string>("Name")
@@ -1829,60 +1751,60 @@ namespace DigitalHubLMS.Migrations.Migrations
                         {
                             Id = 1L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 356, DateTimeKind.Local).AddTicks(1770),
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 473, DateTimeKind.Local).AddTicks(7300),
                             CreatedBy = 1L,
-                            IsActive = (byte)1,
+                            IsActive = true,
                             Name = "system",
                             NormalizedName = "SYSTEM",
-                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(2080),
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(10),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 2L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3390),
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1730),
                             CreatedBy = 1L,
-                            IsActive = (byte)1,
+                            IsActive = true,
                             Name = "admin",
                             NormalizedName = "ADMIN",
-                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3400),
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1750),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 3L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3420),
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1770),
                             CreatedBy = 1L,
-                            IsActive = (byte)1,
+                            IsActive = true,
                             Name = "supervisor",
                             NormalizedName = "SUPERVISOR",
-                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3430),
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1770),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 4L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3440),
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1790),
                             CreatedBy = 1L,
-                            IsActive = (byte)1,
+                            IsActive = true,
                             Name = "instructor",
                             NormalizedName = "INSTRUCTOR",
-                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3450),
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1790),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 5L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3460),
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1810),
                             CreatedBy = 1L,
-                            IsActive = (byte)1,
+                            IsActive = true,
                             Name = "employee",
                             NormalizedName = "EMPLOYEE",
-                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3470),
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1810),
                             UpdatedBy = 1L
                         });
                 });
@@ -1975,6 +1897,78 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("security_questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(2080),
+                            Question = "What was the street name you lived in as a child?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(3440)
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4760),
+                            Question = "What primary school did you attend?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4780)
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4790),
+                            Question = "In what city or town was your first job?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4790)
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4800),
+                            Question = "What was the make and model of your first car?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4810)
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4810),
+                            Question = "What is your oldest cousin's first and last name?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4820)
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830),
+                            Question = "What was the street name you lived in as a child?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830)
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830),
+                            Question = "What primary school did you attend?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4840)
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4840),
+                            Question = "In what city or town was your first job?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4860)
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4870),
+                            Question = "What was the make and model of your first car?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4880)
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4880),
+                            Question = "What is your oldest cousin's first and last name?",
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4890)
+                        });
                 });
 
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.Setting", b =>
@@ -2175,16 +2169,16 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("first_name");
 
-                    b.Property<byte>("IsBanned")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("bit")
                         .HasColumnName("is_banned");
 
-                    b.Property<byte>("IsLdap")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("IsLdap")
+                        .HasColumnType("bit")
                         .HasColumnName("is_ldap");
 
-                    b.Property<byte>("IsVerified")
-                        .HasColumnType("tinyint")
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit")
                         .HasColumnName("is_verified");
 
                     b.Property<string>("LastName")
@@ -2300,25 +2294,25 @@ namespace DigitalHubLMS.Migrations.Migrations
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7",
                             ConfirmCode = "1234                                ",
-                            CreatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 377, DateTimeKind.Local).AddTicks(3020),
+                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 499, DateTimeKind.Local).AddTicks(390),
                             CreatedBy = 1L,
                             DisplayName = "Abdalla Salah",
                             Email = "ahmed.kamal@mped.gov.eg",
                             EmailConfirmed = true,
                             FirstName = "Abe",
-                            IsBanned = (byte)0,
-                            IsLdap = (byte)0,
-                            IsVerified = (byte)0,
+                            IsBanned = false,
+                            IsLdap = false,
+                            IsVerified = false,
                             LastName = "Sal",
                             LockoutEnabled = false,
                             NormalizedEmail = "AHMED.KAMAL@MPED.GOV.EG",
                             NormalizedUserName = "ADMIN",
-                            PasswordChangedAt = new DateTime(2021, 11, 4, 21, 6, 11, 376, DateTimeKind.Local).AddTicks(5620),
+                            PasswordChangedAt = new DateTime(2021, 11, 7, 0, 14, 56, 498, DateTimeKind.Local).AddTicks(2860),
                             PasswordHash = "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "27c0b512-9f7e-4ce7-bcff-6563379cbe20",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2021, 11, 4, 21, 6, 11, 377, DateTimeKind.Local).AddTicks(4170),
+                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 499, DateTimeKind.Local).AddTicks(1530),
                             UpdatedBy = 1L,
                             UserName = "admin",
                             _Id = "edfeb122-3656-483b-b477-17c827f44cd4"

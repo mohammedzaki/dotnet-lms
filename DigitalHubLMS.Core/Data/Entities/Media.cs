@@ -51,7 +51,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string Duration { get; set; }
         [Column("private")]
-        public byte Private { get; set; }
+        public bool Private { get; set; }
         [Column("downloads")]
         public long Downloads { get; set; }
         [Column("user_id")]

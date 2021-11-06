@@ -57,7 +57,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     size = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     file_key = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    @private = table.Column<byte>(name: "private", type: "tinyint", nullable: false),
+                    @private = table.Column<bool>(name: "private", type: "bit", nullable: false),
                     downloads = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     created_by = table.Column<long>(type: "bigint", nullable: false),
@@ -72,30 +72,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "failed_jobs",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false),
-                    connection = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    queue = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    payload = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    exception = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    failed_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_failed_jobs", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "groups",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
                     _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    is_ldap = table.Column<byte>(type: "tinyint", nullable: false),
-                    is_active = table.Column<byte>(type: "tinyint", nullable: false),
+                    is_ldap = table.Column<bool>(type: "bit", nullable: false),
+                    is_active = table.Column<bool>(type: "bit", nullable: false),
                     created_by = table.Column<long>(type: "bigint", nullable: false),
                     updated_by = table.Column<long>(type: "bigint", nullable: false),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
@@ -118,7 +102,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     size = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     file_key = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    @private = table.Column<byte>(name: "private", type: "tinyint", nullable: false),
+                    @private = table.Column<bool>(name: "private", type: "bit", nullable: false),
                     downloads = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     created_by = table.Column<long>(type: "bigint", nullable: false),
@@ -130,23 +114,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_images", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "jobs",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false),
-                    queue = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    payload = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    attempts = table.Column<byte>(type: "tinyint", nullable: false),
-                    reserved_at = table.Column<int>(type: "int", nullable: true),
-                    available_at = table.Column<int>(type: "int", nullable: false),
-                    created_at = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_jobs", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,7 +129,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     quality = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     duration = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    @private = table.Column<byte>(name: "private", type: "tinyint", nullable: false),
+                    @private = table.Column<bool>(name: "private", type: "bit", nullable: false),
                     downloads = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     created_by = table.Column<long>(type: "bigint", nullable: false),
@@ -229,9 +196,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                 name: "roles",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    is_active = table.Column<byte>(type: "tinyint", nullable: false),
+                    id = table.Column<long>(type: "bigint", nullable: false),
+                    is_active = table.Column<bool>(type: "bit", nullable: false),
                     created_by = table.Column<long>(type: "bigint", nullable: false),
                     updated_by = table.Column<long>(type: "bigint", nullable: false),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
@@ -321,11 +287,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     api_key = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
-                    is_ldap = table.Column<byte>(type: "tinyint", nullable: false),
+                    is_ldap = table.Column<bool>(type: "bit", nullable: false),
                     first_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     last_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    is_banned = table.Column<byte>(type: "tinyint", nullable: false),
-                    is_verified = table.Column<byte>(type: "tinyint", nullable: false),
+                    is_banned = table.Column<bool>(type: "bit", nullable: false),
+                    is_verified = table.Column<bool>(type: "bit", nullable: false),
                     confirm_code = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     confirmed_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     password_changed_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
@@ -470,7 +436,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     thumbnail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     is_top_course = table.Column<int>(type: "int", nullable: true),
                     is_admin = table.Column<int>(type: "int", nullable: true),
-                    published = table.Column<byte>(type: "tinyint", nullable: true),
+                    published = table.Column<bool>(type: "bit", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -499,7 +465,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     updated_by = table.Column<int>(type: "int", nullable: true),
                     instructor_id = table.Column<long>(type: "bigint", nullable: false),
                     thumbnail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    published = table.Column<byte>(type: "tinyint", nullable: false),
+                    published = table.Column<bool>(type: "bit", nullable: false),
                     duration = table.Column<int>(type: "int", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -690,7 +656,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     option = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     question_id = table.Column<long>(type: "bigint", nullable: false),
-                    correct = table.Column<byte>(type: "tinyint", nullable: false),
+                    correct = table.Column<bool>(type: "bit", nullable: false),
                     order = table.Column<int>(type: "int", nullable: false),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -770,7 +736,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     url = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, comment: "1-published 0-Not Published"),
+                    status = table.Column<bool>(type: "bit", nullable: false, comment: "1-published 0-Not Published"),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
                 },
@@ -1327,17 +1293,34 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: new[] { "id", "ConcurrencyStamp", "created_at", "created_by", "deleted_at", "is_active", "name", "NormalizedName", "updated_at", "updated_by" },
                 values: new object[,]
                 {
-                    { 1L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 356, DateTimeKind.Local).AddTicks(1770), 1L, null, (byte)1, "system", "SYSTEM", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(2080), 1L },
-                    { 2L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3390), 1L, null, (byte)1, "admin", "ADMIN", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3400), 1L },
-                    { 3L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3420), 1L, null, (byte)1, "supervisor", "SUPERVISOR", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3430), 1L },
-                    { 4L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3440), 1L, null, (byte)1, "instructor", "INSTRUCTOR", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3450), 1L },
-                    { 5L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3460), 1L, null, (byte)1, "employee", "EMPLOYEE", new DateTime(2021, 11, 4, 21, 6, 11, 372, DateTimeKind.Local).AddTicks(3470), 1L }
+                    { 1L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 0, 14, 56, 473, DateTimeKind.Local).AddTicks(7300), 1L, null, true, "system", "SYSTEM", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(10), 1L },
+                    { 2L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1730), 1L, null, true, "admin", "ADMIN", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1750), 1L },
+                    { 3L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1770), 1L, null, true, "supervisor", "SUPERVISOR", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1770), 1L },
+                    { 4L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1790), 1L, null, true, "instructor", "INSTRUCTOR", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1790), 1L },
+                    { 5L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1810), 1L, null, true, "employee", "EMPLOYEE", new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1810), 1L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "security_questions",
+                columns: new[] { "id", "created_at", "question", "updated_at" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(2080), "What was the street name you lived in as a child?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(3440) },
+                    { 2L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4760), "What primary school did you attend?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4780) },
+                    { 3L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4790), "In what city or town was your first job?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4790) },
+                    { 4L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4800), "What was the make and model of your first car?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4810) },
+                    { 5L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4810), "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4820) },
+                    { 6L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830), "What was the street name you lived in as a child?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830) },
+                    { 7L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830), "What primary school did you attend?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4840) },
+                    { 8L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4840), "In what city or town was your first job?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4860) },
+                    { 9L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4870), "What was the make and model of your first car?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4880) },
+                    { 10L, new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4880), "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4890) }
                 });
 
             migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "id", "AccessFailedCount", "api_key", "ConcurrencyStamp", "confirm_code", "confirmed_at", "created_at", "created_by", "deleted_at", "display_name", "email", "EmailConfirmed", "first_name", "is_banned", "is_ldap", "is_verified", "last_name", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "otp", "otp_created_at", "password_changed_at", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "profile_picture_id", "remember_token", "SecurityStamp", "TwoFactorEnabled", "updated_at", "updated_by", "username", "_id", "user_url" },
-                values: new object[] { 1L, 0, null, "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7", "1234                                ", null, new DateTime(2021, 11, 4, 21, 6, 11, 377, DateTimeKind.Local).AddTicks(3020), 1L, null, "Abdalla Salah", "ahmed.kamal@mped.gov.eg", true, "Abe", (byte)0, (byte)0, (byte)0, "Sal", false, null, "AHMED.KAMAL@MPED.GOV.EG", "ADMIN", null, null, new DateTime(2021, 11, 4, 21, 6, 11, 376, DateTimeKind.Local).AddTicks(5620), "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", null, false, null, null, "27c0b512-9f7e-4ce7-bcff-6563379cbe20", false, new DateTime(2021, 11, 4, 21, 6, 11, 377, DateTimeKind.Local).AddTicks(4170), 1L, "admin", "edfeb122-3656-483b-b477-17c827f44cd4", null });
+                values: new object[] { 1L, 0, null, "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7", "1234                                ", null, new DateTime(2021, 11, 7, 0, 14, 56, 499, DateTimeKind.Local).AddTicks(390), 1L, null, "Abdalla Salah", "ahmed.kamal@mped.gov.eg", true, "Abe", false, false, false, "Sal", false, null, "AHMED.KAMAL@MPED.GOV.EG", "ADMIN", null, null, new DateTime(2021, 11, 7, 0, 14, 56, 498, DateTimeKind.Local).AddTicks(2860), "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", null, false, null, null, "27c0b512-9f7e-4ce7-bcff-6563379cbe20", false, new DateTime(2021, 11, 7, 0, 14, 56, 499, DateTimeKind.Local).AddTicks(1530), 1L, "admin", "edfeb122-3656-483b-b477-17c827f44cd4", null });
 
             migrationBuilder.InsertData(
                 table: "user_role",
@@ -1587,11 +1570,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "jobs_queue_index",
-                table: "jobs",
-                column: "queue");
-
-            migrationBuilder.CreateIndex(
                 name: "media_uid_unique",
                 table: "media",
                 column: "uid",
@@ -1796,12 +1774,6 @@ namespace DigitalHubLMS.Migrations.Migrations
 
             migrationBuilder.DropTable(
                 name: "course_meta");
-
-            migrationBuilder.DropTable(
-                name: "failed_jobs");
-
-            migrationBuilder.DropTable(
-                name: "jobs");
 
             migrationBuilder.DropTable(
                 name: "migrations");

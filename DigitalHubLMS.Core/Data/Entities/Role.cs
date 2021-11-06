@@ -16,7 +16,7 @@ namespace DigitalHubLMS.Core.Data.Entities
     public partial class Role : IdentityRole<long>, IEntity<long>
     {
         [Column("is_active")]
-        public byte IsActive { get; set; }
+        public bool IsActive { get; set; }
         [Column("created_by")]
         public long CreatedBy { get; set; }
         [Column("updated_by")]

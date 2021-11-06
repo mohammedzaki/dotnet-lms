@@ -18,7 +18,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("question_id")]
         public long QuestionId { get; set; }
         [Column("correct")]
-        public byte Correct { get; set; }
+        public bool Correct { get; set; }
         [Column("order")]
         public int Order { get; set; }
         [Column("created_at")]

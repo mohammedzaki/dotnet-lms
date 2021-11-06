@@ -113,8 +113,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
             user.LockoutEnabled = false;
             user.UserName = user.Username;
             user.ConfirmCode = "123456";
-            user.IsLdap = 0;
-            user.IsVerified = 0;
+            user.IsLdap = false;
+            user.IsVerified = false;
             user._Id = Guid.NewGuid().ToString();
             using var transaction = _dbContext.Database.BeginTransaction();
             await CreateUser(user);
@@ -288,8 +288,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
             var hasedPassword = hasher.HashPassword(user, "1q2w3e4r5t");
             user.PasswordHash = hasedPassword;
             user.UpdatedBy = user.Id;
-            user.IsBanned = 1;
-            user.IsVerified = 0;
+            user.IsBanned = true;
+            user.IsVerified = false;
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
             return true;

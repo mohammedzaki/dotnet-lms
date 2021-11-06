@@ -85,7 +85,7 @@ namespace DigitalHubLMS.Core.Services
                     Url = urlPath,
                     FileKey = uuid,
                     Mime = mime,
-                    Private = 1,
+                    Private = true,
                     UserId = UserId,
                     CreatedBy = UserId,
                     UpdatedBy = UserId,
@@ -119,7 +119,7 @@ namespace DigitalHubLMS.Core.Services
                     UserId = userId,
                     CourseId = courseId,
                     Url = urlPath,
-                    Status = 1
+                    Status = true
                 };
                 return await CertificateRepository.SaveAsync(certificate);
             }
@@ -160,7 +160,7 @@ namespace DigitalHubLMS.Core.Services
                     Url = urlPath,
                     FileKey = uuid,
                     Mime = mime,
-                    Private = 1,
+                    Private = true,
                     UserId = UserId,
                     CreatedBy = UserId,
                     UpdatedBy = UserId,
@@ -208,7 +208,7 @@ namespace DigitalHubLMS.Core.Services
                     Duration = duration,
                     Quality = quality,
                     Mime = mime,
-                    Private = 1,
+                    Private = true,
                     UserId = UserId,
                     CreatedBy = UserId,
                     UpdatedBy = UserId,

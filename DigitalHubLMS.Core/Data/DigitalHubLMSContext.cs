@@ -46,10 +46,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual DbSet<CourseMedia> CourseMedia { get; set; }
         public virtual DbSet<CourseMeta> CourseMeta { get; set; }
         public virtual DbSet<Document> Documents { get; set; }
-        public virtual DbSet<FailedJob> FailedJobs { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Image> Images { get; set; }
-        public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<Media> Media { get; set; }
         public virtual DbSet<Migration> Migrations { get; set; }
         public virtual DbSet<Note> Notes { get; set; }
@@ -571,13 +569,6 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
             });
 
-            modelBuilder.Entity<FailedJob>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.FailedAt).HasPrecision(0);
-            });
-
             modelBuilder.Entity<Group>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -602,11 +593,6 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.Uid).IsFixedLength(true);
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
-            });
-
-            modelBuilder.Entity<Job>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Media>(entity =>
@@ -926,7 +912,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "system",
                     NormalizedName = "system".ToUpper(),
-                    IsActive = 1,
+                    IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
                     CreatedAt = DateTime.Now,
@@ -938,7 +924,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "admin",
                     NormalizedName = "admin".ToUpper(),
-                    IsActive = 1,
+                    IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
                     CreatedAt = DateTime.Now,
@@ -950,7 +936,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "supervisor",
                     NormalizedName = "supervisor".ToUpper(),
-                    IsActive = 1,
+                    IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
                     CreatedAt = DateTime.Now,
@@ -962,7 +948,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "instructor",
                     NormalizedName = "instructor".ToUpper(),
-                    IsActive = 1,
+                    IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
                     CreatedAt = DateTime.Now,
@@ -974,7 +960,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                     ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
                     Name = "employee",
                     NormalizedName = "employee".ToUpper(),
-                    IsActive = 1,
+                    IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
                     CreatedAt = DateTime.Now,
@@ -996,13 +982,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                     _Id = "edfeb122-3656-483b-b477-17c827f44cd4",
                     ApiKey = null,
                     UserName = "admin",
-                    IsLdap = 0,
+                    IsLdap = false,
                     PasswordHash = "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", // = "q?$A!P_D5eT&D2BB"
                     FirstName = "Abe",
                     LastName = "Sal",
                     Email = "ahmed.kamal@mped.gov.eg",
-                    IsBanned = 0,
-                    IsVerified = 0,
+                    IsBanned = false,
+                    IsVerified = false,
                     ConfirmCode = "1234                                ",
                     ConfirmedAt = null,
                     PasswordChangedAt = DateTime.Now,

@@ -168,7 +168,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     course.Categories = course.CourseCategories.Select(e => new Category { Id = e.Category.Id, Name = e.Category.Name }).ToList();
                     course.Progress = enroll.Progress;
                     course.ClassesCount = classCount;
-                    var certificate = await _dbContext.Certificates.Where(e => e.UserId == userId && e.Status == 1 && e.CourseId == course.Id).FirstOrDefaultAsync();
+                    var certificate = await _dbContext.Certificates.Where(e => e.UserId == userId && e.Status == true && e.CourseId == course.Id).FirstOrDefaultAsync();
                     if (certificate != null)
                     {
                         course.HasCertificate = true;

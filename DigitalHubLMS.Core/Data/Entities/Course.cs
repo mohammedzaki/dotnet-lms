@@ -34,7 +34,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string Thumbnail { get; set; }
         [Column("published")]
-        public byte Published { get; set; }
+        public bool Published { get; set; }
         [Column("duration")]
         public int? Duration { get; set; }
         [Column("created_at")]

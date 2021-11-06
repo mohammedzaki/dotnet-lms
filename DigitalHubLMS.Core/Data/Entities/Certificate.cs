@@ -33,7 +33,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
 
         [Column("status")]
-        public byte Status { get; set; }
+        public bool Status { get; set; }
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
         [Column("updated_at")]

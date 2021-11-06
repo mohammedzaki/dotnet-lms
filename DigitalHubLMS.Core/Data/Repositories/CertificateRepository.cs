@@ -38,7 +38,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
         {
             var certificates = await _dbContext.Certificates
                 .Include(e => e.Course)
-                .Where(e => e.UserId == userId && e.Status == 1).ToListAsync();
+                .Where(e => e.UserId == userId && e.Status == true).ToListAsync();
             certificates.ForEach(cert =>
             {
                 cert.Title = cert.Course.Title;
