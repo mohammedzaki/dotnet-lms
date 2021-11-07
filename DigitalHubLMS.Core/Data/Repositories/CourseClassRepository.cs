@@ -184,7 +184,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     var newClassQuizTake = new ClassQuizTake {
                         Id = newId,
                         ClassQuizId = classQuiz.Id,
-                        Score = (byte)(quiz.Questions.Count * 10),
+                        Score = (short)(quiz.Questions.Count * 10),
                         UserId = userId,
                         Attempt = 0
                     };

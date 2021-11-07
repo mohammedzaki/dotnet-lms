@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalHubLMS.Migrations.Migrations
 {
     [DbContext(typeof(DigitalHubLMSContext))]
-    [Migration("20211106221501_InitialCreate")]
+    [Migration("20211107073746_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -571,8 +571,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    b.Property<byte>("Attempt")
-                        .HasColumnType("tinyint")
+                    b.Property<short>("Attempt")
+                        .HasColumnType("smallint")
                         .HasColumnName("attempt");
 
                     b.Property<long>("ClassQuizTakeId")
@@ -592,8 +592,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("question_id");
 
-                    b.Property<byte>("Score")
-                        .HasColumnType("tinyint")
+                    b.Property<short>("Score")
+                        .HasColumnType("smallint")
                         .HasColumnName("score");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -635,8 +635,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("int")
                         .HasColumnName("quiz_result");
 
-                    b.Property<byte>("Score")
-                        .HasColumnType("tinyint")
+                    b.Property<short>("Score")
+                        .HasColumnType("smallint")
                         .HasColumnName("score");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -1751,60 +1751,60 @@ namespace DigitalHubLMS.Migrations.Migrations
                         {
                             Id = 1L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 473, DateTimeKind.Local).AddTicks(7300),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 503, DateTimeKind.Local).AddTicks(7970),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "system",
                             NormalizedName = "SYSTEM",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(10),
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 567, DateTimeKind.Local).AddTicks(5680),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 2L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1730),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6300),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "admin",
                             NormalizedName = "ADMIN",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1750),
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6310),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 3L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1770),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6350),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "supervisor",
                             NormalizedName = "SUPERVISOR",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1770),
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6350),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 4L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1790),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6370),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "instructor",
                             NormalizedName = "INSTRUCTOR",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1790),
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6380),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 5L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1810),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6390),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "employee",
                             NormalizedName = "EMPLOYEE",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 493, DateTimeKind.Local).AddTicks(1810),
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6400),
                             UpdatedBy = 1L
                         });
                 });
@@ -1902,72 +1902,72 @@ namespace DigitalHubLMS.Migrations.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(2080),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(1730),
                             Question = "What was the street name you lived in as a child?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(3440)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(2910)
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4760),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4740),
                             Question = "What primary school did you attend?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4780)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4750)
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4790),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4760),
                             Question = "In what city or town was your first job?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4790)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4770)
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4800),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4770),
                             Question = "What was the make and model of your first car?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4810)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4780)
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4810),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4780),
                             Question = "What is your oldest cousin's first and last name?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4820)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4790)
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4790),
                             Question = "What was the street name you lived in as a child?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4800)
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4830),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4800),
                             Question = "What primary school did you attend?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4840)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4810)
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4840),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4810),
                             Question = "In what city or town was your first job?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4860)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4830)
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4870),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4830),
                             Question = "What was the make and model of your first car?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4880)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4840)
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4880),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4840),
                             Question = "What is your oldest cousin's first and last name?",
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 501, DateTimeKind.Local).AddTicks(4890)
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4850)
                         });
                 });
 
@@ -2294,7 +2294,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7",
                             ConfirmCode = "1234                                ",
-                            CreatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 499, DateTimeKind.Local).AddTicks(390),
+                            CreatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 577, DateTimeKind.Local).AddTicks(9530),
                             CreatedBy = 1L,
                             DisplayName = "Abdalla Salah",
                             Email = "ahmed.kamal@mped.gov.eg",
@@ -2307,12 +2307,12 @@ namespace DigitalHubLMS.Migrations.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "AHMED.KAMAL@MPED.GOV.EG",
                             NormalizedUserName = "ADMIN",
-                            PasswordChangedAt = new DateTime(2021, 11, 7, 0, 14, 56, 498, DateTimeKind.Local).AddTicks(2860),
+                            PasswordChangedAt = new DateTime(2021, 11, 7, 9, 37, 42, 577, DateTimeKind.Local).AddTicks(910),
                             PasswordHash = "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "27c0b512-9f7e-4ce7-bcff-6563379cbe20",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2021, 11, 7, 0, 14, 56, 499, DateTimeKind.Local).AddTicks(1530),
+                            UpdatedAt = new DateTime(2021, 11, 7, 9, 37, 42, 578, DateTimeKind.Local).AddTicks(1380),
                             UpdatedBy = 1L,
                             UserName = "admin",
                             _Id = "edfeb122-3656-483b-b477-17c827f44cd4"

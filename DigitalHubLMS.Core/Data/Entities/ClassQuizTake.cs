@@ -23,7 +23,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("attempt")]
         public int Attempt { get; set; }
         [Column("score")]
-        public byte Score { get; set; }
+        public short Score { get; set; }
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
         [Column("updated_at")]
