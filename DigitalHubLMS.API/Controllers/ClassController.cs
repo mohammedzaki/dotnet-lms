@@ -72,14 +72,6 @@ namespace DigitalHubLMS.API.Controllers
             return Created(nameof(Change), changeClass);
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public virtual async Task<ActionResult<bool>> TestPDF(string name, string title)
-        {
-            await CertificateGenerator.GeneratePDF(name, title);
-            return true;
-        }
-
         // GET: [ControllerName]/:id
         /// <returns>successful deleted entity</returns>
         /// <response code="200">Returns entity data</response>
