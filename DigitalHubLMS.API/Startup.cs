@@ -37,6 +37,7 @@ using DigitalHubLMS.Core.Services.Contracts;
 using DigitalHubLMS.Core.Services;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using DigitalHubLMS.API.Utility;
 
 namespace DigitalHubLMS.API
 {
@@ -185,16 +186,19 @@ namespace DigitalHubLMS.API
             .AddEntityFrameworkStores<DigitalHubLMSContext>();
 
             services.AddTransient(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddScoped<ICertificateGenerator, CertificateGenerator>();
+
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRepository<Quiz, long>, QuizRepository>();
-            services.AddScoped<IRepository<Course, long>, CourseRepository>();
-            services.AddScoped<IRepository<Group, long>, DepartmentRepository>();
-            services.AddScoped<IRepository<Category, long>, CategoryRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             services.AddScoped<ICertificatesRepository, CertificateRepository>();
             services.AddScoped<ICourseClassRepository, CourseClassRepository>();
+            services.AddScoped<IRepository<Quiz, long>, QuizRepository>();
+            services.AddScoped<IRepository<Course, long>, CourseRepository>();
+            services.AddScoped<IRepository<Group, long>, DepartmentRepository>();
+            services.AddScoped<IRepository<Category, long>, CategoryRepository>();
 
             services.AddScoped<IRepository<Announcement, long>, EntityRepository<DigitalHubLMSContext, Announcement, long>>();
             services.AddScoped<IRepository<User, long>, EntityRepository<DigitalHubLMSContext, User, long>>();
@@ -215,7 +219,6 @@ namespace DigitalHubLMS.API
             services.AddScoped<IRepository<ClassQuizAnswer, long>, EntityRepository<DigitalHubLMSContext, ClassQuizAnswer, long>>();
             services.AddScoped<IRepository<ClassUserMeta, long>, EntityRepository<DigitalHubLMSContext, ClassUserMeta, long>>();
             services.AddScoped<IRepository<ProfilePicture, long>, EntityRepository<DigitalHubLMSContext, ProfilePicture, long>>();
-            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddScoped<IRepository<ClassQuiz, long>, EntityRepository<DigitalHubLMSContext, ClassQuiz, long>>();
             services.AddScoped<IRepository<ClassData, long>, EntityRepository<DigitalHubLMSContext, ClassData, long>>();
         }

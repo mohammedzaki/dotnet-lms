@@ -33,7 +33,7 @@ namespace DigitalHubLMS.API.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Document>> UploadCourseDocument(
             [Required]
-            [MaxFileSize(5 * 1024 * 1024)]
+            [MaxFileSize(20 * 1024 * 1024)]
             [AllowedTypes(new string[] {
                 "application/pdf",
                 "text/html",

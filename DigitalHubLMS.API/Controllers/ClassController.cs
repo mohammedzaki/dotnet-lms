@@ -4,12 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DigitalHubLMS.API.Utility;
 using DigitalHubLMS.Core.Data.Entities;
-using DigitalHubLMS.Core.Data.Repositories.Contracts;
-using DigitalHubLMS.Core.Services;
 using DigitalHubLMS.Core.Services.Contracts;
-using DinkToPdf;
-using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +23,7 @@ namespace DigitalHubLMS.API.Controllers
         protected readonly IRepository<ClassQuizAnswer, long> ClassQuizAnswerRepository;
         protected readonly IRepository<ClassUserMeta, long> ClassUserMetaRepository;
         protected readonly IStorageService StorageService;
-        protected readonly IConverter Converter;
+        protected readonly ICertificateGenerator CertificateGenerator;
 
         public ClassController(
             IRepository<CourseClass, long> repository,
@@ -33,7 +31,7 @@ namespace DigitalHubLMS.API.Controllers
             IRepository<ClassQuizAnswer, long> classQuizAnswerRepository,
             IRepository<ClassUserMeta, long> classUserMetaRepository,
             IStorageService storageService,
-            IConverter converter,
+            ICertificateGenerator certificateGenerator,
             DigitalHubLMSContext context)
             : base(repository)
         {
@@ -42,7 +40,7 @@ namespace DigitalHubLMS.API.Controllers
             ClassQuizAnswerRepository = classQuizAnswerRepository;
             ClassUserMetaRepository = classUserMetaRepository;
             StorageService = storageService;
-            Converter = converter;
+            CertificateGenerator = certificateGenerator;
         }
 
         // GET: [ControllerName]/:id
@@ -72,6 +70,14 @@ namespace DigitalHubLMS.API.Controllers
                 changeClass = await CourseEnrolRepository.UpdateAsync(changeClass);
             }
             return Created(nameof(Change), changeClass);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public virtual async Task<ActionResult<bool>> TestPDF(string name, string title)
+        {
+            await CertificateGenerator.GeneratePDF(name, title);
+            return true;
         }
 
         // GET: [ControllerName]/:id
@@ -180,54 +186,8 @@ namespace DigitalHubLMS.API.Controllers
 
         private async Task GenerateCertificateAsync(string userDisplayName, string courseTitle, long userId, long courseId)
         {
-            var file = GeneratePDF(userDisplayName, courseTitle);
+            var file = await CertificateGenerator.GeneratePDF(userDisplayName, courseTitle);
             await StorageService.SaveCertificate(file, userId, courseId);
-        }
-
-        private FileInfo GeneratePDF(string name, string title)
-        {
-            var certImg = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/pdf-cert/src/template.jpg");
-            var certTempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/temp", Guid.NewGuid().ToString());
-            var UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/pdf-cert/style.css");
-            var dateStr = DateTime.Today.ToString("dd'/'MM'/'yyyy");
-            var globalSettings = new GlobalSettings
-            {
-                ColorMode = ColorMode.Color,
-                Orientation = Orientation.Landscape,
-                PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = -1, Bottom = -1, Left = -1, Right = -1 },
-                DocumentTitle = "PDF Certificate",
-                Out = certTempFilePath
-            };
-            var objectSettings = new ObjectSettings
-            {
-                HtmlContent = @$"
-                                <!DOCTYPE html>
-                                <html>
-                                <head>
-                                    <link rel='preconnect' href='https://fonts.googleapis.com'>
-                                    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-                                    <link href='https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap' rel='stylesheet'>
-                                </head>
-                                <body>
-                                    <div class='container'>
-                                        <img id='bg' src='{certImg}' />
-                                        <label id='userName'>{name}</label>
-                                        <label id='courseTitle'>{title}</label>
-                                        <label id='issuedDate'>{dateStr}</label>
-                                    </div>
-                                </body>
-                                </html>
-                                ",
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = UserStyleSheet }
-            };
-            var pdf = new HtmlToPdfDocument()
-            {
-                GlobalSettings = globalSettings,
-                Objects = { objectSettings }
-            };
-            Converter.Convert(pdf);
-            return new FileInfo(certTempFilePath);
         }
     }
 }
