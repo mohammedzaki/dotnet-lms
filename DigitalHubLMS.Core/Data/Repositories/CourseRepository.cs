@@ -139,6 +139,54 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return courseEnrols;
         }
 
+        public async Task<List<CourseEnrol>> GetCourseTracking(long courseId)
+        {
+            var course = await _dbContext.Courses
+                .Include(e => e.Sections)
+                .ThenInclude(e => e.CourseClasses)
+                .Include(e => e.CourseEnrols)
+                .Include(e => e.CourseMeta)
+                .Where(e => e.Id == courseId).FirstOrDefaultAsync();
+            if (course == null)
+            {
+                throw new KeyNotFoundException($"{typeof(Course).ShortDisplayName()} Not Found");
+            }
+            var courseEnrols = course.CourseEnrols.ToList();
+            var courseDuration = course.Duration;
+            var date_now = DateTime.Now;
+            var date_of_expiry = course.CreatedAt.Value.AddDays(course.Duration.Value);
+
+            courseEnrols.ForEach(async enrolled =>
+            {
+                var userId = enrolled.UserId;
+                var lastUpdate = enrolled.UpdatedAt;
+                var diffLast = (lastUpdate - date_of_expiry).Value.TotalDays;
+                enrolled.CourseEnds = date_of_expiry;
+                enrolled.BehindDays = 0;
+                if (enrolled.Progress != 100) {
+                    enrolled.BehindDays = diffLast;
+                }
+                foreach (var section in course.Sections)
+                {
+                    foreach (var courseClass in section.CourseClasses)
+                    {
+                        var isCompleted = await _dbContext.ClassUserMeta.Where(e => e.UserId == userId && e.CourseClassId == courseClass.Id).FirstOrDefaultAsync();
+                        if (isCompleted != null)
+                        {
+                            courseClass.Completed = isCompleted.Completed;
+                        }
+                        else
+                        {
+                            courseClass.Completed = 0;
+                        }
+
+                    }
+                    enrolled.CourseProgress = course.Sections;
+                }
+            });
+            return courseEnrols;
+        }
+
         public async Task<Course> GetUserCoursePage(long userId, string courseSlug)
         {
             var course = await _dbContext.Courses

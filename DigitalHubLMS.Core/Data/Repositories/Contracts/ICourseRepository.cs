@@ -18,5 +18,7 @@ namespace DigitalHubLMS.Core.Data.Repositories.Contracts
         Task<CourseClass> GetNextCourseClass(long courseId, long classId);
 
         Task<Course> GetUserCourseTaking(long userId, string courseSlug);
+
+        Task<List<CourseEnrol>> GetCourseTracking(long courseId);
     }
 }

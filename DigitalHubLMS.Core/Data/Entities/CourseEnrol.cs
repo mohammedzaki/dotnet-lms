@@ -47,5 +47,13 @@ namespace DigitalHubLMS.Core.Data.Entities
         public int Quizes { get; set; }
         [NotMapped]
         public double Duration { get; set; }
+        [NotMapped]
+        public DateTime? CourseEnds { get; set; }
+        [NotMapped]
+        public double BehindDays { get; set; }
+        [NotMapped]
+        public virtual ICollection<Section> CourseProgress { get; set; }
+
+        
     }
 }

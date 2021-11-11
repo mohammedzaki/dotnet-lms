@@ -24,7 +24,7 @@ namespace DigitalHubLMS.Core.Services
         private readonly IRepository<Certificate, long> CertificateRepository;
         private readonly IUserRepository UserRepository;
         private Random random = new Random();
-        private ClaimsPrincipal User { get; set; }
+        private readonly ClaimsPrincipal User;
 
         private string StorageDirectoryPath;
 
@@ -35,7 +35,8 @@ namespace DigitalHubLMS.Core.Services
             IRepository<Image, long> imageRepository,
             IRepository<Subtitle, long> subtitleRepository,
             IRepository<Certificate, long> certificateRepository,
-            IRepository<Media, long> mediaRepository, ClaimsPrincipal claimsPrincipal)
+            IRepository<Media, long> mediaRepository,
+            ClaimsPrincipal claimsPrincipal)
         {
             StorageDirectoryPath = Configuration.GetStoragePath();
             DocumentRepository = documentRepository;

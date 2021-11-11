@@ -186,10 +186,7 @@ namespace DigitalHubLMS.API
             .AddEntityFrameworkStores<DigitalHubLMSContext>();
 
             services.AddTransient(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
-            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
-            services.AddScoped<ICertificateGenerator, CertificateGenerator>();
 
-            services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
@@ -221,6 +218,12 @@ namespace DigitalHubLMS.API
             services.AddScoped<IRepository<ProfilePicture, long>, EntityRepository<DigitalHubLMSContext, ProfilePicture, long>>();
             services.AddScoped<IRepository<ClassQuiz, long>, EntityRepository<DigitalHubLMSContext, ClassQuiz, long>>();
             services.AddScoped<IRepository<ClassData, long>, EntityRepository<DigitalHubLMSContext, ClassData, long>>();
+            services.AddScoped<IRepository<UserGroup, long>, EntityRepository<DigitalHubLMSContext, UserGroup, long>>();
+            services.AddScoped<IRepository<ClassQuizTake, long>, EntityRepository<DigitalHubLMSContext, ClassQuizTake, long>>();
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddScoped<ICertificateGenerator, CertificateGenerator>();
+            services.AddScoped<IStorageService, StorageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

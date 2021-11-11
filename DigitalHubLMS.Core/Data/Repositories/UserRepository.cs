@@ -12,6 +12,8 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using DigitalHubLMS.Core.Data.Repositories.Contracts;
+using System.Security.Claims;
+using MZCore.Helpers;
 
 namespace DigitalHubLMS.Core.Data.Repositories
 {
@@ -22,6 +24,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
         private readonly IRepository<UserInfo, long> UserInfoRepository;
         private readonly IRepository<UserSecurityQuestion, long> UserSecurityQuestionRepository;
         private readonly IRepository<ProfilePicture, long> ProfilePictureRepository;
+        private readonly IRepository<UserGroup, long> UserGroupRepository;
+        private readonly IRepository<CourseEnrol, long> CourseEnrolRepository;
+        private readonly ClaimsPrincipal User;
 
         public UserRepository(
             DigitalHubLMSContext context,
@@ -29,7 +34,10 @@ namespace DigitalHubLMS.Core.Data.Repositories
             SignInManager<User> signInManager,
             IRepository<UserInfo, long> userInfoRepository,
             IRepository<ProfilePicture, long> profilePictureRepository,
-            IRepository<UserSecurityQuestion, long> userSecurityQuestionRepository)
+            IRepository<UserSecurityQuestion, long> userSecurityQuestionRepository,
+            IRepository<UserGroup, long> userGroupRepository,
+            IRepository<CourseEnrol, long> courseEnrolRepository,
+            ClaimsPrincipal claimsPrincipal)
             : base(context)
         {
             _userManager = userManager;
@@ -37,6 +45,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
             UserInfoRepository = userInfoRepository;
             UserSecurityQuestionRepository = userSecurityQuestionRepository;
             ProfilePictureRepository = profilePictureRepository;
+            UserGroupRepository = userGroupRepository;
+            CourseEnrolRepository = courseEnrolRepository;
+            User = claimsPrincipal;
         }
 
         public UserManager<User> GetUserManager()
@@ -161,20 +172,14 @@ namespace DigitalHubLMS.Core.Data.Repositories
         {
             foreach (var g in user.SelectedGroups)
             {
-                //TODO: Add login user id
-                var usergroup = new UserGroup { GroupId = g.Id, UserId = user.Id, CreatedAt = DateTime.Now, CreatedBy = 1 };
-                _dbContext.UserGroups.Add(usergroup);
-                await _dbContext.SaveChangesAsync();
-
+                await UserGroupRepository.SaveAsync(new UserGroup { GroupId = g.Id, UserId = user.Id, CreatedAt = DateTime.Now, CreatedBy = User.GetLoggedInUserId<long>() });
                 var coursesDepartments = await _dbContext.CourseDepartments.Where(e => e.GroupId == g.Id).ToListAsync();
 
                 foreach (var courseDept in coursesDepartments)
                 {
                     if (courseDept.CourseId != null)
                     {
-                        var changeClass = new CourseEnrol { CourseId = courseDept.CourseId, UserId = user.Id };
-                        _dbContext.CourseEnrols.Add(changeClass);
-                        await _dbContext.SaveChangesAsync();
+                        await CourseEnrolRepository.SaveAsync(new CourseEnrol { CourseId = courseDept.CourseId, UserId = user.Id });
                         /*
                          if ($changeClass->wasRecentlyCreated) {
                             if ($user->email) {
@@ -190,9 +195,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         private async Task CreateUserInfo(User user)
         {
-            var userInfo = new UserInfo { UserId = user.Id, Title = user.Title, Description = user.Description };
-            _dbContext.UserInfos.Add(userInfo);
-            await _dbContext.SaveChangesAsync();
+            await UserInfoRepository.SaveAsync(new UserInfo { UserId = user.Id, Title = user.Title, Description = user.Description });
         }
 
         public override async Task<int> DeleteAsync(long id)

@@ -18,16 +18,19 @@ namespace DigitalHubLMS.Core.Data.Repositories
         protected readonly IRepository<Quiz, long> QuizRepository;
         protected readonly IRepository<ClassQuiz, long> ClassQuizRepository;
         protected readonly IRepository<ClassData, long> ClassDataQuizRepository;
+        protected readonly IRepository<ClassQuizTake, long> ClassQuizTakeRepository;
 
         public CourseClassRepository(DigitalHubLMSContext context,
             IRepository<Quiz, long> quizRepository,
             IRepository<ClassQuiz, long> classQuizRepository,
-            IRepository<ClassData, long> classDataQuizRepository)
+            IRepository<ClassData, long> classDataQuizRepository,
+            IRepository<ClassQuizTake, long> classQuizTakeRepository)
             : base(context)
         {
             QuizRepository = quizRepository;
             ClassQuizRepository = classQuizRepository;
             ClassDataQuizRepository = classDataQuizRepository;
+            ClassQuizTakeRepository = classQuizTakeRepository;
         }
 
         public override async Task<CourseClass> SaveAsync(CourseClass entity)
@@ -180,16 +183,14 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     .Where(e => e.ClassQuizId == quiz.Id && e.UserId == userId).FirstOrDefaultAsync();
                 if (classQuizTake != null) {
                     var classQuiz = courseClass.ClassQuizzes.First();
-                    var newId = _dbContext.ClassQuizTakes.Max(e => e.Id) + 1;
-                    var newClassQuizTake = new ClassQuizTake {
-                        Id = newId,
+                    var newClassQuizTake = await ClassQuizTakeRepository.SaveAsync(new ClassQuizTake
+                    {
+                        //Id = newId,
                         ClassQuizId = classQuiz.Id,
                         Score = (short)(quiz.Questions.Count * 10),
                         UserId = userId,
                         Attempt = 0
-                    };
-                    _dbContext.ClassQuizTakes.Add(newClassQuizTake);
-                    await _dbContext.SaveChangesAsync();
+                    });
                     courseClass.TakeId = newClassQuizTake.Id;
                     courseClass.Answers = newClassQuizTake.ClassQuizAnswers;
                 }
