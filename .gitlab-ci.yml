@@ -3,9 +3,9 @@ services:
   - docker:19.03.5-dind
 
 variables:
-  CI_STAGING_MIG_IMAGE: registry.gitlab.com/mohamedzaki.eye/digital-hub-lms/mig/staging:$CI_COMMIT_SHA
-  CI_STAGING_WEB_IMAGE: registry.gitlab.com/mohamedzaki.eye/digital-hub-lms/web/staging:$CI_COMMIT_SHA
-  CI_STAGING_API_IMAGE: registry.gitlab.com/mohamedzaki.eye/digital-hub-lms/api/staging:$CI_COMMIT_SHA
+  CI_STAGING_MIG_IMAGE: registry.gitlab.com/digital-hub-group/digitalhublms/digital-hub-lms/mig/staging:$CI_COMMIT_SHA
+  CI_STAGING_WEB_IMAGE: registry.gitlab.com/digital-hub-group/digitalhublms/digital-hub-lms/web/staging:$CI_COMMIT_SHA
+  CI_STAGING_API_IMAGE: registry.gitlab.com/digital-hub-group/digitalhublms/digital-hub-lms/api/staging:$CI_COMMIT_SHA
 
 stages:
   - prepare

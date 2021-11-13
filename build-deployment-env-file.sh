@@ -21,4 +21,5 @@ stringData:
   ConnectionStrings__DefaultConnection: "Server=$DB_SERVER_HOST,$DB_SERVER_PORT;Database=$DB_SERVER_DATABASE;User Id=$DB_SERVER_USER;Password=$DB_SERVER_PASSWD;"
   ASPNETCORE_URLS: "https://+;http://+"
   LettuceEncrypt__PersistDataDirectory: "/app/gce-persistent-disk/LettuceEncrypt/"
+  UseLettuceEncryptSSL: "$CI_UseLettuceEncryptSSL"
 EOL

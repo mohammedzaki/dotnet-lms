@@ -64,11 +64,16 @@ namespace DigitalHubLMS.API
 
             var directoryPath = Configuration["LettuceEncrypt:PersistDataDirectory"];
 
+            var useLettuceEncryptSSL = Configuration.GetValue("UseLettuceEncryptSSL", false);
+
             if (!_env.IsDevelopment())
             {
-                services
-                    .AddLettuceEncrypt()
-                    .PersistDataToDirectory(new DirectoryInfo(directoryPath), "MmR!#63^V5Fu7m!T");
+                if (useLettuceEncryptSSL)
+                {
+                    services
+                        .AddLettuceEncrypt()
+                        .PersistDataToDirectory(new DirectoryInfo(directoryPath), "MmR!#63^V5Fu7m!T");
+                }
             }
 
             services.AddCors(options =>
@@ -246,13 +251,13 @@ namespace DigitalHubLMS.API
 
             app.UseMZCoreAPIExceptionMiddleware();
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseHttpsRedirection();
 
             app.UseAppStorage();
 
             app.UseRouting();
-
-            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthentication();
 
