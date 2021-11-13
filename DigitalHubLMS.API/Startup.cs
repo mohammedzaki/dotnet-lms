@@ -66,9 +66,9 @@ namespace DigitalHubLMS.API
 
             if (!_env.IsDevelopment())
             {
-                //services
-                //    .AddLettuceEncrypt()
-                //    .PersistDataToDirectory(new DirectoryInfo(directoryPath), "MmR!#63^V5Fu7m!T");
+                services
+                    .AddLettuceEncrypt()
+                    .PersistDataToDirectory(new DirectoryInfo(directoryPath), "MmR!#63^V5Fu7m!T");
             }
 
             services.AddCors(options =>
@@ -97,8 +97,8 @@ namespace DigitalHubLMS.API
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    // options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver
                     {
                         NamingStrategy = new SnakeCaseNamingStrategy()
