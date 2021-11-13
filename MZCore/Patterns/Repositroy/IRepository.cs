@@ -18,6 +18,8 @@ namespace MZCore.Patterns.Repositroy
     {
         Task<List<TEntity>> GetAll();
 
+        Task<bool> CheckIdIsExistsAsync(TKey id);
+
         Task<TEntity> FindByIdAsync(TKey id);
 
         Task<TEntity> SaveAsync(TEntity entity);

@@ -29,12 +29,17 @@ namespace MZCore.Patterns.Repositroy
             return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
+        public virtual async Task<bool> CheckIdIsExistsAsync(TKey id)
+        {
+            return await _dbContext.Set<TEntity>().FindAsync(id) != null;
+        }
+
         public virtual async Task<TEntity> FindByIdAsync(TKey id)
         {
             var entity = await _dbContext.Set<TEntity>().FindAsync(id);
             if (entity == null)
             {
-                throw new KeyNotFoundException($"{typeof(TEntity).ShortDisplayName()} Not Found");
+                throw new KeyNotFoundException($"{typeof(TEntity).ShortDisplayName()} with id {id} Not Found");
             }
             return entity;
         }
@@ -57,7 +62,7 @@ namespace MZCore.Patterns.Repositroy
             {
                 throw new ArgumentNullException($"{nameof(UpdateAsync)} entity must not be null");
             }
-            _dbContext.Update(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return entity;
         }

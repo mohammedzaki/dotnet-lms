@@ -98,6 +98,13 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return course;
         }
 
+        public override async Task<Course> UpdateAsync(Course course)
+        {
+            await base.UpdateAsync(course);
+
+            return course;
+        }
+
         public async Task<List<CourseEnrol>> GetEnrolledCourses(long userId)
         {
             var courseEnrols = await _dbContext.CourseEnrols

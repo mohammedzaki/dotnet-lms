@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using MZCore.Helpers;
 using MZCore.Patterns.Repositroy;
 
 namespace MZCore.Patterns.Generices
@@ -59,8 +61,25 @@ namespace MZCore.Patterns.Generices
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public virtual async Task<ActionResult<TEntity>> Put(TKey id, TEntity entity)
+        public virtual async Task<ActionResult<TEntity>> Put(TKey id, TEntity inputentity)
         {
+            var entity = await _repository.FindByIdAsync(id);
+            var patchentity = JsonPatchDocumentExtension.From(inputentity);
+            patchentity.ApplyTo(entity);
+            return await _repository.UpdateAsync(entity);
+        }
+
+        // Patch: [ControllerName]/:id
+
+        /// <returns>successful updated entity</returns>
+        /// <response code="201">Returns the updated item</response>
+        /// <response code="400">If the item is null</response>    
+        /// <response code="404">If the item is null</response>         
+        [HttpPatch("{id}")]
+        public virtual async Task<ActionResult<TEntity>> Patch(TKey id, [FromBody] JsonPatchDocument<TEntity> patchentity)
+        {
+            var entity = await _repository.FindByIdAsync(id);
+            patchentity.ApplyTo(entity);
             return await _repository.UpdateAsync(entity);
         }
 
