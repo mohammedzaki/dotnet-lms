@@ -205,11 +205,13 @@ namespace DigitalHubLMS.Core.Data.Repositories
             }
             foreach (var userId in usersToInclud)
             {
-                await CourseEnrolRepository.SaveAsync(new CourseEnrol
-                {
-                    CourseId = course.Id,
-                    UserId = userId
-                });
+                await CourseEnrolRepository.SaveAsync(
+                    new CourseEnrol
+                    {
+                        CourseId = course.Id,
+                        UserId = userId,
+                        Type = "course"
+                    });
                 //if ($changeClass->wasRecentlyCreated) {
                 //    if ($u->email) {
                 //        dispatch(new EnrolledEmailJob($u->email, $u, $course));

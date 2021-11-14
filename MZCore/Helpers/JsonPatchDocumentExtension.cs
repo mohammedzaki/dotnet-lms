@@ -28,7 +28,7 @@ namespace MZCore.Helpers
 
             JProperty prop = null;
             JObject obj = null;
-            JArray arr = null;
+            //JArray arr = null;
 
             while (properties.Count > 0)
             {

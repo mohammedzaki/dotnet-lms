@@ -38,6 +38,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     short_description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    is_active = table.Column<bool>(type: "bit", nullable: false),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
                 },
@@ -1293,11 +1294,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: new[] { "id", "ConcurrencyStamp", "created_at", "created_by", "deleted_at", "is_active", "name", "NormalizedName", "updated_at", "updated_by" },
                 values: new object[,]
                 {
-                    { 1L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 9, 37, 42, 503, DateTimeKind.Local).AddTicks(7970), 1L, null, true, "system", "SYSTEM", new DateTime(2021, 11, 7, 9, 37, 42, 567, DateTimeKind.Local).AddTicks(5680), 1L },
-                    { 2L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6300), 1L, null, true, "admin", "ADMIN", new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6310), 1L },
-                    { 3L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6350), 1L, null, true, "supervisor", "SUPERVISOR", new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6350), 1L },
-                    { 4L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6370), 1L, null, true, "instructor", "INSTRUCTOR", new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6380), 1L },
-                    { 5L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6390), 1L, null, true, "employee", "EMPLOYEE", new DateTime(2021, 11, 7, 9, 37, 42, 568, DateTimeKind.Local).AddTicks(6400), 1L }
+                    { 1L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 883, DateTimeKind.Local).AddTicks(1120), 1L, null, true, "system", "SYSTEM", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(7920), 1L },
+                    { 2L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8810), 1L, null, true, "admin", "ADMIN", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8820), 1L },
+                    { 3L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8830), 1L, null, true, "supervisor", "SUPERVISOR", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8830), 1L },
+                    { 4L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8840), 1L, null, true, "instructor", "INSTRUCTOR", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8840), 1L },
+                    { 5L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8850), 1L, null, true, "employee", "EMPLOYEE", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8850), 1L }
                 });
 
             migrationBuilder.InsertData(
@@ -1305,22 +1306,22 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: new[] { "id", "created_at", "question", "updated_at" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(1730), "What was the street name you lived in as a child?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(2910) },
-                    { 2L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4740), "What primary school did you attend?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4750) },
-                    { 3L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4760), "In what city or town was your first job?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4770) },
-                    { 4L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4770), "What was the make and model of your first car?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4780) },
-                    { 5L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4780), "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4790) },
-                    { 6L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4790), "What was the street name you lived in as a child?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4800) },
-                    { 7L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4800), "What primary school did you attend?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4810) },
-                    { 8L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4810), "In what city or town was your first job?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4830) },
-                    { 9L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4830), "What was the make and model of your first car?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4840) },
-                    { 10L, new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4840), "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 7, 9, 37, 42, 580, DateTimeKind.Local).AddTicks(4850) }
+                    { 1L, new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(8940), "What was the street name you lived in as a child?", new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(9480) },
+                    { 2L, new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(9990), "What primary school did you attend?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local) },
+                    { 3L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local), "In what city or town was your first job?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local) },
+                    { 4L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local), "What was the make and model of your first car?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local) },
+                    { 5L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10), "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10) },
+                    { 6L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10), "What was the street name you lived in as a child?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10) },
+                    { 7L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10), "What primary school did you attend?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20) },
+                    { 8L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20), "In what city or town was your first job?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20) },
+                    { 9L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20), "What was the make and model of your first car?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20) },
+                    { 10L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(30), "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(30) }
                 });
 
             migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "id", "AccessFailedCount", "api_key", "ConcurrencyStamp", "confirm_code", "confirmed_at", "created_at", "created_by", "deleted_at", "display_name", "email", "EmailConfirmed", "first_name", "is_banned", "is_ldap", "is_verified", "last_name", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "otp", "otp_created_at", "password_changed_at", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "profile_picture_id", "remember_token", "SecurityStamp", "TwoFactorEnabled", "updated_at", "updated_by", "username", "_id", "user_url" },
-                values: new object[] { 1L, 0, null, "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7", "1234                                ", null, new DateTime(2021, 11, 7, 9, 37, 42, 577, DateTimeKind.Local).AddTicks(9530), 1L, null, "Abdalla Salah", "ahmed.kamal@mped.gov.eg", true, "Abe", false, false, false, "Sal", false, null, "AHMED.KAMAL@MPED.GOV.EG", "ADMIN", null, null, new DateTime(2021, 11, 7, 9, 37, 42, 577, DateTimeKind.Local).AddTicks(910), "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", null, false, null, null, "27c0b512-9f7e-4ce7-bcff-6563379cbe20", false, new DateTime(2021, 11, 7, 9, 37, 42, 578, DateTimeKind.Local).AddTicks(1380), 1L, "admin", "edfeb122-3656-483b-b477-17c827f44cd4", null });
+                values: new object[] { 1L, 0, null, "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7", "1234                                ", null, new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(830), 1L, null, "Abdalla Salah", "ahmed.kamal@mped.gov.eg", true, "Abe", false, false, false, "Sal", false, null, "AHMED.KAMAL@MPED.GOV.EG", "ADMIN", null, null, new DateTime(2021, 11, 15, 0, 53, 30, 891, DateTimeKind.Local).AddTicks(7450), "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", null, false, null, null, "27c0b512-9f7e-4ce7-bcff-6563379cbe20", false, new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(1350), 1L, "admin", "edfeb122-3656-483b-b477-17c827f44cd4", null });
 
             migrationBuilder.InsertData(
                 table: "user_role",
