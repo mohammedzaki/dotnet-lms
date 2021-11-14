@@ -224,6 +224,9 @@ namespace DigitalHubLMS.API
             services.AddScoped<IRepository<ClassData, long>, EntityRepository<DigitalHubLMSContext, ClassData, long>>();
             services.AddScoped<IRepository<UserGroup, long>, EntityRepository<DigitalHubLMSContext, UserGroup, long>>();
             services.AddScoped<IRepository<ClassQuizTake, long>, EntityRepository<DigitalHubLMSContext, ClassQuizTake, long>>();
+            services.AddScoped<IRepository<CourseCategory, long>, EntityRepository<DigitalHubLMSContext, CourseCategory, long>>();
+            services.AddScoped<IRepository<CourseDepartment, long>, EntityRepository<DigitalHubLMSContext, CourseDepartment, long>>();
+            services.AddScoped<IRepository<CourseData, long>, EntityRepository<DigitalHubLMSContext, CourseData, long>>();
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddScoped<ICertificateGenerator, CertificateGenerator>();
@@ -236,7 +239,7 @@ namespace DigitalHubLMS.API
             if (env.IsDevelopment() || env.IsStaging())
             {
                 logger.LogInformation("In Development.");
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
 
             app.UseSwaggerAuthorized();

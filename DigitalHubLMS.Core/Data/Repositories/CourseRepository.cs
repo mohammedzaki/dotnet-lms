@@ -13,9 +13,25 @@ namespace DigitalHubLMS.Core.Data.Repositories
 {
     public class CourseRepository : EntityRepository<DigitalHubLMSContext, Course, long>, ICourseRepository
     {
-        public CourseRepository(DigitalHubLMSContext context)
+        private readonly IRepository<CourseCategory, long> CourseCategoryRepository;
+        private readonly IRepository<CourseEnrol, long> CourseEnrolRepository;
+        private readonly IRepository<CourseDepartment, long> CourseDepartmentRepository;
+        private readonly IRepository<Group, long> DepartmentRepository;
+        private readonly IRepository<CourseData, long> CourseDataRepository;
+
+        public CourseRepository(DigitalHubLMSContext context,
+            IRepository<CourseCategory, long> courseCategoryRepository,
+            IRepository<CourseEnrol, long> courseEnrolRepository,
+            IRepository<CourseDepartment, long> courseDepartmentRepository,
+            IRepository<Group, long> departmentRepository,
+            IRepository<CourseData, long> courseDataRepository)
             : base(context)
         {
+            CourseCategoryRepository = courseCategoryRepository;
+            CourseEnrolRepository = courseEnrolRepository;
+            CourseDepartmentRepository = courseDepartmentRepository;
+            DepartmentRepository = departmentRepository;
+            CourseDataRepository = courseDataRepository;
         }
 
         public override async Task<List<Course>> GetAll()
@@ -32,7 +48,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             {
                 e.CourseData = e.CourseDatum.FirstOrDefault()?.Data;
                 e.Categories = e.CourseCategories.Select(e => new Category { Id = e.Category.Id, Name = e.Category.Name }).ToList();
-                e.Departments = e.CourseDepartments.Select(e => new Group { Id = e.Group.Id, _Id = e.Group._Id, Name = e.Group.Name, IsLdap = e.Group.IsLdap, IsActive = e.Group.IsActive }).ToList();
+                e.Departments = e.CourseDepartments.Select(e => new Group { Id = e.Group.Id, Name = e.Group.Name, IsLdap = e.Group.IsLdap, IsActive = e.Group.IsActive }).ToList();
                 e.Studying = e.CourseEnrols.Count;
                 e.CourseEnds = e.CreatedAt?.AddDays(e.Duration.GetValueOrDefault());
                 e.CourseDatum = null;
@@ -46,6 +62,12 @@ namespace DigitalHubLMS.Core.Data.Repositories
         public override async Task<Course> FindByIdAsync(long id)
         {
             var course = await _dbContext.Courses
+                .Include(e => e.CourseCategories)
+                .ThenInclude(e => e.Category)
+                .Include(e => e.CourseDepartments)
+                .ThenInclude(e => e.Group)
+                .Include(e => e.CourseEnrols)
+                .Include(e => e.CourseDatum)
 
                 .Include(e => e.Sections.OrderBy(e => e.Order))
                 .ThenInclude(e => e.CourseClasses.OrderBy(e => e.Order))
@@ -74,6 +96,10 @@ namespace DigitalHubLMS.Core.Data.Repositories
             {
                 throw new KeyNotFoundException($"{typeof(Course).ShortDisplayName()} Not Found");
             }
+            course.Categories = course.CourseCategories.Select(e => new Category { Id = e.Category.Id, Name = e.Category.Name }).ToList();
+            course.Departments = course.CourseDepartments.Select(e => new Group { Id = e.Group.Id, Name = e.Group.Name, IsLdap = e.Group.IsLdap, IsActive = e.Group.IsActive }).ToList();
+            course.Included = new List<User>();
+            course.Excluded = new List<User>();
             course.Sections.ToList().ForEach(e =>
             {
                 e.CourseClasses.ToList().ForEach(courseClass =>
@@ -98,10 +124,117 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return course;
         }
 
+        public override async Task<Course> SaveAsync(Course course)
+        {
+            await base.SaveAsync(course);
+            return await SaveCourseGroupsCategories(course);
+        }
+
         public override async Task<Course> UpdateAsync(Course course)
         {
+            var upcourse = course.Copy();
+            upcourse.Excluded = null;
+            upcourse.Included = null;
+            upcourse.Categories = null;
+            upcourse.Departments = null;
             await base.UpdateAsync(course);
 
+            upcourse.Excluded = course.Excluded;
+            upcourse.Included = course.Included;
+            upcourse.Categories = course.Categories;
+            upcourse.Departments = course.Departments;
+            return await SaveCourseGroupsCategories(upcourse);
+        }
+
+        private async Task<Course> SaveCourseGroupsCategories(Course course)
+        {
+            foreach (var cat in course.Categories)
+            {
+                await CourseCategoryRepository.CreateOrUpdateAsync(
+                    e => e.CategoryId == cat.Id && e.CourseId == course.Id,
+                    new CourseCategory
+                    {
+                        CategoryId = cat.Id,
+                        CourseId = course.Id
+                    });
+            }
+            var allCourseGroups = await _dbContext.CourseDepartments.Where(e => e.CourseId == course.Id).Select(e => e.GroupId).ToListAsync();
+            var groupAdded = new List<long>();
+            var usersToInclud = new List<long>();
+            var usersToExclud = new List<long>();
+            foreach (var user in course.Included)
+            {
+                var entity = await _dbContext.CourseEnrols.Where(e => e.UserId == user.Id && e.CourseId == course.Id).FirstOrDefaultAsync();
+                if (entity == null)
+                {
+                    usersToInclud.Add(user.Id);
+                }
+            }
+            foreach (var user in course.Excluded)
+            {
+                usersToExclud.Add(user.Id);
+            }
+            foreach (var group in course.Departments)
+            {
+                await CourseDepartmentRepository.CreateOrUpdateAsync(
+                    e => e.GroupId == group.Id && e.CourseId == course.Id,
+                    new CourseDepartment
+                    {
+                        GroupId = group.Id,
+                        CourseId = course.Id
+                    });
+                groupAdded.Add(group.Id);
+                var groupData = await DepartmentRepository.FindByIdAsync(group.Id);
+                foreach (var userGroup in groupData.UserGroups)
+                {
+                    var e = await _dbContext.CourseEnrols.Where(e => e.UserId == userGroup.UserId && e.CourseId == course.Id).FirstOrDefaultAsync();
+                    if (e == null)
+                    {
+                        usersToInclud.Add(userGroup.UserId);
+                    }
+                }
+            }
+            var toDeleteGroups = allCourseGroups.Except(groupAdded);
+            foreach (var groupId in toDeleteGroups)
+            {
+                var groupData = await DepartmentRepository.FindByIdAsync(groupId);
+                foreach (var userGroup in groupData.UserGroups)
+                {
+                    usersToExclud.Add(userGroup.UserId);
+                }
+            }
+            foreach (var userId in usersToInclud)
+            {
+                await CourseEnrolRepository.SaveAsync(new CourseEnrol
+                {
+                    CourseId = course.Id,
+                    UserId = userId
+                });
+                //if ($changeClass->wasRecentlyCreated) {
+                //    if ($u->email) {
+                //        dispatch(new EnrolledEmailJob($u->email, $u, $course));
+                //    }
+                //}
+            }
+            foreach (var userId in usersToExclud)
+            {
+                var entity = await _dbContext.CourseEnrols.Where(e => e.UserId == userId && e.CourseId == course.Id).FirstOrDefaultAsync();
+                if (entity != null)
+                {
+                    _dbContext.Remove(entity);
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
+            if (!string.IsNullOrEmpty(course.CourseData))
+            {
+                await CourseDataRepository.CreateOrUpdateAsync(
+                    e => e.CourseId == course.Id,
+                    new CourseData
+                    {
+                        CourseId = course.Id,
+                        Data = course.CourseData
+                    });
+            }
             return course;
         }
 
@@ -186,7 +319,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
                         {
                             courseClass.Completed = 0;
                         }
-
                     }
                     enrolled.CourseProgress = course.Sections;
                 }
@@ -302,5 +434,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
             }
             throw new UnauthorizedAccessException("You Not Enrolled.");
         }
+
     }
 }

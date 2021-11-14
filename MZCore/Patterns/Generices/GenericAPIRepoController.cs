@@ -64,8 +64,7 @@ namespace MZCore.Patterns.Generices
         public virtual async Task<ActionResult<TEntity>> Put(TKey id, TEntity inputentity)
         {
             var entity = await _repository.FindByIdAsync(id);
-            var patchentity = JsonPatchDocumentExtension.From(inputentity);
-            patchentity.ApplyTo(entity);
+            JsonPatchDocumentExtension.From(inputentity).ApplyTo(entity);
             return await _repository.UpdateAsync(entity);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -31,7 +32,7 @@ namespace MZCore.Patterns.Repositroy
 
         public virtual async Task<bool> CheckIdIsExistsAsync(TKey id)
         {
-            return await _dbContext.Set<TEntity>().FindAsync(id) != null;
+            return await _dbContext.Set<TEntity>().AnyAsync(e => e.Id.Equals(id));
         }
 
         public virtual async Task<TEntity> FindByIdAsync(TKey id)
@@ -65,6 +66,19 @@ namespace MZCore.Patterns.Repositroy
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return entity;
+        }
+
+        public virtual async Task<TEntity> CreateOrUpdateAsync(Expression<Func<TEntity, bool>> predicate, TEntity entity)
+        {
+            var exists = await _dbContext.Set<TEntity>().Where(predicate).FirstOrDefaultAsync();
+            if (exists != null)
+            {
+                return await UpdateAsync(exists);
+            }
+            else
+            {
+                return await SaveAsync(entity);
+            }
         }
 
         public virtual async Task<int> DeleteAsync(TEntity entity)

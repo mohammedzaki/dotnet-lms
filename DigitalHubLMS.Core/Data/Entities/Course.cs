@@ -42,6 +42,11 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+        public Course Copy()
+        {
+            return (Course) this.MemberwiseClone();
+        }
+
         //no
         [ForeignKey(nameof(InstructorId))]
         [InverseProperty(nameof(User.Courses))]
@@ -101,6 +106,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         public virtual ICollection<Category> Categories { get; set; }
         [NotMapped]
         public virtual ICollection<Group> Departments { get; set; }
+        [NotMapped]
+        public virtual ICollection<User> Included { get; set; }
+        [NotMapped]
+        public virtual ICollection<User> Excluded { get; set; }
         [NotMapped]
         public int Studying { get; set; }
         [NotMapped]

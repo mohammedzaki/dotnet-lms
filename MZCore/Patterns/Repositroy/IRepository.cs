@@ -30,6 +30,6 @@ namespace MZCore.Patterns.Repositroy
 
         Task<int> DeleteAsync(TKey id);
 
-        Task<TEntity> CreateOrUpdateAsync(TEntity entity);
+        Task<TEntity> CreateOrUpdateAsync(Expression<Func<TEntity, bool>> predicate, TEntity entity);
     }
 }
