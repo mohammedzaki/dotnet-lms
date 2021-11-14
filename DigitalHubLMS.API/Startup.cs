@@ -62,14 +62,13 @@ namespace DigitalHubLMS.API
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            var directoryPath = Configuration["LettuceEncrypt:PersistDataDirectory"];
-
             var useLettuceEncryptSSL = Configuration.GetValue("UseLettuceEncryptSSL", false);
 
             if (!_env.IsDevelopment())
             {
                 if (useLettuceEncryptSSL)
                 {
+                    var directoryPath = Configuration.GetValue("LettuceEncrypt:PersistDataDirectory", Path.Combine(Directory.GetCurrentDirectory(), "storage/LettuceEncrypt"));
                     services
                         .AddLettuceEncrypt()
                         .PersistDataToDirectory(new DirectoryInfo(directoryPath), "MmR!#63^V5Fu7m!T");

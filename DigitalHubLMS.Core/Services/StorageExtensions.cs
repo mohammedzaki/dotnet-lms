@@ -19,11 +19,7 @@ namespace DigitalHubLMS.Core.Services
 
         public static string GetStoragePath(this IConfiguration Configuration)
         {
-            StorageDirectoryPath = Configuration.GetValue("Storage:MainPath", "");
-            if (StorageDirectoryPath == "")
-            {
-                StorageDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "storage");
-            }
+            StorageDirectoryPath = Configuration.GetValue("Storage:MainPath", Path.Combine(Directory.GetCurrentDirectory(), "storage"));
             if (!Directory.Exists(StorageDirectoryPath))
             {
                 Directory.CreateDirectory(StorageDirectoryPath);
