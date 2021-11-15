@@ -27,5 +27,27 @@ namespace DigitalHubLMS.API.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<List<CourseEnrol>>> GetCourseTracking(long courseId)
             => await _repository.GetCourseTracking(courseId);
+
+        // PUT: [ControllerName]/:id
+
+        /// <returns>successful updated entity</returns>
+        /// <response code="201">Returns the updated item</response>
+        /// <response code="400">If the item is null</response>    
+        /// <response code="404">If the item is null</response>         
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public override async Task<ActionResult<Course>> Put(long id, Course inputentity)
+        {
+            var entity = await _repository.FindByIdAsync(id);
+            JsonPatchDocumentExtension.From(inputentity).ApplyTo(entity);
+            entity.Categories = inputentity.Categories;
+            entity.Departments = inputentity.Departments;
+            entity.Included = inputentity.Included;
+            entity.Excluded = inputentity.Excluded;
+            return await _repository.UpdateAsync(entity);
+        }
     }
 }
