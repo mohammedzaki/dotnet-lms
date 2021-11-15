@@ -239,8 +239,10 @@ namespace DigitalHubLMS.API
             if (env.IsDevelopment() || env.IsStaging())
             {
                 logger.LogInformation("In Development.");
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
+
+            app.UseMZCoreAPIExceptionMiddleware();
 
             app.UseSwaggerAuthorized();
 
@@ -250,8 +252,6 @@ namespace DigitalHubLMS.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DigitalHubLMS.API v1");
             });
-
-            app.UseMZCoreAPIExceptionMiddleware();
 
             app.UseCors(MyAllowSpecificOrigins);
 
