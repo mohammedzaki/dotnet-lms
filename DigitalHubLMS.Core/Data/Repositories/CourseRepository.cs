@@ -126,12 +126,16 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public override async Task<Course> SaveAsync(Course course)
         {
+            using var transaction = _dbContext.Database.BeginTransaction();
             await base.SaveAsync(course);
-            return await SaveCourseGroupsCategories(course);
+            var res = await SaveCourseGroupsCategories(course);
+            transaction.Commit();
+            return res;
         }
 
         public override async Task<Course> UpdateAsync(Course course)
         {
+            using var transaction = _dbContext.Database.BeginTransaction();
             var upcourse = course.Copy();
             upcourse.Excluded = null;
             upcourse.Included = null;
@@ -143,7 +147,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
             upcourse.Included = course.Included;
             upcourse.Categories = course.Categories;
             upcourse.Departments = course.Departments;
-            return await SaveCourseGroupsCategories(upcourse);
+            var res = await SaveCourseGroupsCategories(course);
+            transaction.Commit();
+            return res;
         }
 
         private async Task<Course> SaveCourseGroupsCategories(Course course)
@@ -162,17 +168,23 @@ namespace DigitalHubLMS.Core.Data.Repositories
             var groupAdded = new List<long>();
             var usersToInclud = new List<long>();
             var usersToExclud = new List<long>();
-            foreach (var user in course.Included)
+            if (course.Included != null)
             {
-                var entity = await _dbContext.CourseEnrols.Where(e => e.UserId == user.Id && e.CourseId == course.Id).FirstOrDefaultAsync();
-                if (entity == null)
+                foreach (var user in course.Included)
                 {
-                    usersToInclud.Add(user.Id);
+                    var entity = await _dbContext.CourseEnrols.Where(e => e.UserId == user.Id && e.CourseId == course.Id).FirstOrDefaultAsync();
+                    if (entity == null)
+                    {
+                        usersToInclud.Add(user.Id);
+                    }
                 }
             }
-            foreach (var user in course.Excluded)
+            if (course.Excluded != null)
             {
-                usersToExclud.Add(user.Id);
+                foreach (var user in course.Excluded)
+                {
+                    usersToExclud.Add(user.Id);
+                }
             }
             foreach (var group in course.Departments)
             {
