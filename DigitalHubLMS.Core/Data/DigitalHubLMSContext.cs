@@ -95,7 +95,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Announcement)
                     .WithMany(p => p.AnnouncementData)
                     .HasForeignKey(d => d.AnnouncementId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("announcement_data_announcement_id_foreign");
             });
 
@@ -110,13 +110,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Announcement)
                     .WithMany(p => p.AnnouncementUsers)
                     .HasForeignKey(d => d.AnnouncementId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("announcement_users_announcement_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AnnouncementUsers)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("announcement_users_user_id_foreign");
             });
 
@@ -133,7 +133,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Instructor)
                     .WithMany(p => p.Bundles)
                     .HasForeignKey(d => d.InstructorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("bundles_instructor_id_foreign");
             });
 
@@ -148,13 +148,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Bundle)
                     .WithMany(p => p.BundleCourses)
                     .HasForeignKey(d => d.BundleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("bundle_courses_bundle_id_foreign");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.BundleCourses)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("bundle_courses_course_id_foreign");
             });
 
@@ -169,13 +169,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Bundle)
                     .WithMany(p => p.BundleEnrols)
                     .HasForeignKey(d => d.BundleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("bundle_enrols_bundle_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.BundleEnrols)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("bundle_enrols_user_id_foreign");
             });
 
@@ -201,13 +201,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Certificates)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("certificates_course_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Certificates)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("certificates_user_id_foreign");
             });
 
@@ -222,7 +222,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.CourseClass)
                     .WithMany(p => p.ClassDatum)
                     .HasForeignKey(d => d.CourseClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_data_course_class_id_foreign");
             });
 
@@ -237,13 +237,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.CourseClass)
                     .WithMany(p => p.ClassDocuments)
                     .HasForeignKey(d => d.CourseClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_document_course_class_id_foreign");
 
                 entity.HasOne(d => d.Document)
                     .WithMany(p => p.ClassDocuments)
                     .HasForeignKey(d => d.DocumentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_document_document_id_foreign");
             });
 
@@ -258,13 +258,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.CourseClass)
                     .WithMany(p => p.ClassMedia)
                     .HasForeignKey(d => d.CourseClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_media_course_class_id_foreign");
 
                 entity.HasOne(d => d.Media)
                     .WithMany(p => p.ClassMedia)
                     .HasForeignKey(d => d.MediaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_media_media_id_foreign");
             });
 
@@ -279,7 +279,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.CourseClass)
                     .WithMany(p => p.ClassMeta)
                     .HasForeignKey(d => d.CourseClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_meta_course_class_id_foreign");
             });
 
@@ -294,14 +294,8 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.CourseClass)
                     .WithMany(p => p.ClassQuizzes)
                     .HasForeignKey(d => d.CourseClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_quiz_course_class_id_foreign");
-
-                //entity.HasOne(d => d.Quiz)
-                //    .WithMany(p => p.ClassQuizzes)
-                //    .HasForeignKey(d => d.QuizId)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("class_quiz_quiz_id_foreign");
             });
 
             modelBuilder.Entity<ClassQuizAnswer>(entity =>
@@ -315,19 +309,19 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.ClassQuizTake)
                     .WithMany(p => p.ClassQuizAnswers)
                     .HasForeignKey(d => d.ClassQuizTakeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_quiz_answers_class_quiz_take_id_foreign");
 
                 entity.HasOne(d => d.Option)
                     .WithMany(p => p.ClassQuizAnswers)
                     .HasForeignKey(d => d.OptionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("class_quiz_answers_option_id_foreign");
 
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.ClassQuizAnswers)
                     .HasForeignKey(d => d.QuestionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("class_quiz_answers_question_id_foreign");
             });
 
@@ -342,13 +336,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.ClassQuiz)
                     .WithMany(p => p.ClassQuizTakes)
                     .HasForeignKey(d => d.ClassQuizId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_quiz_takes_class_quiz_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ClassQuizTakes)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_quiz_takes_user_id_foreign");
             });
 
@@ -363,13 +357,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.CourseClass)
                     .WithMany(p => p.ClassUserMeta)
                     .HasForeignKey(d => d.CourseClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_user_meta_course_class_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ClassUserMeta)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("class_user_meta_user_id_foreign");
             });
 
@@ -384,7 +378,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Instructor)
                     .WithMany(p => p.Courses)
                     .HasForeignKey(d => d.InstructorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    //.OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("courses_instructor_id_foreign");
             });
 
@@ -399,13 +393,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.CourseCategories)
                     .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_category_category_id_foreign");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseCategories)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_category_course_id_foreign");
             });
 
@@ -420,7 +414,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Section)
                     .WithMany(p => p.CourseClasses)
                     .HasForeignKey(d => d.SectionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_classes_section_id_foreign");
             });
 
@@ -435,7 +429,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseDatum)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_data_course_id_foreign");
             });
 
@@ -450,13 +444,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseDepartments)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_department_course_id_foreign");
 
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.CourseDepartments)
                     .HasForeignKey(d => d.GroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_department_group_id_foreign");
             });
 
@@ -471,7 +465,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseDocuments)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_document_course_id_foreign");
 
                 entity.HasOne(d => d.Document)
@@ -491,13 +485,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseEnrols)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_enrols_course_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.CourseEnrols)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_enrols_user_id_foreign");
             });
 
@@ -512,7 +506,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseImages)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_image_course_id_foreign");
 
                 entity.HasOne(d => d.Image)
@@ -532,7 +526,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseMedia)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_media_course_id_foreign");
 
                 entity.HasOne(d => d.Media)
@@ -552,7 +546,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseMeta)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("course_meta_course_id_foreign");
             });
 
@@ -624,13 +618,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.CourseClass)
                     .WithMany(p => p.Notes)
                     .HasForeignKey(d => d.CourseClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("notes_course_class_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Notes)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("notes_user_id_foreign");
             });
 
@@ -645,7 +639,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.Options)
                     .HasForeignKey(d => d.QuestionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("options_question_id_foreign");
             });
 
@@ -673,7 +667,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.QuizId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("questions_quiz_id_foreign");
             });
 
@@ -697,13 +691,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Ratings)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("ratings_course_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Ratings)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("ratings_user_id_foreign");
             });
 
@@ -731,7 +725,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Sections)
                     .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("sections_course_id_foreign");
             });
 
@@ -811,13 +805,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.UserGroups)
                     .HasForeignKey(d => d.GroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("user_group_group_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserGroups)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("user_group_user_id_foreign");
             });
 
@@ -832,7 +826,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserInfos)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("user_info_user_id_foreign");
             });
 
@@ -849,13 +843,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("user_role_role_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("user_role_user_id_foreign");
             });
 
@@ -870,13 +864,13 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.SecurityQuestion)
                     .WithMany(p => p.UserSecurityQuestions)
                     .HasForeignKey(d => d.SecurityQuestionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("user_security_question_security_question_id_foreign");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserSecurityQuestions)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("user_security_question_user_id_foreign");
             });
             #endregion
