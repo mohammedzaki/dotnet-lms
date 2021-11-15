@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DB_SERVER_HOST="mssql-$CI_DEPLOYMENT_ENV_NAME"
+#DB_SERVER_HOST="mssql-$CI_DEPLOYMENT_ENV_NAME"
 APP_SECRETS_NAME="dotnetcore-app-secrets"
 
 cat > deployment-env.yml <<EOL
@@ -18,7 +18,7 @@ stringData:
   DB_USERNAME: "$DB_SERVER_USER"
   DB_PASSWORD: "$DB_SERVER_PASSWD"
   ASPNETCORE_ENVIRONMENT: "$CI_DEPLOYMENT_ENV_NAME"
-  ConnectionStrings__DefaultConnection: "Server=$DB_SERVER_HOST,$DB_SERVER_PORT;Database=$DB_SERVER_DATABASE;User Id=$DB_SERVER_USER;Password=$DB_SERVER_PASSWD;"
+  ConnectionStrings__DefaultConnection: "Server=$DB_SERVER_HOST;Database=$DB_SERVER_DATABASE;User Id=$DB_SERVER_USER;Password=$DB_SERVER_PASSWD;"
   ASPNETCORE_URLS: "https://+;http://+"
   LettuceEncrypt__PersistDataDirectory: "/app/gce-persistent-disk/LettuceEncrypt/"
   UseLettuceEncryptSSL: "$CI_UseLettuceEncryptSSL"
