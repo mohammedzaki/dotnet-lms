@@ -18,6 +18,7 @@ stringData:
   DB_USERNAME: "$DB_SERVER_USER"
   DB_PASSWORD: "$DB_SERVER_PASSWD"
   ASPNETCORE_ENVIRONMENT: "$CI_DEPLOYMENT_ENV_NAME"
+  ConnectionStrings__DefaultConnection: "Server=$DB_SERVER_HOST;Database=$DB_SERVER_DATABASE;User Id=$DB_SERVER_USER;Password=$DB_SERVER_PASSWD;"
   ASPNETCORE_URLS: "https://+;http://+"
   LettuceEncrypt__PersistDataDirectory: "/app/gce-persistent-disk/LettuceEncrypt/"
   UseLettuceEncryptSSL: "$CI_UseLettuceEncryptSSL"
