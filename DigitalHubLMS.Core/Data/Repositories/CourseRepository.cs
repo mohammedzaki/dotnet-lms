@@ -147,7 +147,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             upcourse.Included = course.Included;
             upcourse.Categories = course.Categories;
             upcourse.Departments = course.Departments;
-            var res = await SaveCourseGroupsCategories(course);
+            var res = await SaveCourseGroupsCategories(upcourse);
             transaction.Commit();
             return res;
         }
