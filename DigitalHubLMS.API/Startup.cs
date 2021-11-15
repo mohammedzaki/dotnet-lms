@@ -80,8 +80,10 @@ namespace DigitalHubLMS.API
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                     builder =>
                                     {
-                                        builder.AllowAnyOrigin()
-                                        .AllowAnyHeader().AllowAnyMethod();
+                                        builder
+                                        .AllowAnyOrigin()
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
                                     });
             });
 
@@ -255,7 +257,7 @@ namespace DigitalHubLMS.API
 
             app.UseCors(MyAllowSpecificOrigins);
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAppStorage();
 
