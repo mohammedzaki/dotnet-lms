@@ -29,6 +29,16 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return entity;
         }
 
+        public override async Task<Questions> UpdateAsync(Questions entity)
+        {
+            var options = entity.Copy().Options.ToList();
+            entity.Options = null;
+            await base.UpdateAsync(entity);
+            options = await SaveQuestionsOptions(options, entity.Id);
+            entity.Options = options;
+            return entity;
+        }
+
         private async Task<List<Options>> SaveQuestionsOptions(List<Options> options, long questionId)
         {
             if (options != null)
