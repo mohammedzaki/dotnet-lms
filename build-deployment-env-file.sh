@@ -22,4 +22,6 @@ stringData:
   ASPNETCORE_URLS: "https://+;http://+"
   LettuceEncrypt__PersistDataDirectory: "/app/gce-persistent-disk/LettuceEncrypt/"
   UseLettuceEncryptSSL: "$CI_UseLettuceEncryptSSL"
+  JWT__ValidAudience: "lms.dh-labs.com"
+  JWT__ValidIssuer: "test-hub.elschoola.com"
 EOL
