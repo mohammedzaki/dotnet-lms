@@ -24,6 +24,11 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+        public Questions Copy()
+        {
+            return (Questions) MemberwiseClone();
+        }
+
         [JsonIgnore]
         [ForeignKey(nameof(QuizId))]
         [InverseProperty("Questions")]
