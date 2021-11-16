@@ -7,8 +7,9 @@ gcloud config set container/use_client_certificate False
 gcloud container clusters get-credentials $GOOGLE_CLUSTER_NAME --zone us-central1-c --project $GOOGLE_PROJECT_NAME
 kubectl apply -f namespaces-deployment.yml
 ./build-deployment-file.sh
-./build-deployment-env-file.sh
+#./build-deployment-env-file.sh
 echo "$REGISTRY_SECRET" > registry-gitlab-secret.yml
 kubectl apply -f registry-gitlab-secret.yml --namespace=$CI_DEPLOYMENT_NAMESPACE
+echo "$DEPLOYMENT_ENV" > deployment-env.yml
 kubectl apply -f deployment-env.yml --namespace=$CI_DEPLOYMENT_NAMESPACE
 kubectl apply -f deployment.yml --namespace=$CI_DEPLOYMENT_NAMESPACE

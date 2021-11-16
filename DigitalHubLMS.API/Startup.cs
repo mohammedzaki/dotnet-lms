@@ -257,7 +257,12 @@ namespace DigitalHubLMS.API
 
             app.UseCors(MyAllowSpecificOrigins);
 
-            //app.UseHttpsRedirection();
+            var useHttpsRedirection = Configuration.GetValue("UseHttpsRedirection", false);
+
+            if (useHttpsRedirection)
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseAppStorage();
 
