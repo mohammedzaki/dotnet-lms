@@ -36,13 +36,9 @@ docker-build:
     - echo "run docker build on $CI_DEPLOYMENT_ENV_NAME env for image $CI_BUILD_API_IMAGE_VERSION"
     - ls .
     - echo "run docker build on $CI_DEPLOYMENT_ENV_NAME env for image $CI_BUILD_WEB_IMAGE_VERSION"
-    - docker build -t $CI_BUILD_MIG_IMAGE_VERSION -f ./DigitalHubLMS.Migrations/Dockerfile .
     - docker build -t $CI_BUILD_API_IMAGE_VERSION -f ./DigitalHubLMS.API/Dockerfile .
-    - docker build -t $CI_BUILD_WEB_IMAGE_VERSION -f ./DigitalHubLMS.Web/Dockerfile .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker push $CI_BUILD_MIG_IMAGE_VERSION
     - docker push $CI_BUILD_API_IMAGE_VERSION
-    - docker push $CI_BUILD_WEB_IMAGE_VERSION
   only:
     - master
 
