@@ -27,50 +27,17 @@ namespace MZCore.Helpers
             var operations = new List<Operation<T>>();
 
             JProperty prop = null;
-            JObject obj = null;
-            //JArray arr = null;
 
             while (properties.Count > 0)
             {
                 prop = properties.Pop();
-
-                if (prop.Value is JObject)
-                {
-                    obj = prop.Value as JObject;
-                    objProps = obj.Properties().Select(p => p as JProperty);
-
-                    foreach (var o in objProps)
+                operations.Add(
+                    new Operation<T>()
                     {
-                        properties.Push(o);
-                    }
-                }
-                else if (prop.Value is JArray)
-                {
-                    //arr = prop.Value as JArray;
-                    //obj = arr.First as JObject;
-
-                    //while (obj != null)
-                    //{
-                    //    objProps = obj.Properties().Select(p => p as JProperty);
-
-                    //    foreach (var o in objProps)
-                    //    {
-                    //        properties.Push(o);
-                    //    }
-
-                    //    obj = obj.Next as JObject;
-                    //};
-                }
-                else
-                {
-                    operations.Add(
-                        new Operation<T>()
-                        {
-                            path = $"/{prop.Path.Replace(".", "/")}",
-                            value = prop.Value,
-                            op = "replace"
-                        });
-                }
+                        path = $"/{prop.Path.Replace(".", "/")}",
+                        value = prop.Value,
+                        op = "replace"
+                    });
             }
 
             return new JsonPatchDocument<T>(operations, new CamelCasePropertyNamesContractResolver());

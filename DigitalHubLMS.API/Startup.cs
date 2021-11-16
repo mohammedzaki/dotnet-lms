@@ -62,7 +62,7 @@ namespace DigitalHubLMS.API
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            var useLettuceEncryptSSL = Configuration.GetValue("UseLettuceEncryptSSL", false);
+            var useLettuceEncryptSSL = Configuration.GetValue("UseLettuceEncryptSSL", true);
 
             if (!_env.IsDevelopment())
             {
@@ -257,7 +257,7 @@ namespace DigitalHubLMS.API
 
             app.UseCors(MyAllowSpecificOrigins);
 
-            var useHttpsRedirection = Configuration.GetValue("UseHttpsRedirection", false);
+            var useHttpsRedirection = Configuration.GetValue("UseHttpsRedirection", true);
 
             if (useHttpsRedirection)
             {

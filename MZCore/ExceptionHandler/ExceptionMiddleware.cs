@@ -57,6 +57,7 @@ namespace MZCore.ExceptionHandler
                     break;
                 default:
                     errorDetails.Exception = exception.ToString();
+                    errorDetails.Message = "Internal server error, please try again later!";
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }
