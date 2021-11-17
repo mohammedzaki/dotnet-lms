@@ -109,8 +109,11 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 {
                     if (courseClass.Type == "quiz")
                     {
-                        courseClass.Quiz = courseClass.ClassQuizzes.FirstOrDefault()?.Quiz;
-                        courseClass.ClassData = courseClass.Quiz.Id.ToString();
+                        var quiz = courseClass.ClassQuizzes.FirstOrDefault();
+                        if (quiz != null) {
+                            courseClass.Quiz = quiz.Quiz;
+                            courseClass.ClassData = courseClass.Quiz.Id.ToString();
+                        }
                     }
                     else
                     {
