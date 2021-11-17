@@ -68,7 +68,6 @@ namespace DigitalHubLMS.API.Controllers
 
                 return new LoginResponse
                 {
-                    _id = user._Id,
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     user = user
                 };

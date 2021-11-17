@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -20,10 +21,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         public long UserId { get; set; }
         [Column("read")]
         public long Read { get; set; }
+
         [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
+        [AllowNull]
+        public new DateTime? CreatedAt { get; set; }
 
         [JsonIgnore]
         [ForeignKey(nameof(AnnouncementId))]

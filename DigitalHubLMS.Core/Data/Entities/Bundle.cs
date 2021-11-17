@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DigitalHubLMS.Core.Services;
@@ -34,8 +35,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("level")]
         [StringLength(50)]
         public string Level { get; set; }
-        [Column("created_by")]
-        public int? CreatedBy { get; set; }
         [Column("instructor_id")]
         public long InstructorId { get; set; }
         [Column("thumbnail")]
@@ -51,13 +50,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("is_admin")]
         public int? IsAdmin { get; set; }
         [Column("published")]
+        [DefaultValue(null)]
         public bool? Published { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
-        [Column("deleted_at")]
-        public DateTime? DeletedAt { get; set; }
 
         [JsonIgnore]
         [ForeignKey(nameof(InstructorId))]

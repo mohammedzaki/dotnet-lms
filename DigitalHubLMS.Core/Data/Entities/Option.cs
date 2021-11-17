@@ -18,13 +18,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("question_id")]
         public long QuestionId { get; set; }
         [Column("correct")]
+        [System.ComponentModel.DefaultValue(null)]
         public bool Correct { get; set; }
         [Column("order")]
         public int Order { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
         [ForeignKey(nameof(QuestionId))]

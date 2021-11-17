@@ -39,8 +39,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,8 +64,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                     @private = table.Column<bool>(name: "private", type: "bit", nullable: false),
                     downloads = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -77,12 +80,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
-                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     is_ldap = table.Column<bool>(type: "bit", nullable: false),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -106,8 +108,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                     @private = table.Column<bool>(name: "private", type: "bit", nullable: false),
                     downloads = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -133,8 +135,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                     @private = table.Column<bool>(name: "private", type: "bit", nullable: false),
                     downloads = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -150,7 +152,12 @@ namespace DigitalHubLMS.Migrations.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
                     migration = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    batch = table.Column<int>(type: "int", nullable: false)
+                    batch = table.Column<int>(type: "int", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
+                    created_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -162,14 +169,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
-                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     file_key = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -185,8 +191,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
                     title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,8 +208,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
@@ -219,8 +228,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
                     question = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -234,8 +246,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     key = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -252,8 +267,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                     url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mime = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -272,8 +287,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     tagable_id = table.Column<int>(type: "int", nullable: true),
                     tagable_type = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     slug = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -286,7 +304,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    _id = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     api_key = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     is_ldap = table.Column<bool>(type: "bit", nullable: false),
                     first_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
@@ -298,9 +315,9 @@ namespace DigitalHubLMS.Migrations.Migrations
                     password_changed_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     display_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     user_url = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
                     remember_token = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "date", nullable: true),
@@ -334,8 +351,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     announcement_id = table.Column<long>(type: "bigint", nullable: false),
                     data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -345,7 +365,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.announcement_id,
                         principalTable: "announcements",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -356,8 +376,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     question = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     quiz_id = table.Column<long>(type: "bigint", nullable: false),
                     order = table.Column<int>(type: "int", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -367,7 +390,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.quiz_id,
                         principalTable: "quizzes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -399,8 +422,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     announcement_id = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     read = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -410,13 +436,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.announcement_id,
                         principalTable: "announcements",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "announcement_users_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -432,12 +458,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                     slug = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     requirements = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     level = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    created_by = table.Column<int>(type: "int", nullable: true),
                     instructor_id = table.Column<long>(type: "bigint", nullable: false),
                     thumbnail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     is_top_course = table.Column<int>(type: "int", nullable: true),
                     is_admin = table.Column<int>(type: "int", nullable: true),
                     published = table.Column<bool>(type: "bit", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
@@ -445,12 +472,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_bundles", x => x.id);
-                    table.ForeignKey(
-                        name: "bundles_instructor_id_foreign",
-                        column: x => x.instructor_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -462,24 +483,19 @@ namespace DigitalHubLMS.Migrations.Migrations
                     short_description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     slug = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    created_by = table.Column<int>(type: "int", nullable: true),
-                    updated_by = table.Column<int>(type: "int", nullable: true),
                     instructor_id = table.Column<long>(type: "bigint", nullable: false),
                     thumbnail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     published = table.Column<bool>(type: "bit", nullable: false),
                     duration = table.Column<int>(type: "int", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_courses", x => x.id);
-                    table.ForeignKey(
-                        name: "courses_instructor_id_foreign",
-                        column: x => x.instructor_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -510,10 +526,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     group_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -523,13 +540,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.group_id,
                         principalTable: "groups",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "user_group_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -540,8 +557,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -551,7 +571,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -579,11 +599,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: table => new
                 {
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    role_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_by = table.Column<long>(type: "bigint", nullable: false),
-                    updated_by = table.Column<long>(type: "bigint", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    role_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -593,13 +609,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.role_id,
                         principalTable: "roles",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "user_role_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -610,8 +626,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     security_question_id = table.Column<long>(type: "bigint", nullable: false),
                     security_answer = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -621,13 +640,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.security_question_id,
                         principalTable: "security_questions",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "user_security_question_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -659,8 +678,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     question_id = table.Column<long>(type: "bigint", nullable: false),
                     correct = table.Column<bool>(type: "bit", nullable: false),
                     order = table.Column<int>(type: "int", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -670,7 +692,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.question_id,
                         principalTable: "questions",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -680,8 +702,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     bundle_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -691,13 +716,12 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.bundle_id,
                         principalTable: "bundles",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "bundle_enrols_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -707,8 +731,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     bundle_id = table.Column<long>(type: "bigint", nullable: false),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -718,13 +745,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.bundle_id,
                         principalTable: "bundles",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "bundle_courses_course_id_foreign",
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -738,8 +765,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     status = table.Column<bool>(type: "bit", nullable: false, comment: "1-published 0-Not Published"),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -749,13 +779,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "certificates_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -765,8 +795,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     category_id = table.Column<long>(type: "bigint", nullable: false),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -776,13 +809,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.category_id,
                         principalTable: "categories",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "course_category_course_id_foreign",
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -792,8 +825,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -803,7 +839,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -813,8 +849,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     group_id = table.Column<long>(type: "bigint", nullable: false),
                     course_id = table.Column<long>(type: "bigint", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -824,13 +863,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "course_department_group_id_foreign",
                         column: x => x.group_id,
                         principalTable: "groups",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -840,8 +879,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     document_id = table.Column<long>(type: "bigint", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -851,7 +893,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "course_document_document_id_foreign",
                         column: x => x.document_id,
@@ -870,8 +912,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     current_class = table.Column<long>(type: "bigint", nullable: true),
                     progress = table.Column<long>(type: "bigint", nullable: true),
                     type = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -881,13 +926,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "course_enrols_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -897,8 +942,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     image_id = table.Column<long>(type: "bigint", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -908,7 +956,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "course_image_image_id_foreign",
                         column: x => x.image_id,
@@ -924,8 +972,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     media_id = table.Column<long>(type: "bigint", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -935,7 +986,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "course_media_media_id_foreign",
                         column: x => x.media_id,
@@ -952,8 +1003,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     meta_key = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     meta_value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -963,7 +1017,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -974,9 +1028,12 @@ namespace DigitalHubLMS.Migrations.Migrations
                     rating = table.Column<double>(type: "float", nullable: true),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
+                    review = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
                     updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    review = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -986,13 +1043,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "ratings_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1004,8 +1061,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     order = table.Column<int>(type: "int", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1015,7 +1075,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_id,
                         principalTable: "courses",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1029,8 +1089,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     section_id = table.Column<long>(type: "bigint", nullable: false),
                     type = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     order = table.Column<int>(type: "int", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1040,7 +1103,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.section_id,
                         principalTable: "sections",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1050,8 +1113,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     course_class_id = table.Column<long>(type: "bigint", nullable: false),
                     data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1061,7 +1127,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_class_id,
                         principalTable: "course_classes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1071,8 +1137,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     course_class_id = table.Column<long>(type: "bigint", nullable: false),
                     document_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1082,13 +1151,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_class_id,
                         principalTable: "course_classes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "class_document_document_id_foreign",
                         column: x => x.document_id,
                         principalTable: "documents",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1098,8 +1167,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     course_class_id = table.Column<long>(type: "bigint", nullable: false),
                     media_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1109,13 +1181,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_class_id,
                         principalTable: "course_classes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "class_media_media_id_foreign",
                         column: x => x.media_id,
                         principalTable: "media",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1126,8 +1198,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     course_class_id = table.Column<long>(type: "bigint", nullable: false),
                     meta_key = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     meta_value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1137,7 +1212,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_class_id,
                         principalTable: "course_classes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1147,8 +1222,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false),
                     quiz_id = table.Column<long>(type: "bigint", nullable: false),
                     course_class_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1158,7 +1236,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_class_id,
                         principalTable: "course_classes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_class_quiz_quizzes_quiz_id",
                         column: x => x.quiz_id,
@@ -1175,8 +1253,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     course_class_id = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     completed = table.Column<int>(type: "int", nullable: true),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1186,13 +1267,12 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_class_id,
                         principalTable: "course_classes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "class_user_meta_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1203,8 +1283,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     body = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     course_class_id = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1214,13 +1297,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.course_class_id,
                         principalTable: "course_classes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "notes_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1233,8 +1316,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     quiz_result = table.Column<int>(type: "int", nullable: true),
                     attempt = table.Column<int>(type: "int", nullable: false),
                     score = table.Column<short>(type: "smallint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1244,13 +1330,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.class_quiz_id,
                         principalTable: "class_quiz",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "class_quiz_takes_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1263,8 +1349,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                     option_id = table.Column<long>(type: "bigint", nullable: false),
                     attempt = table.Column<short>(type: "smallint", nullable: false),
                     score = table.Column<short>(type: "smallint", nullable: false),
+                    created_by = table.Column<long>(type: "bigint", nullable: true),
+                    updated_by = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
-                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
+                    updated_at = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1274,19 +1363,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         column: x => x.class_quiz_take_id,
                         principalTable: "class_quiz_takes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "class_quiz_answers_option_id_foreign",
-                        column: x => x.option_id,
-                        principalTable: "options",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "class_quiz_answers_question_id_foreign",
-                        column: x => x.question_id,
-                        principalTable: "questions",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -1294,45 +1371,45 @@ namespace DigitalHubLMS.Migrations.Migrations
                 columns: new[] { "id", "ConcurrencyStamp", "created_at", "created_by", "deleted_at", "is_active", "name", "NormalizedName", "updated_at", "updated_by" },
                 values: new object[,]
                 {
-                    { 1L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 883, DateTimeKind.Local).AddTicks(1120), 1L, null, true, "system", "SYSTEM", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(7920), 1L },
-                    { 2L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8810), 1L, null, true, "admin", "ADMIN", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8820), 1L },
-                    { 3L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8830), 1L, null, true, "supervisor", "SUPERVISOR", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8830), 1L },
-                    { 4L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8840), 1L, null, true, "instructor", "INSTRUCTOR", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8840), 1L },
-                    { 5L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8850), 1L, null, true, "employee", "EMPLOYEE", new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8850), 1L }
+                    { 1L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L, null, true, "system", "SYSTEM", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L },
+                    { 2L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L, null, true, "admin", "ADMIN", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L },
+                    { 3L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L, null, true, "supervisor", "SUPERVISOR", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L },
+                    { 4L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L, null, true, "instructor", "INSTRUCTOR", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L },
+                    { 5L, "167860ad-4ade-4725-92b9-d8b57815b919", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L, null, true, "employee", "EMPLOYEE", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L }
                 });
 
             migrationBuilder.InsertData(
                 table: "security_questions",
-                columns: new[] { "id", "created_at", "question", "updated_at" },
+                columns: new[] { "id", "created_at", "created_by", "deleted_at", "question", "updated_at", "updated_by" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(8940), "What was the street name you lived in as a child?", new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(9480) },
-                    { 2L, new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(9990), "What primary school did you attend?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local) },
-                    { 3L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local), "In what city or town was your first job?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local) },
-                    { 4L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local), "What was the make and model of your first car?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local) },
-                    { 5L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10), "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10) },
-                    { 6L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10), "What was the street name you lived in as a child?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10) },
-                    { 7L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10), "What primary school did you attend?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20) },
-                    { 8L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20), "In what city or town was your first job?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20) },
-                    { 9L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20), "What was the make and model of your first car?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20) },
-                    { 10L, new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(30), "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(30) }
+                    { 1L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "What was the street name you lived in as a child?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 2L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "What primary school did you attend?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 3L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "In what city or town was your first job?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 4L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "What was the make and model of your first car?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 5L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 6L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "What was the street name you lived in as a child?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 7L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "What primary school did you attend?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 8L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "In what city or town was your first job?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 9L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "What was the make and model of your first car?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null },
+                    { 10L, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null, null, "What is your oldest cousin's first and last name?", new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), null }
                 });
 
             migrationBuilder.InsertData(
                 table: "users",
-                columns: new[] { "id", "AccessFailedCount", "api_key", "ConcurrencyStamp", "confirm_code", "confirmed_at", "created_at", "created_by", "deleted_at", "display_name", "email", "EmailConfirmed", "first_name", "is_banned", "is_ldap", "is_verified", "last_name", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "otp", "otp_created_at", "password_changed_at", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "profile_picture_id", "remember_token", "SecurityStamp", "TwoFactorEnabled", "updated_at", "updated_by", "username", "_id", "user_url" },
-                values: new object[] { 1L, 0, null, "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7", "1234                                ", null, new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(830), 1L, null, "Abdalla Salah", "ahmed.kamal@mped.gov.eg", true, "Abe", false, false, false, "Sal", false, null, "AHMED.KAMAL@MPED.GOV.EG", "ADMIN", null, null, new DateTime(2021, 11, 15, 0, 53, 30, 891, DateTimeKind.Local).AddTicks(7450), "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", null, false, null, null, "27c0b512-9f7e-4ce7-bcff-6563379cbe20", false, new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(1350), 1L, "admin", "edfeb122-3656-483b-b477-17c827f44cd4", null });
+                columns: new[] { "id", "AccessFailedCount", "api_key", "ConcurrencyStamp", "confirm_code", "confirmed_at", "created_at", "created_by", "deleted_at", "display_name", "email", "EmailConfirmed", "first_name", "is_banned", "is_ldap", "is_verified", "last_name", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "otp", "otp_created_at", "password_changed_at", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "profile_picture_id", "remember_token", "SecurityStamp", "TwoFactorEnabled", "updated_at", "updated_by", "username", "user_url" },
+                values: new object[] { 1L, 0, null, "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7", "1234                                ", null, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L, null, "Abdalla Salah", "ahmed.kamal@mped.gov.eg", true, "Abe", false, false, false, "Sal", false, null, "AHMED.KAMAL@MPED.GOV.EG", "ADMIN", null, null, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==", null, false, null, null, "27c0b512-9f7e-4ce7-bcff-6563379cbe20", false, new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified), 1L, "admin", null });
 
             migrationBuilder.InsertData(
                 table: "user_role",
-                columns: new[] { "role_id", "user_id", "created_at", "created_by", "updated_at", "updated_by" },
+                columns: new[] { "role_id", "user_id" },
                 values: new object[,]
                 {
-                    { 1L, 1L, null, 0L, null, 0L },
-                    { 2L, 1L, null, 0L, null, 0L },
-                    { 3L, 1L, null, 0L, null, 0L },
-                    { 4L, 1L, null, 0L, null, 0L },
-                    { 5L, 1L, null, 0L, null, 0L }
+                    { 1L, 1L },
+                    { 2L, 1L },
+                    { 3L, 1L },
+                    { 4L, 1L },
+                    { 5L, 1L }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1552,13 +1629,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "groups__id_unique",
-                table: "groups",
-                column: "_id",
-                unique: true,
-                filter: "[_id] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "groups_name_unique",
                 table: "groups",
                 column: "name",
@@ -1590,13 +1660,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 name: "options_question_id_foreign",
                 table: "options",
                 column: "question_id");
-
-            migrationBuilder.CreateIndex(
-                name: "profile_pictures__id_unique",
-                table: "profile_pictures",
-                column: "_id",
-                unique: true,
-                filter: "[_id] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "questions_quiz_id_foreign",
@@ -1694,13 +1757,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "users__id_unique",
-                table: "users",
-                column: "_id",
-                unique: true,
-                filter: "[_id] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "users_email_unique",

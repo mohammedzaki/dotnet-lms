@@ -16,10 +16,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("question")]
         [StringLength(255)]
         public string Question { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
         [InverseProperty(nameof(UserSecurityQuestion.SecurityQuestion))]

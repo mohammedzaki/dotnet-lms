@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -31,11 +32,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("icon")]
         public string Icon { get; set; }
         [Column("is_active")]
+        [DefaultValue(null)]
         public bool IsActive { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
         [NotMapped]
         public int CoursesCount { get; set; }

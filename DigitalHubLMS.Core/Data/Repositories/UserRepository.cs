@@ -26,7 +26,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
         private readonly IRepository<ProfilePicture, long> ProfilePictureRepository;
         private readonly IRepository<UserGroup, long> UserGroupRepository;
         private readonly IRepository<CourseEnrol, long> CourseEnrolRepository;
-        private readonly ClaimsPrincipal User;
 
         public UserRepository(
             DigitalHubLMSContext context,
@@ -38,7 +37,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             IRepository<UserGroup, long> userGroupRepository,
             IRepository<CourseEnrol, long> courseEnrolRepository,
             ClaimsPrincipal claimsPrincipal)
-            : base(context)
+            : base(context, claimsPrincipal)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -47,7 +46,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
             ProfilePictureRepository = profilePictureRepository;
             UserGroupRepository = userGroupRepository;
             CourseEnrolRepository = courseEnrolRepository;
-            User = claimsPrincipal;
         }
 
         public UserManager<User> GetUserManager()
@@ -87,10 +85,11 @@ namespace DigitalHubLMS.Core.Data.Repositories
             var alldepartments = await _dbContext.Groups.ToListAsync();
 
             var users = await _dbContext.Users
-           .Include(e => e.UserGroups)
-           .Include(e => e.UserInfos)
-           .Include(e => e.UserRoles)
-           .ToListAsync();
+                .Include(e => e.UserGroups)
+                .Include(e => e.UserInfos)
+                .Include(e => e.UserRoles)
+                .Where(e => e.DeletedAt == null)
+                .ToListAsync();
             foreach (var user in users)
             {
                 var info = user.UserInfos.FirstOrDefault();
@@ -126,7 +125,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
             user.ConfirmCode = "123456";
             user.IsLdap = false;
             user.IsVerified = false;
-            user._Id = Guid.NewGuid().ToString();
             using var transaction = _dbContext.Database.BeginTransaction();
             await CreateUser(user);
             await AssignUserRoles(user);
@@ -179,7 +177,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 {
                     if (courseDept.CourseId != null)
                     {
-                        await CourseEnrolRepository.SaveAsync(new CourseEnrol { CourseId = courseDept.CourseId, UserId = user.Id });
+                        await CourseEnrolRepository.SaveAsync(new CourseEnrol { Type = "course", CourseId = courseDept.CourseId, UserId = user.Id });
                         /*
                          if ($changeClass->wasRecentlyCreated) {
                             if ($user->email) {

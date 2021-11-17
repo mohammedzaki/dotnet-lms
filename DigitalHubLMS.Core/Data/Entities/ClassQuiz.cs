@@ -18,11 +18,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         public long QuizId { get; set; }
         [Column("course_class_id")]
         public long CourseClassId { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
-
 
         [JsonIgnore]
         [ForeignKey(nameof(CourseClassId))]

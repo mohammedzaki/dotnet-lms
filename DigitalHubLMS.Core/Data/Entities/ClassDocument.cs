@@ -18,10 +18,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         public long CourseClassId { get; set; }
         [Column("document_id")]
         public long DocumentId { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
 
         [JsonIgnore]

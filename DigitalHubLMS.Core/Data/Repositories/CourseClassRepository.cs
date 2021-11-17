@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Castle.DynamicProxy.Contributors;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
@@ -21,11 +22,12 @@ namespace DigitalHubLMS.Core.Data.Repositories
         protected readonly IRepository<ClassQuizTake, long> ClassQuizTakeRepository;
 
         public CourseClassRepository(DigitalHubLMSContext context,
+            ClaimsPrincipal claimsPrincipal,
             IRepository<Quiz, long> quizRepository,
             IRepository<ClassQuiz, long> classQuizRepository,
             IRepository<ClassData, long> classDataQuizRepository,
             IRepository<ClassQuizTake, long> classQuizTakeRepository)
-            : base(context)
+            : base(context, claimsPrincipal)
         {
             QuizRepository = quizRepository;
             ClassQuizRepository = classQuizRepository;

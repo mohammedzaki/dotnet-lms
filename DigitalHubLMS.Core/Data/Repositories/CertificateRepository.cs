@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using DigitalHubLMS.Core.Data.Entities;
@@ -13,8 +14,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
 {
     public class CertificateRepository : EntityRepository<DigitalHubLMSContext, Certificate, long>, ICertificatesRepository
     {
-        public CertificateRepository(DigitalHubLMSContext context)
-            : base(context)
+        public CertificateRepository(DigitalHubLMSContext context,
+            ClaimsPrincipal claimsPrincipal)
+            : base(context, claimsPrincipal)
         {
         }
 
@@ -23,6 +25,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             var list = await _dbContext.Certificates
                 .Include(e => e.User)
                 .Include(e => e.Course)
+                .Where(e => e.DeletedAt == null)
                 .ToListAsync();
             list.ForEach(e =>
             {

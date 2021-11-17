@@ -49,6 +49,11 @@ namespace MZCore.ExceptionHandler
                 case DbUpdateConcurrencyException e:
                     context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
                     break;
+                case DbUpdateException e:
+                    context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
+                    errorDetails.Error = e.InnerException.Message;
+                    errorDetails.Message = "Error while saving data to database, please try again later!";
+                    break;
                 case BadHttpRequestException e:
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;

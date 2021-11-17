@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using DigitalHubLMS.Core.Data.Entities;
@@ -20,12 +21,13 @@ namespace DigitalHubLMS.Core.Data.Repositories
         private readonly IRepository<CourseData, long> CourseDataRepository;
 
         public CourseRepository(DigitalHubLMSContext context,
+            ClaimsPrincipal claimsPrincipal,
             IRepository<CourseCategory, long> courseCategoryRepository,
             IRepository<CourseEnrol, long> courseEnrolRepository,
             IRepository<CourseDepartment, long> courseDepartmentRepository,
             IRepository<Group, long> departmentRepository,
             IRepository<CourseData, long> courseDataRepository)
-            : base(context)
+            : base(context, claimsPrincipal)
         {
             CourseCategoryRepository = courseCategoryRepository;
             CourseEnrolRepository = courseEnrolRepository;
@@ -43,6 +45,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 .ThenInclude(e => e.Group)
                 .Include(e => e.CourseEnrols)
                 .Include(e => e.CourseDatum)
+                .Where(e => e.DeletedAt == null)
                 .ToListAsync();
             list.ForEach(e =>
             {

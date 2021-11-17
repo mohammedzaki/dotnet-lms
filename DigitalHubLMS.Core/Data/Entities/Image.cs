@@ -43,21 +43,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string Mime { get; set; }
         [Column("private")]
+        [System.ComponentModel.DefaultValue(null)]
         public bool Private { get; set; }
         [Column("downloads")]
         public long Downloads { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
-        [Column("created_by")]
-        public long CreatedBy { get; set; }
-        [Column("updated_by")]
-        public long UpdatedBy { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
-        [Column("deleted_at")]
-        public DateTime? DeletedAt { get; set; }
 
         [JsonIgnore]
         [InverseProperty(nameof(CourseImage.Image))]

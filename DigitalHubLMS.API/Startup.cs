@@ -203,13 +203,13 @@ namespace DigitalHubLMS.API
             services.AddScoped<IRepository<Group, long>, DepartmentRepository>();
             services.AddScoped<IRepository<Category, long>, CategoryRepository>();
             services.AddScoped<IRepository<Questions, long>, QuestionsRepository>();
+            services.AddScoped<IRepository<Role, long>, RoleRepository>();
 
             services.AddScoped<IRepository<Announcement, long>, EntityRepository<DigitalHubLMSContext, Announcement, long>>();
             services.AddScoped<IRepository<User, long>, EntityRepository<DigitalHubLMSContext, User, long>>();
             services.AddScoped<IRepository<Section, long>, EntityRepository<DigitalHubLMSContext, Section, long>>();
             services.AddScoped<IRepository<Options, long>, EntityRepository<DigitalHubLMSContext, Options, long>>();
             services.AddScoped<IRepository<CourseClass, long>, EntityRepository<DigitalHubLMSContext, CourseClass, long>>();
-            services.AddScoped<IRepository<Role, long>, EntityRepository<DigitalHubLMSContext, Role, long>>();
             services.AddScoped<IRepository<Document, long>, EntityRepository<DigitalHubLMSContext, Document, long>>();
             services.AddScoped<IRepository<Subtitle, long>, EntityRepository<DigitalHubLMSContext, Subtitle, long>>();
             services.AddScoped<IRepository<Certificate, long>, EntityRepository<DigitalHubLMSContext, Certificate, long>>();

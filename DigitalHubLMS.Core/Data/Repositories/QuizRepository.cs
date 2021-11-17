@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DigitalHubLMS.Core.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -10,8 +11,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
 {
     public class QuizRepository : EntityRepository<DigitalHubLMSContext, Quiz, long>
     {
-        public QuizRepository(DigitalHubLMSContext context)
-            : base(context)
+        public QuizRepository(DigitalHubLMSContext context, ClaimsPrincipal claimsPrincipal)
+            : base(context, claimsPrincipal)
         {
         }
 

@@ -22,9 +22,5 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("slug")]
         [StringLength(255)]
         public string Slug { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
     }
 }

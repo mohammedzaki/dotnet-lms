@@ -292,7 +292,6 @@ namespace DigitalHubLMS.Core.Services
                 var profilePicture = new ProfilePicture
                 {
                     UserId = userId,
-                    _Id = Guid.NewGuid().ToString(),
                     Title = title,
                     Mime = mime,
                     Url = urlPath,

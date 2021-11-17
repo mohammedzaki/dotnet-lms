@@ -18,10 +18,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         public long CourseId { get; set; }
         [Column("media_id")]
         public long? MediaId { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
         [ForeignKey(nameof(CourseId))]

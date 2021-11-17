@@ -18,14 +18,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         public long UserId { get; set; }
         [Column("group_id")]
         public long GroupId { get; set; }
-        [Column("created_by")]
-        public long CreatedBy { get; set; }
-        [Column("updated_by")]
-        public long UpdatedBy { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
         [ForeignKey(nameof(GroupId))]

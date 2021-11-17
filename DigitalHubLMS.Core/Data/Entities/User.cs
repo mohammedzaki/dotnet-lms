@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using DigitalHubLMS.Core.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,15 @@ using Newtonsoft.Json;
 namespace DigitalHubLMS.Core.Data.Entities 
 {
     [Table("users")]
-    [Index(nameof(_Id), Name = "users__id_unique", IsUnique = true)]
     [Index(nameof(Email), Name = "users_email_unique", IsUnique = true)]
     [Index(nameof(UserName), Name = "users_username_unique", IsUnique = true)]
     public partial class User : IdentityUser<long>, IEntity<long>
     {
-        [Column("_id")]
-        [StringLength(36)]
-        public string _Id { get; set; }
         [Column("api_key")]
         [StringLength(36)]
         public string ApiKey { get; set; }
         [Column("is_ldap")]
+        [System.ComponentModel.DefaultValue(null)]
         public bool IsLdap { get; set; }
         [Column("first_name")]
         [StringLength(255)]
@@ -32,8 +30,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string LastName { get; set; }
         [Column("is_banned")]
+        [System.ComponentModel.DefaultValue(null)]
         public bool IsBanned { get; set; }
         [Column("is_verified")]
+        [System.ComponentModel.DefaultValue(null)]
         public bool IsVerified { get; set; }
         
         [Column("confirm_code")]
@@ -51,19 +51,30 @@ namespace DigitalHubLMS.Core.Data.Entities
         public string _UserUrl { get; set; }
         [NotMapped]
         public string UserUrl { get => _UserUrl.ToHostUrl(); set => _UserUrl = value; }
-        [Column("created_by")]
-        public long CreatedBy { get; set; }
-        [Column("updated_by")]
-        public long UpdatedBy { get; set; }
+
         [Column("remember_token")]
         [StringLength(100)]
         public string RememberToken { get; set; }
+
+        [AllowNull]
+        [Column("created_by")]
+        public long? CreatedBy { get; set; }
+
+        [AllowNull]
+        [Column("updated_by")]
+        public long? UpdatedBy { get; set; }
+
+        [AllowNull]
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
+
+        [AllowNull]
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
+
         [Column("deleted_at", TypeName = "date")]
         public DateTime? DeletedAt { get; set; }
+
         [Column("otp")]
         [StringLength(255)]
         public string Otp { get; set; }

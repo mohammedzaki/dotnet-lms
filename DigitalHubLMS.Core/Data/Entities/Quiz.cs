@@ -13,10 +13,6 @@ namespace DigitalHubLMS.Core.Data.Entities
     {
         [Column("title")]
         public string Title { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
         
         //no
         [InverseProperty(nameof(Entities.Questions.Quiz))]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DigitalHubLMS.Core.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
 {
     public class DepartmentRepository : EntityRepository<DigitalHubLMSContext, Group, long>
     {
-        public DepartmentRepository(DigitalHubLMSContext context)
-            : base(context)
+        public DepartmentRepository(DigitalHubLMSContext context, ClaimsPrincipal claimsPrincipal)
+            : base(context, claimsPrincipal)
         {
         }
 
@@ -20,7 +21,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
         {
             return await _dbContext.Groups
                 .Include(e => e.UserGroups)
-                .Select(g => new Group { UsersCount = g.UserGroups.Count, Id = g.Id, _Id = g._Id, Name = g.Name, IsLdap = g.IsLdap, IsActive = g.IsActive })
+                .Where(e => e.DeletedAt == null)
+                .Select(g => new Group { UsersCount = g.UserGroups.Count, Id = g.Id, Name = g.Name, IsLdap = g.IsLdap, IsActive = g.IsActive })
                 .ToListAsync();
         }
 

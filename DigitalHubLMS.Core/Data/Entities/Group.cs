@@ -10,31 +10,19 @@ using Newtonsoft.Json;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("groups")]
-    [Index(nameof(_Id), Name = "groups__id_unique", IsUnique = true)]
     [Index(nameof(Name), Name = "groups_name_unique", IsUnique = true)]
     public partial class Group : BaseEntity
     {
-        [Column("_id")]
-        [StringLength(36)]
-        public string _Id { get; set; }
         [Required]
         [Column("name")]
         [StringLength(255)]
         public string Name { get; set; }
         [Column("is_ldap")]
+        [System.ComponentModel.DefaultValue(null)]
         public bool IsLdap { get; set; }
         [Column("is_active")]
+        [System.ComponentModel.DefaultValue(null)]
         public bool IsActive { get; set; }
-        [Column("created_by")]
-        public long CreatedBy { get; set; }
-        [Column("updated_by")]
-        public long UpdatedBy { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
-        [Column("deleted_at")]
-        public DateTime? DeletedAt { get; set; }
 
         [JsonIgnore]
         [InverseProperty(nameof(CourseDepartment.Group))]

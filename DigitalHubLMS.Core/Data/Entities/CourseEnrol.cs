@@ -26,11 +26,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("type")]
         [StringLength(255)]
         public string Type { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
-
 
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("CourseEnrols")]

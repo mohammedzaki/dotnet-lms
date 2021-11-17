@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DigitalHubLMS.Core.Services;
@@ -33,11 +34,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
 
         [Column("status")]
+        [DefaultValue(null)]
         public bool Status { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
 
         [JsonIgnore]

@@ -36,15 +36,5 @@ namespace DigitalHubLMS.Core.Data.Entities
         public string Mime { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
-        [Column("created_by")]
-        public long CreatedBy { get; set; }
-        [Column("updated_by")]
-        public long UpdatedBy { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
-        [Column("deleted_at")]
-        public DateTime? DeletedAt { get; set; }
     }
 }

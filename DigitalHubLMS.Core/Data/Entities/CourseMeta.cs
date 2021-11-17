@@ -19,10 +19,6 @@ namespace DigitalHubLMS.Core.Data.Entities
         public string MetaKey { get; set; }
         [Column("meta_value")]
         public string MetaValue { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
         [ForeignKey(nameof(CourseId))]

@@ -11,12 +11,8 @@ using Newtonsoft.Json;
 namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("profile_pictures")]
-    [Index(nameof(_Id), Name = "profile_pictures__id_unique", IsUnique = true)]
     public partial class ProfilePicture : BaseEntity
     {
-        [Column("_id")]
-        [StringLength(36)]
-        public string _Id { get; set; }
         [Column("user_id")]
         public long UserId { get; set; }
         [Required]
@@ -39,15 +35,5 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("file_key")]
         [StringLength(255)]
         public string FileKey { get; set; }
-        [Column("created_by")]
-        public long CreatedBy { get; set; }
-        [Column("updated_by")]
-        public long UpdatedBy { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
-        [Column("deleted_at")]
-        public DateTime? DeletedAt { get; set; }
     }
 }

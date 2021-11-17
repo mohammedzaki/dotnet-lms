@@ -132,9 +132,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.HasOne(d => d.Instructor)
                     .WithMany(p => p.Bundles)
-                    .HasForeignKey(d => d.InstructorId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("bundles_instructor_id_foreign");
+                    .OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<BundleCourse>(entity =>
@@ -175,7 +173,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.BundleEnrols)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("bundle_enrols_user_id_foreign");
             });
 
@@ -314,15 +312,11 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.HasOne(d => d.Option)
                     .WithMany(p => p.ClassQuizAnswers)
-                    .HasForeignKey(d => d.OptionId)
-                    .OnDelete(DeleteBehavior.NoAction)
-                    .HasConstraintName("class_quiz_answers_option_id_foreign");
+                    .OnDelete(DeleteBehavior.ClientCascade);
 
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.ClassQuizAnswers)
-                    .HasForeignKey(d => d.QuestionId)
-                    .OnDelete(DeleteBehavior.NoAction)
-                    .HasConstraintName("class_quiz_answers_question_id_foreign");
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<ClassQuizTake>(entity =>
@@ -363,7 +357,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ClassUserMeta)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("class_user_meta_user_id_foreign");
             });
 
@@ -377,9 +371,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.HasOne(d => d.Instructor)
                     .WithMany(p => p.Courses)
-                    .HasForeignKey(d => d.InstructorId)
-                    //.OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("courses_instructor_id_foreign");
+                    .OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<CourseCategory>(entity =>
@@ -571,8 +563,6 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.Property(e => e.DeletedAt).HasPrecision(0);
 
-                entity.Property(e => e._Id).IsFixedLength(true);
-
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
             });
 
@@ -650,8 +640,6 @@ namespace DigitalHubLMS.Core.Data.Entities
                 entity.Property(e => e.CreatedAt).HasPrecision(0);
 
                 entity.Property(e => e.DeletedAt).HasPrecision(0);
-
-                entity.Property(e => e._Id).IsFixedLength(true);
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
             });
@@ -781,8 +769,6 @@ namespace DigitalHubLMS.Core.Data.Entities
 
                 entity.Property(e => e.CreatedAt).HasPrecision(0);
 
-                entity.Property(e => e._Id).IsFixedLength(true);
-
                 entity.Property(e => e.OtpCreatedAt).HasPrecision(0);
 
                 entity.Property(e => e.PasswordChangedAt).HasPrecision(0);
@@ -832,10 +818,6 @@ namespace DigitalHubLMS.Core.Data.Entities
 
             modelBuilder.Entity<UserRole>(entity =>
             {
-                entity.Property(e => e.CreatedAt).HasPrecision(0);
-
-                entity.Property(e => e.UpdatedAt).HasPrecision(0);
-
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
@@ -909,8 +891,8 @@ namespace DigitalHubLMS.Core.Data.Entities
                     IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt = DateTime.Parse("2021-11-15 00:53:30"),
+                    UpdatedAt = DateTime.Parse("2021-11-15 00:53:30")
                 },
                 new Role
                 {
@@ -921,8 +903,8 @@ namespace DigitalHubLMS.Core.Data.Entities
                     IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt = DateTime.Parse("2021-11-15 00:53:30"),
+                    UpdatedAt = DateTime.Parse("2021-11-15 00:53:30")
                 },
                 new Role
                 {
@@ -933,8 +915,8 @@ namespace DigitalHubLMS.Core.Data.Entities
                     IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt = DateTime.Parse("2021-11-15 00:53:30"),
+                    UpdatedAt = DateTime.Parse("2021-11-15 00:53:30")
                 },
                 new Role
                 {
@@ -945,8 +927,8 @@ namespace DigitalHubLMS.Core.Data.Entities
                     IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt = DateTime.Parse("2021-11-15 00:53:30"),
+                    UpdatedAt = DateTime.Parse("2021-11-15 00:53:30")
                 },
                 new Role
                 {
@@ -957,8 +939,8 @@ namespace DigitalHubLMS.Core.Data.Entities
                     IsActive = true,
                     CreatedBy = 1,
                     UpdatedBy = 1,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    CreatedAt = DateTime.Parse("2021-11-15 00:53:30"),
+                    UpdatedAt = DateTime.Parse("2021-11-15 00:53:30")
                 }
             );
 
@@ -973,7 +955,6 @@ namespace DigitalHubLMS.Core.Data.Entities
                 new User
                 {
                     Id = 1,
-                    _Id = "edfeb122-3656-483b-b477-17c827f44cd4",
                     ApiKey = null,
                     UserName = "admin",
                     IsLdap = false,
@@ -985,14 +966,14 @@ namespace DigitalHubLMS.Core.Data.Entities
                     IsVerified = false,
                     ConfirmCode = "1234                                ",
                     ConfirmedAt = null,
-                    PasswordChangedAt = DateTime.Now,
+                    PasswordChangedAt = DateTime.Parse("2021-11-15 00:53:30"),
                     DisplayName = "Abdalla Salah",
                     UserUrl = null,
                     CreatedBy = 1,
                     UpdatedBy = 1,
                     RememberToken = null,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
+                    CreatedAt = DateTime.Parse("2021-11-15 00:53:30"),
+                    UpdatedAt = DateTime.Parse("2021-11-15 00:53:30"),
                     Otp = null,
                     OtpCreatedAt = null,
                     ProfilePictureId = null,
@@ -1035,16 +1016,16 @@ namespace DigitalHubLMS.Core.Data.Entities
 
             //Seeding Defualt SecurityQuestions
             modelBuilder.Entity<SecurityQuestion>().HasData(
-                new SecurityQuestion { Id = 1, Question = "What was the street name you lived in as a child?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 2, Question = "What primary school did you attend?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 3, Question = "In what city or town was your first job?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 4, Question = "What was the make and model of your first car?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 5, Question = "What is your oldest cousin's first and last name?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 6, Question = "What was the street name you lived in as a child?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 7, Question = "What primary school did you attend?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 8, Question = "In what city or town was your first job?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 9, Question = "What was the make and model of your first car?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SecurityQuestion { Id = 10, Question = "What is your oldest cousin's first and last name?", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now }
+                new SecurityQuestion { Id = 1, Question = "What was the street name you lived in as a child?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 2, Question = "What primary school did you attend?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 3, Question = "In what city or town was your first job?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 4, Question = "What was the make and model of your first car?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 5, Question = "What is your oldest cousin's first and last name?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 6, Question = "What was the street name you lived in as a child?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 7, Question = "What primary school did you attend?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 8, Question = "In what city or town was your first job?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 9, Question = "What was the make and model of your first car?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") },
+                new SecurityQuestion { Id = 10, Question = "What is your oldest cousin's first and last name?", CreatedAt = DateTime.Parse("2021-11-15 00:53:30"), UpdatedAt = DateTime.Parse("2021-11-15 00:53:30") }
             );
         }
     }

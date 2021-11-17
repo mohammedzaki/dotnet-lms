@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using MZCore.Helpers;
 
 namespace MZCore.Patterns.Repositroy
 {
@@ -18,6 +20,8 @@ namespace MZCore.Patterns.Repositroy
           IEquatable<TKey>,
           IFormattable
     {
+        protected readonly ClaimsPrincipal User;
+
         public TDbContext _dbContext { get; set; }
 
         public EntityRepository(TDbContext context)
@@ -25,9 +29,15 @@ namespace MZCore.Patterns.Repositroy
             _dbContext = context;
         }
 
+        public EntityRepository(TDbContext context, ClaimsPrincipal claimsPrincipal)
+        {
+            _dbContext = context;
+            User = claimsPrincipal;
+        }
+
         public virtual async Task<List<TEntity>> GetAll()
         {
-            return await _dbContext.Set<TEntity>().ToListAsync();
+            return await _dbContext.Set<TEntity>().Where(e => e.DeletedAt == null).ToListAsync();
         }
 
         public virtual async Task<bool> CheckIdIsExistsAsync(TKey id)
@@ -52,6 +62,10 @@ namespace MZCore.Patterns.Repositroy
                 throw new ArgumentNullException($"{nameof(SaveAsync)} entity must not be null");
             }
             entity.Id = GenerateNewID();
+            entity.CreatedAt = DateTime.Now;
+            entity.UpdatedAt = DateTime.Now;
+            entity.CreatedBy = User.GetLoggedInUserId<long>();
+            entity.UpdatedBy = User.GetLoggedInUserId<long>();
             await _dbContext.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
@@ -63,6 +77,8 @@ namespace MZCore.Patterns.Repositroy
             {
                 throw new ArgumentNullException($"{nameof(UpdateAsync)} entity must not be null");
             }
+            entity.UpdatedAt = DateTime.Now;
+            entity.UpdatedBy = User.GetLoggedInUserId<long>();
             _dbContext.Update(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
@@ -71,6 +87,7 @@ namespace MZCore.Patterns.Repositroy
         public virtual async Task<TEntity> CreateOrUpdateAsync(Expression<Func<TEntity, bool>> predicate, TEntity entity)
         {
             var exists = await _dbContext.Set<TEntity>().Where(predicate).FirstOrDefaultAsync();
+
             if (exists != null)
             {
                 return await UpdateAsync(exists);
@@ -93,20 +110,24 @@ namespace MZCore.Patterns.Repositroy
 
         public virtual async Task<int> DeleteAsync(TKey id)
         {
-            var entity = await FindByIdAsync(id);
-            _dbContext.Remove(entity);
-            return await _dbContext.SaveChangesAsync();
+            try
+            {
+                var entity = await FindByIdAsync(id);
+                _dbContext.Remove(entity);
+                return await _dbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                return await SoftDeleteAsync(id);
+            }
         }
 
-        public virtual async Task<TEntity> CreateOrUpdateAsync(TEntity entity)
+        public virtual async Task<int> SoftDeleteAsync(TKey id)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException($"{nameof(CreateOrUpdateAsync)} entity must not be null");
-            }
+            var entity = await FindByIdAsync(id);
+            entity.DeletedAt = DateTime.Now;
             _dbContext.Update(entity);
-            await _dbContext.SaveChangesAsync();
-            return entity;
+            return await _dbContext.SaveChangesAsync();
         }
 
         public TKey GenerateNewID()

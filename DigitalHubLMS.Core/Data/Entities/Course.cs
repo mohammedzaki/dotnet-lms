@@ -24,23 +24,18 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("slug")]
         [StringLength(255)]
         public string Slug { get; set; }
-        [Column("created_by")]
-        public int? CreatedBy { get; set; }
-        [Column("updated_by")]
-        public int? UpdatedBy { get; set; }
         [Column("instructor_id")]
         public long InstructorId { get; set; }
         [Column("thumbnail")]
         [StringLength(255)]
         public string Thumbnail { get; set; }
+
         [Column("published")]
+        [System.ComponentModel.DefaultValue(null)]
         public bool Published { get; set; }
+
         [Column("duration")]
         public int? Duration { get; set; }
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
         public Course Copy()
         {

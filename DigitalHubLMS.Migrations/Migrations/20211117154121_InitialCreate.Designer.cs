@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigitalHubLMS.Migrations.Migrations
 {
     [DbContext(typeof(DigitalHubLMSContext))]
-    [Migration("20211114225331_InitialCreate")]
+    [Migration("20211117154121_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,14 +87,26 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
                     b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("data");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -118,6 +130,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long>("Read")
                         .HasColumnType("bigint")
                         .HasColumnName("read");
@@ -126,6 +146,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -151,8 +175,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int")
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -222,6 +246,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
+
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "InstructorId" }, "bundles_instructor_id_foreign");
@@ -248,10 +276,22 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -277,10 +317,22 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -305,6 +357,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
@@ -347,6 +407,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
+
                     b.HasKey("Id");
 
                     b.ToTable("categories");
@@ -367,6 +431,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Name")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
@@ -386,6 +458,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -419,14 +495,26 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
                     b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("data");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -450,6 +538,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long>("DocumentId")
                         .HasColumnType("bigint")
                         .HasColumnName("document_id");
@@ -458,6 +554,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -483,6 +583,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long>("MediaId")
                         .HasColumnType("bigint")
                         .HasColumnName("media_id");
@@ -491,6 +599,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -516,6 +628,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("MetaKey")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("meta_key");
@@ -528,6 +648,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -551,6 +675,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long>("QuizId")
                         .HasColumnType("bigint")
                         .HasColumnName("quiz_id");
@@ -559,6 +691,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -588,6 +724,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long>("OptionId")
                         .HasColumnType("bigint")
                         .HasColumnName("option_id");
@@ -604,6 +748,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -635,6 +783,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<int?>("QuizResult")
                         .HasColumnType("int")
                         .HasColumnName("quiz_result");
@@ -647,6 +803,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -680,10 +840,22 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -709,9 +881,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int")
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
@@ -753,8 +929,8 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int")
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
                     b.HasKey("Id");
@@ -783,10 +959,22 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -811,6 +999,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<string>("Duration")
                         .HasMaxLength(255)
@@ -840,6 +1036,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
+
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "CourseId" }, "course_classes_course_id_foreign");
@@ -864,14 +1064,26 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
                     b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("data");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -895,6 +1107,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long>("GroupId")
                         .HasColumnType("bigint")
                         .HasColumnName("group_id");
@@ -903,6 +1123,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -928,6 +1152,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long?>("DocumentId")
                         .HasColumnType("bigint")
                         .HasColumnName("document_id");
@@ -936,6 +1168,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -961,9 +1197,17 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
                     b.Property<long?>("CurrentClass")
                         .HasColumnType("bigint")
                         .HasColumnName("current_class");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<long?>("Progress")
                         .HasColumnType("bigint")
@@ -979,6 +1223,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -1008,6 +1256,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long?>("ImageId")
                         .HasColumnType("bigint")
                         .HasColumnName("image_id");
@@ -1016,6 +1272,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -1041,6 +1301,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<long?>("MediaId")
                         .HasColumnType("bigint")
                         .HasColumnName("media_id");
@@ -1049,6 +1317,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -1074,6 +1346,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("MetaKey")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("meta_key");
@@ -1086,6 +1366,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -1105,7 +1389,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
@@ -1158,7 +1442,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
@@ -1190,7 +1474,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
@@ -1218,21 +1502,11 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
-                    b.Property<string>("_Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nchar(36)")
-                        .HasColumnName("_id")
-                        .IsFixedLength(true);
-
                     b.HasKey("Id");
-
-                    b.HasIndex(new[] { "_Id" }, "groups__id_unique")
-                        .IsUnique()
-                        .HasFilter("[_id] IS NOT NULL");
 
                     b.HasIndex(new[] { "Name" }, "groups_name_unique")
                         .IsUnique();
@@ -1251,7 +1525,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
@@ -1304,7 +1578,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
@@ -1336,7 +1610,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
@@ -1401,7 +1675,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
@@ -1432,11 +1706,31 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("int")
                         .HasColumnName("batch");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Migration1")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("migration");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -1462,10 +1756,22 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -1495,6 +1801,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Option")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("option");
@@ -1511,6 +1825,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -1530,7 +1848,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
@@ -1562,7 +1880,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
@@ -1570,22 +1888,12 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.Property<string>("_Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nchar(36)")
-                        .HasColumnName("_id")
-                        .IsFixedLength(true);
-
                     b.Property<string>("_Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("url");
 
                     b.HasKey("Id");
-
-                    b.HasIndex(new[] { "_Id" }, "profile_pictures__id_unique")
-                        .IsUnique()
-                        .HasFilter("[_id] IS NOT NULL");
 
                     b.ToTable("profile_pictures");
                 });
@@ -1600,6 +1908,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<int>("Order")
                         .HasColumnType("int")
@@ -1617,6 +1933,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -1636,6 +1956,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("title");
@@ -1644,6 +1972,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -1665,6 +1997,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<double?>("Rating1")
                         .HasColumnType("float")
                         .HasColumnName("rating");
@@ -1677,6 +2017,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -1706,7 +2050,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
@@ -1733,7 +2077,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
@@ -1755,60 +2099,60 @@ namespace DigitalHubLMS.Migrations.Migrations
                         {
                             Id = 1L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 883, DateTimeKind.Local).AddTicks(1120),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "system",
                             NormalizedName = "SYSTEM",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(7920),
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 2L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8810),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "admin",
                             NormalizedName = "ADMIN",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8820),
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 3L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8830),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "supervisor",
                             NormalizedName = "SUPERVISOR",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8830),
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 4L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8840),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "instructor",
                             NormalizedName = "INSTRUCTOR",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8840),
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             UpdatedBy = 1L
                         },
                         new
                         {
                             Id = 5L,
                             ConcurrencyStamp = "167860ad-4ade-4725-92b9-d8b57815b919",
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8850),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             CreatedBy = 1L,
                             IsActive = true,
                             Name = "employee",
                             NormalizedName = "EMPLOYEE",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 889, DateTimeKind.Local).AddTicks(8850),
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             UpdatedBy = 1L
                         });
                 });
@@ -1851,6 +2195,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
@@ -1868,6 +2220,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -1887,6 +2243,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -1898,6 +2262,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
+
                     b.HasKey("Id");
 
                     b.ToTable("security_questions");
@@ -1906,72 +2274,72 @@ namespace DigitalHubLMS.Migrations.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(8940),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "What was the street name you lived in as a child?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(9480)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(9990),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "What primary school did you attend?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "In what city or town was your first job?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "What was the make and model of your first car?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "What is your oldest cousin's first and last name?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 6L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "What was the street name you lived in as a child?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 7L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(10),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "What primary school did you attend?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 8L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "In what city or town was your first job?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 9L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "What was the make and model of your first car?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(20)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 10L,
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(30),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             Question = "What is your oldest cousin's first and last name?",
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 893, DateTimeKind.Local).AddTicks(30)
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1986,6 +2354,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Key")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
@@ -1995,6 +2371,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)")
@@ -2016,7 +2396,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
@@ -2049,7 +2429,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
@@ -2081,6 +2461,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Slug")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
@@ -2104,6 +2492,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.HasKey("Id");
 
@@ -2147,7 +2539,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
 
@@ -2248,7 +2640,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
@@ -2256,12 +2648,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
                         .HasColumnName("username");
-
-                    b.Property<string>("_Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nchar(36)")
-                        .HasColumnName("_id")
-                        .IsFixedLength(true);
 
                     b.Property<string>("_UserUrl")
                         .HasColumnType("nvarchar(max)")
@@ -2276,10 +2662,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex(new[] { "_Id" }, "users__id_unique")
-                        .IsUnique()
-                        .HasFilter("[_id] IS NOT NULL");
 
                     b.HasIndex(new[] { "Email" }, "users_email_unique")
                         .IsUnique()
@@ -2298,7 +2680,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "d6e2c1f1-3a7b-4cf0-aea5-05deb4f12df7",
                             ConfirmCode = "1234                                ",
-                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(830),
+                            CreatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             CreatedBy = 1L,
                             DisplayName = "Abdalla Salah",
                             Email = "ahmed.kamal@mped.gov.eg",
@@ -2311,15 +2693,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "AHMED.KAMAL@MPED.GOV.EG",
                             NormalizedUserName = "ADMIN",
-                            PasswordChangedAt = new DateTime(2021, 11, 15, 0, 53, 30, 891, DateTimeKind.Local).AddTicks(7450),
+                            PasswordChangedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             PasswordHash = "AQAAAAEAACcQAAAAEBu3ShA1B6T9d8Hu1/JYIVWNOqOZ2vy2/RIj3CC5g1gosnRRBk/aPLrP0YI9EowIsQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "27c0b512-9f7e-4ce7-bcff-6563379cbe20",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 892, DateTimeKind.Local).AddTicks(1350),
+                            UpdatedAt = new DateTime(2021, 11, 15, 0, 53, 30, 0, DateTimeKind.Unspecified),
                             UpdatedBy = 1L,
-                            UserName = "admin",
-                            _Id = "edfeb122-3656-483b-b477-17c827f44cd4"
+                            UserName = "admin"
                         });
                 });
 
@@ -2357,9 +2738,13 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
 
                     b.Property<long>("GroupId")
                         .HasColumnType("bigint")
@@ -2370,7 +2755,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UpdatedBy")
+                    b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("updated_by");
 
@@ -2398,6 +2783,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
@@ -2410,6 +2803,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -2453,24 +2850,6 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("role_id");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasPrecision(0)
-                        .HasColumnType("datetime2(0)")
-                        .HasColumnName("created_at");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint")
-                        .HasColumnName("created_by");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasPrecision(0)
-                        .HasColumnType("datetime2(0)")
-                        .HasColumnName("updated_at");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint")
-                        .HasColumnName("updated_by");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
@@ -2481,37 +2860,27 @@ namespace DigitalHubLMS.Migrations.Migrations
                         new
                         {
                             UserId = 1L,
-                            RoleId = 1L,
-                            CreatedBy = 0L,
-                            UpdatedBy = 0L
+                            RoleId = 1L
                         },
                         new
                         {
                             UserId = 1L,
-                            RoleId = 2L,
-                            CreatedBy = 0L,
-                            UpdatedBy = 0L
+                            RoleId = 2L
                         },
                         new
                         {
                             UserId = 1L,
-                            RoleId = 3L,
-                            CreatedBy = 0L,
-                            UpdatedBy = 0L
+                            RoleId = 3L
                         },
                         new
                         {
                             UserId = 1L,
-                            RoleId = 4L,
-                            CreatedBy = 0L,
-                            UpdatedBy = 0L
+                            RoleId = 4L
                         },
                         new
                         {
                             UserId = 1L,
-                            RoleId = 5L,
-                            CreatedBy = 0L,
-                            UpdatedBy = 0L
+                            RoleId = 5L
                         });
                 });
 
@@ -2526,6 +2895,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("created_at");
 
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("SecurityAnswer")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
@@ -2539,6 +2916,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -2578,6 +2959,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("AnnouncementData")
                         .HasForeignKey("AnnouncementId")
                         .HasConstraintName("announcement_data_announcement_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Announcement");
@@ -2589,12 +2971,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("AnnouncementUsers")
                         .HasForeignKey("AnnouncementId")
                         .HasConstraintName("announcement_users_announcement_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("AnnouncementUsers")
                         .HasForeignKey("UserId")
                         .HasConstraintName("announcement_users_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Announcement");
@@ -2608,6 +2992,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("Bundles")
                         .HasForeignKey("InstructorId")
                         .HasConstraintName("bundles_instructor_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Instructor");
@@ -2619,12 +3004,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("BundleCourses")
                         .HasForeignKey("BundleId")
                         .HasConstraintName("bundle_courses_bundle_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
                         .WithMany("BundleCourses")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("bundle_courses_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Bundle");
@@ -2638,12 +3025,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("BundleEnrols")
                         .HasForeignKey("BundleId")
                         .HasConstraintName("bundle_enrols_bundle_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("BundleEnrols")
                         .HasForeignKey("UserId")
                         .HasConstraintName("bundle_enrols_user_id_foreign")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Bundle");
@@ -2657,12 +3046,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("Certificates")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("certificates_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("Certificates")
                         .HasForeignKey("UserId")
                         .HasConstraintName("certificates_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -2676,6 +3067,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("ClassDatum")
                         .HasForeignKey("CourseClassId")
                         .HasConstraintName("class_data_course_class_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CourseClass");
@@ -2687,12 +3079,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("ClassDocuments")
                         .HasForeignKey("CourseClassId")
                         .HasConstraintName("class_document_course_class_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Document", "Document")
                         .WithMany("ClassDocuments")
                         .HasForeignKey("DocumentId")
                         .HasConstraintName("class_document_document_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CourseClass");
@@ -2706,12 +3100,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("ClassMedia")
                         .HasForeignKey("CourseClassId")
                         .HasConstraintName("class_media_course_class_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Media", "Media")
                         .WithMany("ClassMedia")
                         .HasForeignKey("MediaId")
                         .HasConstraintName("class_media_media_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CourseClass");
@@ -2725,6 +3121,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("ClassMeta")
                         .HasForeignKey("CourseClassId")
                         .HasConstraintName("class_meta_course_class_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CourseClass");
@@ -2736,6 +3133,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("ClassQuizzes")
                         .HasForeignKey("CourseClassId")
                         .HasConstraintName("class_quiz_course_class_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Quiz", "Quiz")
@@ -2755,18 +3153,19 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("ClassQuizAnswers")
                         .HasForeignKey("ClassQuizTakeId")
                         .HasConstraintName("class_quiz_answers_class_quiz_take_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Options", "Option")
                         .WithMany("ClassQuizAnswers")
                         .HasForeignKey("OptionId")
-                        .HasConstraintName("class_quiz_answers_option_id_foreign")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Questions", "Question")
                         .WithMany("ClassQuizAnswers")
                         .HasForeignKey("QuestionId")
-                        .HasConstraintName("class_quiz_answers_question_id_foreign")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ClassQuizTake");
@@ -2782,12 +3181,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("ClassQuizTakes")
                         .HasForeignKey("ClassQuizId")
                         .HasConstraintName("class_quiz_takes_class_quiz_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("ClassQuizTakes")
                         .HasForeignKey("UserId")
                         .HasConstraintName("class_quiz_takes_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ClassQuiz");
@@ -2801,12 +3202,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("ClassUserMeta")
                         .HasForeignKey("CourseClassId")
                         .HasConstraintName("class_user_meta_course_class_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("ClassUserMeta")
                         .HasForeignKey("UserId")
                         .HasConstraintName("class_user_meta_user_id_foreign")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("CourseClass");
@@ -2820,6 +3223,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("Courses")
                         .HasForeignKey("InstructorId")
                         .HasConstraintName("courses_instructor_id_foreign")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Instructor");
@@ -2831,12 +3235,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("CourseCategories")
                         .HasForeignKey("CategoryId")
                         .HasConstraintName("course_category_category_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
                         .WithMany("CourseCategories")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("course_category_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -2850,6 +3256,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("CourseClasses")
                         .HasForeignKey("SectionId")
                         .HasConstraintName("course_classes_section_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Section");
@@ -2861,6 +3268,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("CourseDatum")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("course_data_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -2871,12 +3279,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
                         .WithMany("CourseDepartments")
                         .HasForeignKey("CourseId")
-                        .HasConstraintName("course_department_course_id_foreign");
+                        .HasConstraintName("course_department_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Group", "Group")
                         .WithMany("CourseDepartments")
                         .HasForeignKey("GroupId")
                         .HasConstraintName("course_department_group_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -2890,6 +3300,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("CourseDocuments")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("course_document_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Document", "Document")
@@ -2907,12 +3318,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Course", "Course")
                         .WithMany("CourseEnrols")
                         .HasForeignKey("CourseId")
-                        .HasConstraintName("course_enrols_course_id_foreign");
+                        .HasConstraintName("course_enrols_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("CourseEnrols")
                         .HasForeignKey("UserId")
                         .HasConstraintName("course_enrols_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -2926,6 +3339,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("CourseImages")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("course_image_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Image", "Image")
@@ -2944,6 +3358,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("CourseMedia")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("course_media_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.Media", "Media")
@@ -2962,6 +3377,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("CourseMeta")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("course_meta_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -2973,12 +3389,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("Notes")
                         .HasForeignKey("CourseClassId")
                         .HasConstraintName("notes_course_class_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("Notes")
                         .HasForeignKey("UserId")
                         .HasConstraintName("notes_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CourseClass");
@@ -2992,6 +3410,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("Options")
                         .HasForeignKey("QuestionId")
                         .HasConstraintName("options_question_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Question");
@@ -3003,6 +3422,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("Questions")
                         .HasForeignKey("QuizId")
                         .HasConstraintName("questions_quiz_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Quiz");
@@ -3014,12 +3434,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("Ratings")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("ratings_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("Ratings")
                         .HasForeignKey("UserId")
                         .HasConstraintName("ratings_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -3042,6 +3464,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("Sections")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("sections_course_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -3062,12 +3485,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("UserGroups")
                         .HasForeignKey("GroupId")
                         .HasConstraintName("user_group_group_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("UserGroups")
                         .HasForeignKey("UserId")
                         .HasConstraintName("user_group_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Group");
@@ -3081,6 +3506,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("UserInfos")
                         .HasForeignKey("UserId")
                         .HasConstraintName("user_info_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -3101,12 +3527,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("user_role_role_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .HasConstraintName("user_role_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
@@ -3120,12 +3548,14 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .WithMany("UserSecurityQuestions")
                         .HasForeignKey("SecurityQuestionId")
                         .HasConstraintName("user_security_question_security_question_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DigitalHubLMS.Core.Data.Entities.User", "User")
                         .WithMany("UserSecurityQuestions")
                         .HasForeignKey("UserId")
                         .HasConstraintName("user_security_question_user_id_foreign")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("SecurityQuestion");

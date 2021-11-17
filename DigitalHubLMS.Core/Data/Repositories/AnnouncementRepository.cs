@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories.Contracts;
@@ -11,8 +12,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
 {
     public class AnnouncementRepository : EntityRepository<DigitalHubLMSContext, Announcement, long>, IAnnouncementRepository
     {
-        public AnnouncementRepository(DigitalHubLMSContext context)
-            : base(context)
+        public AnnouncementRepository(DigitalHubLMSContext context,
+            ClaimsPrincipal claimsPrincipal)
+            : base(context, claimsPrincipal)
         {
         }
 

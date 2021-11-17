@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DigitalHubLMS.Core.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +14,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
         private readonly IRepository<Options, long> OptionsRepository;
 
         public QuestionsRepository(DigitalHubLMSContext context,
+            ClaimsPrincipal claimsPrincipal,
             IRepository<Options, long> optionsRepository)
-            : base(context)
+            : base(context, claimsPrincipal)
         {
             OptionsRepository = optionsRepository;
         }
@@ -46,7 +48,10 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 foreach (var option in options)
                 {
                     option.QuestionId = questionId;
-                    await OptionsRepository.SaveAsync(option);
+                    if (option.Id > 0)
+                        await OptionsRepository.UpdateAsync(option);
+                    else
+                        await OptionsRepository.SaveAsync(option);
                 }
             }
             return options;
