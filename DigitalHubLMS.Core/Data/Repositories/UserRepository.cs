@@ -214,8 +214,15 @@ namespace DigitalHubLMS.Core.Data.Repositories
             {
                 if (user.UserRoles.Count == 1 && user.UserRoles.FirstOrDefault().RoleId == 5)
                 {
-                    _dbContext.Remove(user);
-                    return await _dbContext.SaveChangesAsync();
+                    try
+                    {
+                        _dbContext.Remove(user);
+                        return await _dbContext.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        return await SoftDeleteAsync(user.Id);
+                    }
                 }
                 throw new AppException("User has a role other than \'employee\', cannot delete");
             }
