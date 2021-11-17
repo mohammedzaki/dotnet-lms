@@ -63,7 +63,7 @@ namespace MZCore.Patterns.Repositroy
             {
                 throw new ArgumentNullException($"{nameof(UpdateAsync)} entity must not be null");
             }
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Update(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
         }

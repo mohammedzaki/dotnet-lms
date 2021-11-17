@@ -154,6 +154,12 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         private async Task<Course> SaveCourseGroupsCategories(Course course)
         {
+            var allCourseGroups = await _dbContext.CourseDepartments.Where(e => e.CourseId == course.Id).Select(e => e.GroupId).ToListAsync();
+            var allCourseCategories = await _dbContext.CourseCategories.Where(e => e.CourseId == course.Id).Select(e => e.CourseId).ToListAsync();
+            var groupAdded = new List<long>();
+            var categoryAdded = new List<long>();
+            var usersToInclud = new List<long>();
+            var usersToExclud = new List<long>();
             foreach (var cat in course.Categories)
             {
                 await CourseCategoryRepository.CreateOrUpdateAsync(
@@ -163,11 +169,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
                         CategoryId = cat.Id,
                         CourseId = course.Id
                     });
+                categoryAdded.Add(cat.Id);
             }
-            var allCourseGroups = await _dbContext.CourseDepartments.Where(e => e.CourseId == course.Id).Select(e => e.GroupId).ToListAsync();
-            var groupAdded = new List<long>();
-            var usersToInclud = new List<long>();
-            var usersToExclud = new List<long>();
             if (course.Included != null)
             {
                 foreach (var user in course.Included)
@@ -206,6 +209,13 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     }
                 }
             }
+            var toDeleteCategories = allCourseCategories.Except(groupAdded);
+            foreach (var catId in toDeleteCategories)
+            {
+                var deleteCat = await _dbContext.CourseCategories.Where(e => e.CourseId == course.Id && e.CategoryId == catId).FirstOrDefaultAsync();
+                _dbContext.CourseCategories.Remove(deleteCat);
+                await _dbContext.SaveChangesAsync();
+            }
             var toDeleteGroups = allCourseGroups.Except(groupAdded);
             foreach (var groupId in toDeleteGroups)
             {
@@ -214,6 +224,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 {
                     usersToExclud.Add(userGroup.UserId);
                 }
+                var deleteDept = await _dbContext.CourseDepartments.Where(e => e.CourseId == course.Id && e.GroupId == groupId).FirstOrDefaultAsync();
+                _dbContext.CourseDepartments.Remove(deleteDept);
+                await _dbContext.SaveChangesAsync();
             }
             foreach (var userId in usersToInclud)
             {
