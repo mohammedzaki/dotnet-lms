@@ -161,7 +161,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
         private async Task<Course> SaveCourseGroupsCategories(Course course)
         {
             var allCourseGroups = await _dbContext.CourseDepartments.Where(e => e.CourseId == course.Id).Select(e => e.GroupId).ToListAsync();
-            var allCourseCategories = await _dbContext.CourseCategories.Where(e => e.CourseId == course.Id).Select(e => e.CourseId).ToListAsync();
+            var allCourseCategories = await _dbContext.CourseCategories.Where(e => e.CourseId == course.Id).Select(e => e.CategoryId).ToListAsync();
             var groupAdded = new List<long>();
             var categoryAdded = new List<long>();
             var usersToInclud = new List<long>();
@@ -215,7 +215,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     }
                 }
             }
-            var toDeleteCategories = allCourseCategories.Except(groupAdded);
+            var toDeleteCategories = allCourseCategories.Except(categoryAdded);
             foreach (var catId in toDeleteCategories)
             {
                 var deleteCat = await _dbContext.CourseCategories.Where(e => e.CourseId == course.Id && e.CategoryId == catId).FirstOrDefaultAsync();
