@@ -45,6 +45,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
         {
             if (options != null)
             {
+                var oldOptions = await _dbContext.Options.Where(e => e.QuestionId == questionId).Select(e => e.Id).ToListAsync();
+                var optionsAdded = new List<long>();
                 foreach (var option in options)
                 {
                     option.QuestionId = questionId;
@@ -52,6 +54,12 @@ namespace DigitalHubLMS.Core.Data.Repositories
                         await OptionsRepository.UpdateAsync(option);
                     else
                         await OptionsRepository.SaveAsync(option);
+                    optionsAdded.Add(option.Id);
+                }
+                var toDeleteOptions = oldOptions.Except(optionsAdded);
+                foreach (var oid in toDeleteOptions)
+                {
+                    await OptionsRepository.DeleteAsync(oid);
                 }
             }
             return options;
