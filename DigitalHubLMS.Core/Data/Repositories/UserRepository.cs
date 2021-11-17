@@ -125,6 +125,10 @@ namespace DigitalHubLMS.Core.Data.Repositories
             user.ConfirmCode = "123456";
             user.IsLdap = false;
             user.IsVerified = false;
+            user.CreatedAt = DateTime.Now;
+            user.UpdatedAt = DateTime.Now;
+            user.CreatedBy = User.GetLoggedInUserId<long>();
+            user.UpdatedBy = User.GetLoggedInUserId<long>();
             using var transaction = _dbContext.Database.BeginTransaction();
             await CreateUser(user);
             await AssignUserRoles(user);

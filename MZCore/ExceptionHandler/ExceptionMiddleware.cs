@@ -45,6 +45,10 @@ namespace MZCore.ExceptionHandler
                 case AppException e:
                     errorDetails.Errors = e.Errors;
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    foreach (var item in e.Errors)
+                    {
+                        errorDetails.Error += item.Value + "\n";
+                    }
                     break;
                 case DbUpdateConcurrencyException e:
                     context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
