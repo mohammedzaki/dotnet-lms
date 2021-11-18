@@ -55,6 +55,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 case "text":
                     entity.ClassData = entity.Description;
                     break;
+                case "url":
+                    entity.ClassData = entity.url;
+                    break;
                 case "quiz":
                     var classQuiz = new ClassQuiz {
                         CourseClassId = entity.Id

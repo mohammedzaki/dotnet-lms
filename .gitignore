@@ -411,3 +411,6 @@ deployment.yml
 
 Storage/
 notes.md
+my-build-deployment-file.sh
+my-deploy-script.sh
+registry-gitlab-secret.yml
