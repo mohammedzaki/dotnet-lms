@@ -52,6 +52,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         public string Description { get; set; }
 
         [NotMapped]
+        [RequiredIf(nameof(Type), "url")]
+        public string url { get; set; }
+
+        [NotMapped]
         [RequiredIf(nameof(Type), "quiz")]
         public string SelectedQuiz { get; set; }
 
