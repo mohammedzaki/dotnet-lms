@@ -38,6 +38,7 @@ using DigitalHubLMS.Core.Services;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using DigitalHubLMS.API.Utility;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 
 namespace DigitalHubLMS.API
 {
@@ -150,11 +151,18 @@ namespace DigitalHubLMS.API
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
+                    Type = SecuritySchemeType.OAuth2,
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
                     Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Password = new OpenApiOAuthFlow
+                        {
+                            TokenUrl = new Uri("/auth/loginforswagger", UriKind.Relative)
+                        }
+                    }
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -170,6 +178,7 @@ namespace DigitalHubLMS.API
                         Array.Empty<string>()
                     }
                 });
+                options.EnableAnnotations();
             });
 
             services.AddSwaggerGenNewtonsoftSupport();
@@ -253,6 +262,11 @@ namespace DigitalHubLMS.API
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DigitalHubLMS.API v1");
+                c.OAuthClientId("d42342rcf453242fd");
+                c.OAuthClientSecret("d42342rcf453242fd");
+                c.DisplayRequestDuration();
+                c.HeadContent = "application/json";
+                
             });
 
             app.UseCors(MyAllowSpecificOrigins);

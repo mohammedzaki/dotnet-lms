@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -22,12 +23,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string SecurityAnswer { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(SecurityQuestionId))]
         [InverseProperty("UserSecurityQuestions")]
         public virtual SecurityQuestion SecurityQuestion { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(UserId))]
         [InverseProperty("UserSecurityQuestions")]
         public virtual User User { get; set; }

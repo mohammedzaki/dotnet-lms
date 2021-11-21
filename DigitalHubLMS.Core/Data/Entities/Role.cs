@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -22,31 +23,31 @@ namespace DigitalHubLMS.Core.Data.Entities
         public bool IsActive { get; set; }
 
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [Column("created_by")]
         public long? CreatedBy { get; set; }
 
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [Column("updated_by")]
         public long? UpdatedBy { get; set; }
 
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
 
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(UserRole.Role))]
         public virtual ICollection<UserRole> UserRoles { get; set; }
     }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -36,9 +37,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         public bool IsActive { get; set; }
 
         [NotMapped]
+        [SwaggerSchema(ReadOnly = true)]
         public int CoursesCount { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(CourseCategory.Category))]
         public virtual ICollection<CourseCategory> CourseCategories { get; set; }
     }

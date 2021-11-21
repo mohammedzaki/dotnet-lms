@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -19,12 +20,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("bundle_id")]
         public long BundleId { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(BundleId))]
         [InverseProperty("BundleEnrols")]
         public virtual Bundle Bundle { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(UserId))]
         [InverseProperty("BundleEnrols")]
         public virtual User User { get; set; }

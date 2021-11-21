@@ -1028,6 +1028,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("type");
+                    
+                    b.Property<string>("_Poster")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("poster");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
@@ -2503,10 +2507,8 @@ namespace DigitalHubLMS.Migrations.Migrations
             modelBuilder.Entity("DigitalHubLMS.Core.Data.Entities.User", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("id");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");

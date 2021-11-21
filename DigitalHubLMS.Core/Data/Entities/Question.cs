@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -25,16 +26,16 @@ namespace DigitalHubLMS.Core.Data.Entities
             return (Questions) MemberwiseClone();
         }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(QuizId))]
         [InverseProperty("Questions")]
         public virtual Quiz Quiz { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(ClassQuizAnswer.Question))]
         public virtual ICollection<ClassQuizAnswer> ClassQuizAnswers { get; set; }
 
-        //no
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.Options.Question))]
         public virtual ICollection<Options> Options { get; set; }
     }

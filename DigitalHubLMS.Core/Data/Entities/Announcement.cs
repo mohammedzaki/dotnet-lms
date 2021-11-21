@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -24,10 +25,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string Priority { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.AnnouncementData.Announcement))]
         public virtual ICollection<AnnouncementData> AnnouncementData { get; set; }
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(AnnouncementUser.Announcement))]
         public virtual ICollection<AnnouncementUser> AnnouncementUsers { get; set; }
     }

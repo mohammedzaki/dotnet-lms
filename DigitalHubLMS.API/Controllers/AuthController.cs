@@ -33,7 +33,20 @@ namespace DigitalHubLMS.API.Controllers
         // POST: auth/login
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<LoginResponse>> PostUsersLogin(LoginModel loginModel)
+        public async Task<ActionResult<LoginResponse>> PostBodyUsersLogin([FromBody] LoginModel loginModel)
+        {
+            return await DoLogin(loginModel);
+        }
+
+        // POST: auth/login
+        [AllowAnonymous]
+        [HttpPost("loginforswagger")]
+        public async Task<ActionResult<LoginResponse>> PostFromUsersLogin([FromForm] LoginModel loginModel)
+        {
+            return await DoLogin(loginModel);
+        }
+
+        private async Task<ActionResult<LoginResponse>> DoLogin(LoginModel loginModel)
         {
             var user = await _repository.FindByUsernamePasswordAsync(loginModel.Username, loginModel.Password);
             if (user == null)
@@ -65,11 +78,12 @@ namespace DigitalHubLMS.API.Controllers
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
-
+                var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
                 return new LoginResponse
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    user = user
+                    Token = tokenStr,
+                    AccessToken = tokenStr,
+                    User = user
                 };
             }
         }

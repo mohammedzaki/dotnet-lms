@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -19,12 +20,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("course_id")]
         public long? CourseId { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("CourseDepartments")]
         public virtual Course Course { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(GroupId))]
         [InverseProperty("CourseDepartments")]
         public virtual Group Group { get; set; }

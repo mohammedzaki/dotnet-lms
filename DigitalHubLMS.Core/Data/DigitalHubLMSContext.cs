@@ -857,11 +857,15 @@ namespace DigitalHubLMS.Core.Data.Entities
             });
             #endregion
 
-            modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.ToTable("users");
+            });
+
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.ToTable("roles");
 
             });

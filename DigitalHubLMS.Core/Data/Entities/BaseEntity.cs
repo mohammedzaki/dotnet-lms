@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MZCore.Patterns.Repositroy;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DigitalHubLMS.Core.Data.Entities
 {
@@ -12,27 +13,32 @@ namespace DigitalHubLMS.Core.Data.Entities
     {
         [Key]
         [Column("id")]
+        [SwaggerSchema("The entity identifier", ReadOnly = true)]
         public long Id { get; set; }
 
         [Column("created_by")]
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         public long? CreatedBy { get; set; }
+
         [Column("updated_by")]
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         public long? UpdatedBy { get; set; }
+
         [Column("created_at")]
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         public DateTime? CreatedAt { get; set; }
+
         [Column("updated_at")]
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         public DateTime? UpdatedAt { get; set; }
+
         [Column("deleted_at")]
         [AllowNull]
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         public DateTime? DeletedAt { get; set; }
 
         protected ILazyLoader LazyLoader { get; set; }

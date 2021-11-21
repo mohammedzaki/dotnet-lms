@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DigitalHubLMS.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -40,11 +41,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("thumbnail")]
         [StringLength(255)]
         public string Thumbnail { get; set; }
+
         [Column("video_url")]
-        [JsonIgnore]
-        public string _VideoUrl;
+        private string _VideoUrl;
         [NotMapped]
         public string VideoUrl { get => _VideoUrl.ToHostUrl(); set => _VideoUrl = value; }
+
         [Column("is_top_course")]
         public int? IsTopCourse { get; set; }
         [Column("is_admin")]
@@ -53,16 +55,16 @@ namespace DigitalHubLMS.Core.Data.Entities
         [DefaultValue(null)]
         public bool? Published { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(InstructorId))]
         [InverseProperty(nameof(User.Bundles))]
         public virtual User Instructor { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(BundleCourse.Bundle))]
         public virtual ICollection<BundleCourse> BundleCourses { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(BundleEnrol.Bundle))]
         public virtual ICollection<BundleEnrol> BundleEnrols { get; set; }
     }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -18,7 +19,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("data")]
         public string Data { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(AnnouncementId))]
         [InverseProperty("AnnouncementData")]
         public virtual Announcement Announcement { get; set; }

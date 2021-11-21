@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DigitalHubLMS.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -25,8 +26,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
         [Required]
         [Column("url")]
-        [JsonIgnore]
-        public string _Url { get; set; }
+        private string _Url;
         [NotMapped]
         public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
 

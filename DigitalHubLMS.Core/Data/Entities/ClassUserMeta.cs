@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -21,12 +22,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("completed")]
         public int? Completed { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(CourseClassId))]
         [InverseProperty("ClassUserMeta")]
         public virtual CourseClass CourseClass { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(UserId))]
         [InverseProperty("ClassUserMeta")]
         public virtual User User { get; set; }

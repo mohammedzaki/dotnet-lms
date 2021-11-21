@@ -302,8 +302,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                 name: "users",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<long>(type: "bigint", nullable: false),
                     api_key = table.Column<string>(type: "nchar(36)", fixedLength: true, maxLength: 36, nullable: true),
                     is_ldap = table.Column<bool>(type: "bit", nullable: false),
                     first_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
@@ -1088,6 +1087,7 @@ namespace DigitalHubLMS.Migrations.Migrations
                     course_id = table.Column<long>(type: "bigint", nullable: false),
                     section_id = table.Column<long>(type: "bigint", nullable: false),
                     type = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     order = table.Column<int>(type: "int", nullable: false),
                     created_by = table.Column<long>(type: "bigint", nullable: true),
                     updated_by = table.Column<long>(type: "bigint", nullable: true),

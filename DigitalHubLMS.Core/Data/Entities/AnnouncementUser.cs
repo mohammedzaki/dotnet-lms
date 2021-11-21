@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -22,24 +23,23 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("read")]
         public long Read { get; set; }
 
-        [Column("created_at")]
-        [AllowNull]
-        public new DateTime? CreatedAt { get; set; }
-
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(AnnouncementId))]
         [InverseProperty("AnnouncementUsers")]
         public virtual Announcement Announcement { get; set; }
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(UserId))]
         [InverseProperty("AnnouncementUsers")]
         public virtual User User { get; set; }
 
         [NotMapped]
+        [SwaggerSchema(ReadOnly = true)]
         public string Title { get; set; }
         [NotMapped]
+        [SwaggerSchema(ReadOnly = true)]
         public string Message { get; set; }
         [NotMapped]
+        [SwaggerSchema(ReadOnly = true)]
         public string Priority { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -26,17 +27,17 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("score")]
         public short Score { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(ClassQuizTakeId))]
         [InverseProperty("ClassQuizAnswers")]
         public virtual ClassQuizTake ClassQuizTake { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(OptionId))]
         [InverseProperty("ClassQuizAnswers")]
         public virtual Options Option { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(QuestionId))]
         [InverseProperty("ClassQuizAnswers")]
         public virtual Questions Question { get; set; }

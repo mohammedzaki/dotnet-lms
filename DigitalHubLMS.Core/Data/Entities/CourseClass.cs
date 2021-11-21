@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DigitalHubLMS.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using MZCore.Helpers.DataAnnotations;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -28,6 +30,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("type")]
         [StringLength(255)]
         public string Type { get; set; }
+
+        [Column("poster")]
+        private string _Poster;
+        [NotMapped]
+        public string Poster { get => _Poster.ToHostUrl(); set => _Poster = value; }
+
         [Column("order")]
         public int Order { get; set; }
 
@@ -50,44 +58,46 @@ namespace DigitalHubLMS.Core.Data.Entities
         [NotMapped]
         public string NewQuiz { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(SectionId))]
         [InverseProperty("CourseClasses")]
         public virtual Section Section { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.ClassData.CourseClass))]
         public virtual ICollection<ClassData> ClassDatum { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(ClassDocument.CourseClass))]
         public virtual ICollection<ClassDocument> ClassDocuments { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.ClassMedia.CourseClass))]
         public virtual ICollection<ClassMedia> ClassMedia { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.ClassMeta.CourseClass))]
         public virtual ICollection<ClassMeta> ClassMeta { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(ClassQuiz.CourseClass))]
         public virtual ICollection<ClassQuiz> ClassQuizzes { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.ClassUserMeta.CourseClass))]
         public virtual ICollection<ClassUserMeta> ClassUserMeta { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Note.CourseClass))]
         public virtual ICollection<Note> Notes { get; set; }
 
+        [SwaggerSchema(ReadOnly = true)]
         [NotMapped]
         public virtual Quiz Quiz { get; set; }
 
         [NotMapped]
         private string _ClassData;
+
         [NotMapped]
         public virtual string ClassData {
             set
@@ -113,12 +123,20 @@ namespace DigitalHubLMS.Core.Data.Entities
             }
             get => _ClassData;
         }
+
+        [SwaggerSchema(ReadOnly = true)]
         [NotMapped]
         public virtual ICollection<Media> Media { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
         [NotMapped]
         public int? Completed { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
         [NotMapped]
         public long? TakeId { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
         [NotMapped]
         public virtual ICollection<ClassQuizAnswer> Answers { get; set; }
 

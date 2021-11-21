@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DigitalHubLMS.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -18,6 +19,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("uid")]
         [StringLength(36)]
         public string Uid { get; set; }
+
         [Required]
         [Column("name")]
         [StringLength(255)]
@@ -25,8 +27,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
         [Required]
         [Column("url")]
-        [JsonIgnore]
-        public string _Url { get; set; }
+        private string _Url;
         [NotMapped]
         public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
 
@@ -34,35 +35,42 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("size")]
         [StringLength(255)]
         public string Size { get; set; }
+
         [Required]
         [Column("file_key")]
         [StringLength(255)]
         public string FileKey { get; set; }
+
         [Required]
         [Column("mime")]
         [StringLength(255)]
         public string Mime { get; set; }
+
         [Required]
         [Column("quality")]
         [StringLength(255)]
         public string Quality { get; set; }
+
         [Required]
         [Column("duration")]
         [StringLength(255)]
         public string Duration { get; set; }
+
         [Column("private")]
         [System.ComponentModel.DefaultValue(null)]
         public bool Private { get; set; }
+
         [Column("downloads")]
         public long Downloads { get; set; }
+
         [Column("user_id")]
         public long UserId { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.ClassMedia.Media))]
         public virtual ICollection<ClassMedia> ClassMedia { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.CourseMedia.Media))]
         public virtual ICollection<CourseMedia> CourseMedia { get; set; }
     }

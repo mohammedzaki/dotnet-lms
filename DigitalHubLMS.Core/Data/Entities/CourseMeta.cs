@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -20,7 +21,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("meta_value")]
         public string MetaValue { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("CourseMeta")]
         public virtual Course Course { get; set; }

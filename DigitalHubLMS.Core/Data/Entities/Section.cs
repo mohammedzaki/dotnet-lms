@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using MZCore.Patterns.Repositroy;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 #nullable disable
 
@@ -24,12 +25,12 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("order")]
         public int Order { get; set; }
 
-        [JsonIgnore]
+        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(CourseId))]
         [InverseProperty("Sections")]
         public virtual Course Course { get; set; }
-        
-        //no
+
+        [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(CourseClass.Section))]
         public virtual ICollection<CourseClass> CourseClasses { get; set; }
     }

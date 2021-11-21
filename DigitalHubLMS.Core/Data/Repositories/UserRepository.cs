@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using DigitalHubLMS.Core.Data.Repositories.Contracts;
 using System.Security.Claims;
 using MZCore.Helpers;
+using Castle.DynamicProxy.Contributors;
 
 namespace DigitalHubLMS.Core.Data.Repositories
 {
@@ -104,7 +105,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     .Select(e => new Role { Id = e.Id, Name = e.Name, ConcurrencyStamp = null }).ToList();
 
                 var udepartments = alldepartments
-                    .Where(item => user.UserGroups.Any(role => role.GroupId == item.Id))
+                    .Where(item => user.UserGroups.Any(ug => ug.GroupId == item.Id))
                     .Select(e => new Group { Id = e.Id, Name = e.Name }).ToList();
 
                 user.Roles = uroles;
@@ -138,8 +139,22 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return user;
         }
 
+        public override async Task<User> UpdateAsync(User user)
+        {
+            user.UpdatedAt = DateTime.Now;
+            user.UpdatedBy = User.GetLoggedInUserId<long>();
+            using var transaction = _dbContext.Database.BeginTransaction();
+            await base.UpdateAsync(user);
+            await AssignUserRoles(user);
+            await AddToGroups(user);
+            await CreateUserInfo(user);
+            await transaction.CommitAsync();
+            return user;
+        }
+
         private async Task CreateUser(User user)
         {
+            user.Id = GenerateNewID();
             var result = await _userManager.CreateAsync(user, user.Password);
             if (!result.Succeeded)
             {
@@ -154,7 +169,26 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         private async Task AssignUserRoles(User user)
         {
-            var result = await _userManager.AddToRolesAsync(user, user.SelectedRoles.Select(e => e.Name));
+            var oldUserRoles = await _userManager.GetRolesAsync(user);
+
+            var newRoles = user.SelectedRoles.Select(e => e.Name);
+
+            var rolesToRemove = oldUserRoles.Except(newRoles);
+
+            newRoles = newRoles.Except(oldUserRoles);
+
+            var res = await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+
+            if (!res.Succeeded)
+            {
+                var ex = new AppException("removing user roles failed");
+                foreach (var item in res.Errors)
+                {
+                    ex.Errors.Add(item.Code, item.Description);
+                }
+                throw ex;
+            }
+            var result = await _userManager.AddToRolesAsync(user, newRoles);
             if (result.Succeeded)
             {
                 user.Roles = user.SelectedRoles;
@@ -172,10 +206,15 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         private async Task AddToGroups(User user)
         {
-            foreach (var g in user.SelectedGroups)
+            var newGroups = user.SelectedGroups.Select(e => e.Id).ToList();
+            var groupsToRemove = await _dbContext.UserGroups
+                    .Where(item => user.Id == item.UserId && newGroups.All(e => e != item.GroupId))
+                    .Select(e => e.Id).ToListAsync();
+
+            foreach (var gId in newGroups)
             {
-                await UserGroupRepository.SaveAsync(new UserGroup { GroupId = g.Id, UserId = user.Id, CreatedAt = DateTime.Now, CreatedBy = User.GetLoggedInUserId<long>() });
-                var coursesDepartments = await _dbContext.CourseDepartments.Where(e => e.GroupId == g.Id).ToListAsync();
+                await UserGroupRepository.SaveAsync(new UserGroup { GroupId = gId, UserId = user.Id, CreatedAt = DateTime.Now, CreatedBy = User.GetLoggedInUserId<long>() });
+                var coursesDepartments = await _dbContext.CourseDepartments.Where(e => e.GroupId == gId).ToListAsync();
 
                 foreach (var courseDept in coursesDepartments)
                 {
@@ -192,12 +231,16 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     }
                 }
             }
+            foreach (var gId in groupsToRemove)
+            {
+                await UserGroupRepository.DeleteAsync(gId);
+            }
             user.Departments = user.SelectedGroups;
         }
 
         private async Task CreateUserInfo(User user)
         {
-            await UserInfoRepository.SaveAsync(new UserInfo { UserId = user.Id, Title = user.Title, Description = user.Description });
+            await UserInfoRepository.CreateOrUpdateAsync(e => e.UserId == user.Id, new UserInfo { UserId = user.Id, Title = user.Title, Description = user.Description });
         }
 
         public override async Task<int> DeleteAsync(long id)

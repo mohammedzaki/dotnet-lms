@@ -1031,6 +1031,10 @@ namespace DigitalHubLMS.Migrations.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("type");
 
+                    b.Property<string>("_Poster")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("poster");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2(0)")
