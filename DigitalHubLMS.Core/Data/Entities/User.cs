@@ -61,10 +61,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("display_name")]
         [StringLength(255)]
         public string DisplayName { get; set; }
+        [NotMapped]
+        private string _UserUrl;
 
         [Column("user_url")]
-        private string _UserUrl;
-        [NotMapped]
         public string UserUrl { get => _UserUrl.ToHostUrl(); set => _UserUrl = value; }
 
         [SwaggerSchema(ReadOnly = true)]

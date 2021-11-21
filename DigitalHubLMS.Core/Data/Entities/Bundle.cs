@@ -42,9 +42,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string Thumbnail { get; set; }
 
-        [Column("video_url")]
-        private string _VideoUrl;
         [NotMapped]
+        private string _VideoUrl;
+
+        [Column("video_url")]
         public string VideoUrl { get => _VideoUrl.ToHostUrl(); set => _VideoUrl = value; }
 
         [Column("is_top_course")]

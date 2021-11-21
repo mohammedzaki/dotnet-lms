@@ -47,7 +47,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             await _dbContext.SaveChangesAsync();
             switch (entity.Type) {
                 case "video":
-                    entity.ClassData = entity.Data;
+                    entity.ClassData = entity.VideoUrl;
                     break;
                 case "document":
                     entity.ClassData = entity.DocumentUrl;
@@ -102,7 +102,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             switch (entity.Type)
             {
                 case "video":
-                    entity.ClassData = entity.Data;
+                    entity.ClassData = entity.VideoUrl;
                     break;
                 case "document":
                     entity.ClassData = entity.DocumentUrl;

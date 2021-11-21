@@ -24,11 +24,11 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("mime")]
         [StringLength(255)]
         public string Mime { get; set; }
+        [NotMapped]
+        private string _Url;
 
         [Required]
         [Column("url")]
-        private string _Url;
-        [NotMapped]
         public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
 
         [Required]

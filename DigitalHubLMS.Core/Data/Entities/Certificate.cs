@@ -32,9 +32,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [SwaggerSchema(ReadOnly = true)]
         public long CourseId { get; set; }
 
-        [Column("url")]
-        private string _Url;
         [NotMapped]
+        private string _Url;
+        [Column("url")]
         public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
 
         [Column("status")]

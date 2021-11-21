@@ -35,9 +35,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string Type { get; set; }
 
-        [Column("poster")]
-        private string _Poster;
         [NotMapped]
+        private string _Poster;
+        [Column("poster")]
         public string Poster { get => _Poster.ToHostUrl(); set => _Poster = value; }
 
         [Column("order")]
@@ -49,7 +49,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
         [NotMapped]
         [RequiredIf(nameof(Type), "video")]
-        public string Data { get; set; }
+        public string VideoUrl { get; set; }
 
         [NotMapped]
         [RequiredIf(nameof(Type), "text")]
@@ -106,6 +106,7 @@ namespace DigitalHubLMS.Core.Data.Entities
         [NotMapped]
         private string _ClassData;
 
+        [SwaggerSchema(ReadOnly = true)]
         [NotMapped]
         public virtual string ClassData {
             set
@@ -113,7 +114,7 @@ namespace DigitalHubLMS.Core.Data.Entities
                 switch (Type)
                 {
                     case "video":
-                        Data = value;
+                        VideoUrl = value;
                         break;
                     case "document":
                         DocumentUrl = value;

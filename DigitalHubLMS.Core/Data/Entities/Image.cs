@@ -24,11 +24,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("name")]
         [StringLength(255)]
         public string Name { get; set; }
-
+        [NotMapped]
+        private string _Url;
         [Required]
         [Column("url")]
-        private string _Url;
-        [NotMapped]
         public string Url { get => _Url.ToHostUrl(); set => _Url = value; }
 
         [Required]
