@@ -265,8 +265,6 @@ namespace DigitalHubLMS.API
                 c.OAuthClientId("d42342rcf453242fd");
                 c.OAuthClientSecret("d42342rcf453242fd");
                 c.DisplayRequestDuration();
-                c.HeadContent = "application/json";
-                
             });
 
             app.UseCors(MyAllowSpecificOrigins);

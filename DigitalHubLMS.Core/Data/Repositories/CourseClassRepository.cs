@@ -56,7 +56,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     entity.ClassData = entity.Description;
                     break;
                 case "url":
-                    entity.ClassData = entity.url;
+                    entity.ClassData = entity.Url;
                     break;
                 case "quiz":
                     var classQuiz = new ClassQuiz {
@@ -109,6 +109,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     break;
                 case "text":
                     entity.ClassData = entity.Description;
+                    break;
+                case "url":
+                    entity.ClassData = entity.Url;
                     break;
                 case "quiz":
                     var classQuiz = await _dbContext.ClassQuizzes.Where(e => e.CourseClassId == entity.Id).FirstOrDefaultAsync();

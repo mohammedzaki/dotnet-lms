@@ -20,13 +20,17 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("title")]
         [StringLength(255)]
         public string Title { get; set; }
+
         [Column("duration")]
         [StringLength(255)]
         public string Duration { get; set; }
+
         [Column("course_id")]
         public long CourseId { get; set; }
+
         [Column("section_id")]
         public long SectionId { get; set; }
+
         [Column("type")]
         [StringLength(255)]
         public string Type { get; set; }
@@ -53,7 +57,7 @@ namespace DigitalHubLMS.Core.Data.Entities
 
         [NotMapped]
         [RequiredIf(nameof(Type), "url")]
-        public string url { get; set; }
+        public string Url { get; set; }
 
         [NotMapped]
         [RequiredIf(nameof(Type), "quiz")]
@@ -62,9 +66,9 @@ namespace DigitalHubLMS.Core.Data.Entities
         [NotMapped]
         public string NewQuiz { get; set; }
 
-        [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(SectionId))]
-        [InverseProperty("CourseClasses")]
+        [SwaggerSchema(ReadOnly = true)]
+        [InverseProperty(nameof(Entities.Section.CourseClasses))]
         public virtual Section Section { get; set; }
 
         [SwaggerSchema(ReadOnly = true)]
@@ -119,6 +123,9 @@ namespace DigitalHubLMS.Core.Data.Entities
                         break;
                     case "quiz":
                         SelectedQuiz = value;
+                        break;
+                    case "url":
+                        Url = value;
                         break;
                     default:
                         break;
