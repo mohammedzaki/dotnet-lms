@@ -15,6 +15,7 @@ using DigitalHubLMS.Core.Data.Repositories.Contracts;
 using System.Security.Claims;
 using MZCore.Helpers;
 using Castle.DynamicProxy.Contributors;
+using DigitalHubLMS.Core.Services.Contracts;
 
 namespace DigitalHubLMS.Core.Data.Repositories
 {
@@ -27,6 +28,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
         private readonly IRepository<ProfilePicture, long> ProfilePictureRepository;
         private readonly IRepository<UserGroup, long> UserGroupRepository;
         private readonly IRepository<CourseEnrol, long> CourseEnrolRepository;
+        private readonly IEmailSender EmailSender;
 
         public UserRepository(
             DigitalHubLMSContext context,
@@ -37,7 +39,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
             IRepository<UserSecurityQuestion, long> userSecurityQuestionRepository,
             IRepository<UserGroup, long> userGroupRepository,
             IRepository<CourseEnrol, long> courseEnrolRepository,
-            ClaimsPrincipal claimsPrincipal)
+            ClaimsPrincipal claimsPrincipal,
+            IEmailSender emailSender)
             : base(context, claimsPrincipal)
         {
             _userManager = userManager;
@@ -47,6 +50,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             ProfilePictureRepository = profilePictureRepository;
             UserGroupRepository = userGroupRepository;
             CourseEnrolRepository = courseEnrolRepository;
+            EmailSender = emailSender;
         }
 
         public UserManager<User> GetUserManager()
@@ -136,6 +140,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
             await AddToGroups(user);
             await CreateUserInfo(user);
             await transaction.CommitAsync();
+            //var message = new Message(new string[] { user.Email }, "Confirmation Email", "Dear " + user.DisplayName + "<br /> Welcome To LMS System");
+            //EmailSender.SendEmail(message);
             return user;
         }
 
