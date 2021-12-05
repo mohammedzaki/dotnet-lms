@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using DigitalHubLMS.API.Models;
@@ -50,9 +51,32 @@ namespace DigitalHubLMS.API.Controllers
                 var TotalInProgressPercent = Math.Ceiling(100 - (TotalDonePercent + TotalNotStartedPercent));
                 enroll.ForEach(en =>
                 {
-                    progress.Add(en.Progress.Value);
+                    if (en.Progress.HasValue)
+                    {
+                        progress.Add(en.Progress.Value);
+                    }
+                    else progress.Add(0);
                 });
                 var TotalCertificates = _dbContext.Certificates.Where(e => e.UserId == userId).ToListAsync().Result.Count;
+                var courses = await _dbContext.Courses
+                .Where(e => e.CreatedAt.Value.Year == DateTime.Now.Year && e.CourseEnrols.Any(a => a.UserId == userId) && e.CourseEnrols.Any(a => a.Type == "course"))
+                .Include(e => e.CourseEnrols)
+                .Select(e => new CourseUserProgress
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    CompletedCount = e.CourseEnrols.Where(e => e.Progress == 100).Count(),
+                    NotStartedCount = e.CourseEnrols.Where(e => e.Progress == 0).Count(),
+                    InProgressCount = e.CourseEnrols.Where(e => e.Progress > 0 && e.Progress < 100).Count()
+                })
+                .ToListAsync();
+                var year_courses = await _dbContext.Courses
+                .Where(e => e.CreatedAt.Value.Year == DateTime.Now.Year && e.CourseEnrols.Any(a => a.UserId == userId) && e.CourseEnrols.Any(a => a.Type == "course"))
+                .Select(e => new { e.CreatedAt.Value.Year, e.CreatedAt.Value.Month })
+                .GroupBy(e => new { e.Year, e.Month })
+                .OrderBy(e => e.Key.Year)
+                .Select(g => new { year = g.Key.Year, month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month), count = g.Count() })
+                .ToListAsync();
                 return new UserDashboard
                 {
                     LatestCourse = currentCourse,
@@ -61,7 +85,9 @@ namespace DigitalHubLMS.API.Controllers
                     Done = TotalDonePercent,
                     TotalCourses = TotalCourses,
                     TotalCertificates = TotalCertificates,
-                    NotStarted = TotalNotStartedPercent
+                    NotStarted = TotalNotStartedPercent,
+                    CourseUserProgresses = courses,
+                    YearCourses = year_courses
                 };
             }
             return new UserDashboard

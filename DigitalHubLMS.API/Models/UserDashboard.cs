@@ -14,6 +14,8 @@ namespace DigitalHubLMS.API.Models
         public int TotalCourses { get; set; }
         public int TotalCertificates { get; set; }
         public double NotStarted { get; set; }
+        public IList<CourseUserProgress> CourseUserProgresses { get; set; }
+        public IList YearCourses { get; set; }
     }
 
     public class CurrentUserCourse

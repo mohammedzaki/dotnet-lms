@@ -71,6 +71,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 .ThenInclude(e => e.Group)
                 .Include(e => e.CourseEnrols)
                 .Include(e => e.CourseDatum)
+                .Include(e => e.Instructor)
+                .ThenInclude(e => e.UserInfos)
 
                 .Include(e => e.Sections.OrderBy(e => e.Order))
                 .ThenInclude(e => e.CourseClasses.OrderBy(e => e.Order))
@@ -103,6 +105,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             course.Departments = course.CourseDepartments.Select(e => new Group { Id = e.Group.Id, Name = e.Group.Name, IsLdap = e.Group.IsLdap, IsActive = e.Group.IsActive }).ToList();
             course.Included = new List<User>();
             course.Excluded = new List<User>();
+
             course.Sections.ToList().ForEach(e =>
             {
                 e.CourseClasses.ToList().ForEach(courseClass =>
