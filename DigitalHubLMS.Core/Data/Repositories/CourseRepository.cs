@@ -276,10 +276,13 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public async Task<List<CourseEnrol>> GetEnrolledCourses(long userId)
         {
+            List<CourseEnrol> query = new List<CourseEnrol>();
             var courseEnrols = await _dbContext.CourseEnrols
                 .Include(e => e.Course)
                 .ThenInclude(e => e.CourseMeta)
-                .Where(e => e.UserId == userId && e.Type == "course").ToListAsync();
+                .Where(e => e.UserId == userId && e.Type == "course")
+                .Distinct()
+                .ToListAsync();
             courseEnrols.ForEach(en =>
             {
                 var classes = _dbContext.CourseClasses
@@ -312,7 +315,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     en.Course.Meta.Add(m.MetaKey, m.MetaValue);
                 }
             });
-            return courseEnrols;
+            query = courseEnrols.GroupBy(p => p.CourseId).Select(g => g.First()).ToList() as List<CourseEnrol>;
+            return query;
         }
 
         public async Task<List<CourseEnrol>> GetCourseTracking(long courseId)
