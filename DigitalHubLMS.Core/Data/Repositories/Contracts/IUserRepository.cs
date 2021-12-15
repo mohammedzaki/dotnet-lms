@@ -30,5 +30,7 @@ namespace DigitalHubLMS.Core.Data.Repositories.Contracts
         public UserManager<User> GetUserManager();
 
         public SignInManager<User> GetSignInManager();
+
+        public Task<ProfilePicture> GetProfilePic(long userId);
     }
 }

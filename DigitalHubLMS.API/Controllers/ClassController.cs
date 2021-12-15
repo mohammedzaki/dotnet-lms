@@ -145,7 +145,7 @@ namespace DigitalHubLMS.API.Controllers
             var done = 0;
             classes.ForEach(async courseClass =>
             {
-                var isCompleted = await _dbContext.ClassUserMeta.Where(e => e.UserId == user_id && e.CourseClassId == courseClass.Id).FirstOrDefaultAsync();
+                var isCompleted = _dbContext.ClassUserMeta.Where(e => e.UserId == user_id && e.CourseClassId == courseClass.Id).FirstOrDefault();
                 if (isCompleted?.Completed == 1)
                 {
                     done++;

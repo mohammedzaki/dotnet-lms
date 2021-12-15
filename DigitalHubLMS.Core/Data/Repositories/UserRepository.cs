@@ -73,8 +73,13 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 var roles = _dbContext.Roles
                     .Where(item => userRoles.Any(n => n == item.Name))
                     .Select(e => new Role { Id = e.Id, Name = e.Name, IsActive = e.IsActive, ConcurrencyStamp = null }).ToList();
+                var userInfo = _dbContext.UserInfos
+                    .Where(a => a.UserId == user.Id)
+                    .Select(e => new UserInfo { Id = e.Id, Title = e.Title, Description = e.Description}).First();
                 user.Username = user.UserName;
                 user.Roles = roles;
+                user.Description = userInfo.Description;
+                user.Title = userInfo.Title;
                 user.PasswordHash = null;
                 return user;
             }
@@ -289,6 +294,12 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return squestion;
         }
 
+        public async Task<ProfilePicture> GetProfilePic(long userId)
+        {
+            var pic = await _dbContext.ProfilePictures.Where(e => e.UserId == userId).FirstOrDefaultAsync();
+            return pic;
+        }
+
         public async Task<bool> CheckSecurityQuestionAnswer(string username, string securityAnswer)
         {
             var hasher = new PasswordHasher<User>();
@@ -413,20 +424,40 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return true;
         }
 
+        public async Task<User> UpdateProfilePic(User user)
+        {
+            user.UpdatedAt = DateTime.Now;
+            user.UpdatedBy = User.GetLoggedInUserId<long>();
+            var oldValues = await _dbContext.Users.Where(e => e.Id == user.Id).FirstOrDefaultAsync();
+            oldValues.ProfilePictureId = user.ProfilePictureId;
+            _dbContext.Users.Update(oldValues);
+            await _dbContext.SaveChangesAsync();
+            return user;
+        }
         public async Task<ProfilePicture> SaveUserProfilePicture(User user, ProfilePicture profilePicture)
         {
-            var pp = _dbContext.ProfilePictures.Where(e => e.UserId == profilePicture.UserId).FirstOrDefaultAsync();
-            if (pp == null)
+            bool pp = _dbContext.ProfilePictures.Any(e => e.UserId == user.Id);
+
+            if (!pp)
             {
                 var newProfile = await ProfilePictureRepository.SaveAsync(profilePicture);
                 user.ProfilePictureId = newProfile.Id;
-                await UpdateAsync(user);
+
+                await UpdateProfilePic(user);
                 return newProfile;
             }
             else
             {
-                profilePicture.Id = pp.Id;
-                return await ProfilePictureRepository.UpdateAsync(profilePicture);
+                ProfilePicture ppp = new ProfilePicture();
+                ppp = await _dbContext.ProfilePictures.Where(e => e.UserId == user.Id).FirstOrDefaultAsync();
+                _dbContext.ProfilePictures.Remove(ppp);
+                await _dbContext.SaveChangesAsync();
+
+                var newProfile = await ProfilePictureRepository.SaveAsync(profilePicture);
+                user.ProfilePictureId = newProfile.Id;
+
+                await UpdateProfilePic(user);
+                return newProfile;
             }
         }
     }

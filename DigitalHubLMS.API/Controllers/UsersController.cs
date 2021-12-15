@@ -40,6 +40,15 @@ namespace DigitalHubLMS.API.Controllers
         public virtual async Task<ActionResult<List<SecurityQuestion>>> GetSecurityQuestions()
             => await SecurityQuestionsRepository.GetAll();
 
+        // GET: [ControllerName]/get-profile-pic
+        [HttpGet("get-profile-pic")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public virtual async Task<ActionResult<ProfilePicture>> GetProfilePicture()
+        {
+            return await _repository.GetProfilePic(User.GetLoggedInUserId<long>());
+        }
+
         // GET: [ControllerName]/get-security-questions
         [HttpGet("security-questions/{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
