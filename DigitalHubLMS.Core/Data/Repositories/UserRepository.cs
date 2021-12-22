@@ -65,6 +65,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public async Task<User> FindByUsernamePasswordAsync(string username, string password)
         {
+            List<string> claims = new List<string>();
             var user = await _userManager.FindByNameAsync(username);
             var valid = await _signInManager.UserManager.CheckPasswordAsync(user, password);
             if (valid)
@@ -78,6 +79,14 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     .Select(e => new UserInfo { Id = e.Id, Title = e.Title, Description = e.Description}).First();
                 user.Username = user.UserName;
                 user.Roles = roles;
+                if (user.Roles != null)
+                {
+                    foreach (var item in user.Roles)
+                    {
+                        claims.Add(item.Name);
+                    }
+                }
+                user.RolesName = claims.ToArray();
                 user.Description = userInfo.Description;
                 user.Title = userInfo.Title;
                 user.PasswordHash = null;

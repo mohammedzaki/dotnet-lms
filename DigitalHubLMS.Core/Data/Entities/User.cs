@@ -197,6 +197,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [NotMapped]
         public IList<Group> Departments { get; set; }
 
+        [SwaggerSchema(ReadOnly = true)]
+        [NotMapped]
+        public IList<string> RolesName { get; set; }
+
         /*[SwaggerSchema(ReadOnly = true)]
         [NotMapped]
         [ForeignKey(nameof(ProfilePictureId))]
