@@ -21,7 +21,8 @@ namespace DigitalHubLMS.API.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var message = new Message(new string[] { "ali.abozied@gmail.com" }, "Confirmation Email", "Dear Ali <br /> Welcome To LMS System");
+            var message = new Message(new string[] { "ali.abozied@gmail.com" }, "Confirmation Email", "Dear Ali <br /> Welcome to MPED E-Learning system! Here's your login info: <br />" +
+                "Username: AliAbozied <br /> Password: Password <br /> Please use the following link to login: <a href='lms.mped.gov.eg'> lms.mped.gov.eg </a>");
             EmailSender.SendEmail(message);
 
             return Accepted();

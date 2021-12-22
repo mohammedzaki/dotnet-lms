@@ -145,8 +145,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
             await AddToGroups(user);
             await CreateUserInfo(user);
             await transaction.CommitAsync();
-            //var message = new Message(new string[] { user.Email }, "Confirmation Email", "Dear " + user.DisplayName + "<br /> Welcome To LMS System");
-            //EmailSender.SendEmail(message);
+            var message = new Message(new string[] { user.Email }, "Confirmation Email", "Dear " + user.DisplayName + "<br /> Welcome to MPED E-Learning system! Here's your login info: <br />" +
+                "Username: " + user.UserName + "<br /> Password: "+ user.Password + "<br /> Please use the following link to login: <a href='lms.mped.gov.eg'> lms.mped.gov.eg </a>");
+            EmailSender.SendEmail(message);
             return user;
         }
 

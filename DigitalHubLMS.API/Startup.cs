@@ -39,6 +39,7 @@ using DinkToPdf;
 using DinkToPdf.Contracts;
 using DigitalHubLMS.API.Utility;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using DigitalHubLMS.API.SignalRHubs;
 
 namespace DigitalHubLMS.API
 {
@@ -191,6 +192,11 @@ namespace DigitalHubLMS.API
                 .UseSqlServer(mySqlConnectionString)
             );
 
+            //Add SignalR 
+            services.AddSignalR(o => {
+                o.EnableDetailedErrors = true;
+            });
+
             services.AddDefaultIdentity<User>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -246,6 +252,8 @@ namespace DigitalHubLMS.API
             services.AddScoped<ICertificateGenerator, CertificateGenerator>();
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<IEmailSender, EmailSender>();
+            //Add SignalR Hub
+            services.AddSingleton<SyncDataHub>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -256,6 +264,13 @@ namespace DigitalHubLMS.API
                 logger.LogInformation("In Development.");
                 app.UseDeveloperExceptionPage();
             }
+
+
+            //Add SignalR
+            /*app.UseSignalR(route =>
+            {
+                route.MapHub<SyncDataHub>("/hub/syncData");
+            });*/
 
             app.UseMZCoreAPIExceptionMiddleware();
 
@@ -291,7 +306,10 @@ namespace DigitalHubLMS.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SyncDataHub>("/hub/syncData");
             });
+
+
         }
     }
 }
