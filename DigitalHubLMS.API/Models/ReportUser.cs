@@ -12,5 +12,7 @@ namespace DigitalHubLMS.API.Models
         public string course { get; set; }
         public int year { get; set; }
         public string month { get; set; }
+        public string start { get; set; }
+        public string updated { get; set; }
     }
 }

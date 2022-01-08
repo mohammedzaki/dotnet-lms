@@ -18,6 +18,10 @@ namespace DigitalHubLMS.Core.Data.Entities
         [StringLength(255)]
         public string Question { get; set; }
 
+        [Column("questionAr")]
+        [StringLength(255)]
+        public string QuestionAr { get; set; }
+
         [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(UserSecurityQuestion.SecurityQuestion))]
         public virtual ICollection<UserSecurityQuestion> UserSecurityQuestions { get; set; }

@@ -244,7 +244,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     {
                         CourseId = course.Id,
                         UserId = userId,
-                        Type = "course"
+                        Type = "course",
+                        Progress = 0
                     });
                 //if ($changeClass->wasRecentlyCreated) {
                 //    if ($u->email) {
@@ -280,8 +281,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             var courseEnrols = await _dbContext.CourseEnrols
                 .Include(e => e.Course)
                 .ThenInclude(e => e.CourseMeta)
-                .Where(e => e.UserId == userId && e.Type == "course")
-                .Distinct()
+                .Where(e => e.UserId == userId && e.Type == "course" && e.Course.Published == true)
                 .ToListAsync();
             courseEnrols.ForEach(en =>
             {
@@ -376,7 +376,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 .Include(e => e.CourseMeta)
                 .Include(e => e.Instructor)
                 .ThenInclude(e => e.UserInfos)
-                .Where(e => e.Slug == courseSlug).FirstOrDefaultAsync();
+                .Where(e => e.Slug == courseSlug && e.Published == true).FirstOrDefaultAsync();
             if (course != null)
             {
                 var enroll = await _dbContext.CourseEnrols.Where(e => e.Type == "course" && e.UserId == userId && e.CourseId == course.Id).FirstOrDefaultAsync();

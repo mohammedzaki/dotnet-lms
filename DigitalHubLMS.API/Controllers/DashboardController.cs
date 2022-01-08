@@ -65,9 +65,9 @@ namespace DigitalHubLMS.API.Controllers
                 {
                     Id = e.Id,
                     Title = e.Title,
-                    CompletedCount = e.CourseEnrols.Where(e => e.Progress == 100).Count(),
-                    NotStartedCount = e.CourseEnrols.Where(e => e.Progress == 0).Count(),
-                    InProgressCount = e.CourseEnrols.Where(e => e.Progress > 0 && e.Progress < 100).Count()
+                    CompletedCount = e.CourseEnrols.Where(e => e.Progress == 100 && e.UserId == userId).Count(),
+                    NotStartedCount = e.CourseEnrols.Where(e => e.Progress == 0 && e.UserId == userId).Count(),
+                    InProgressCount = e.CourseEnrols.Where(e => e.Progress > 0 && e.Progress < 100 && e.UserId == userId).Count()
                 })
                 .ToListAsync();
                 var year_courses = await _dbContext.Courses

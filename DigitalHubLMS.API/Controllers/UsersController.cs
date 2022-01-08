@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using DigitalHubLMS.API.Models;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories.Contracts;
 using DigitalHubLMS.Core.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -87,11 +89,12 @@ namespace DigitalHubLMS.API.Controllers
         public virtual async Task<ActionResult<bool>> ChangePassword([Required] string username, [Required] string password, [Required] string newpassword)
             => await _repository.ChangeUserPassword(User.GetLoggedInUserId<long>(), username, password, newpassword);
 
+        [AllowAnonymous]
         [HttpPost("forget-password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public virtual async Task<ActionResult<bool>> ForgetPassword([Required] string username)
-            => await _repository.SetUserForgetPassword(username);
+        public virtual async Task<ActionResult<bool>> ForgetPassword([Required] ForgetPasswordModel forgetPasswordModel)
+            => await _repository.SetUserForgetPassword(forgetPasswordModel.email);
 
         [HttpPut("update-info")]
         [ProducesResponseType(StatusCodes.Status200OK)]

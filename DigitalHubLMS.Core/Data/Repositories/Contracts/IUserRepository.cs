@@ -19,7 +19,7 @@ namespace DigitalHubLMS.Core.Data.Repositories.Contracts
 
         public Task<bool> ChangeUserPassword(long userId, string username, string password, string newpassword);
 
-        public Task<bool> SetUserForgetPassword(string username);
+        public Task<bool> SetUserForgetPassword(string _email);
 
         public Task<bool> SetFirstLoginChangePassAndQues(long userId, string password, long question_id, string security_answer);
 

@@ -11,13 +11,22 @@ using MZCore.Patterns.Repositroy;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DigitalHubLMS.Core.Data.Entities 
+namespace DigitalHubLMS.Core.Data.Entities
 {
     [Table("users")]
-    [Index(nameof(Email), Name = "users_email_unique", IsUnique = true)]
-    [Index(nameof(UserName), Name = "users_username_unique", IsUnique = true)]
+    /*[Index(nameof(Email), Name = "users_email_unique", IsUnique = true)]
+    [Index(nameof(UserName), Name = "users_username_unique", IsUnique = true)]*/
     public partial class User : IdentityUser<long>, IEntity<long>
     {
+        [Column("username")]
+        [StringLength(256)]
+        public override string UserName { get; set; }
+
+        [Column("email")]
+        [StringLength(256)]
+        [Required]
+        public override string Email { get; set; }
+
         [SwaggerSchema(ReadOnly = true)]
         [Column("api_key")]
         [StringLength(36)]
@@ -200,11 +209,5 @@ namespace DigitalHubLMS.Core.Data.Entities
         [SwaggerSchema(ReadOnly = true)]
         [NotMapped]
         public IList<string> RolesName { get; set; }
-
-        /*[SwaggerSchema(ReadOnly = true)]
-        [NotMapped]
-        [ForeignKey(nameof(ProfilePictureId))]
-        [InverseProperty(nameof(Entities.ProfilePicture.UserId))]
-        public virtual ProfilePicture ProfilePicture { get; set; }*/
     }
 }

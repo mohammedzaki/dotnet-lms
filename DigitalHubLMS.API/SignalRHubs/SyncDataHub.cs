@@ -1,85 +1,119 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DigitalHubLMS.Core.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base.Enums;
 
 namespace DigitalHubLMS.API.SignalRHubs
 {
     public class SyncDataHub : Hub
     {
-        private readonly static Dictionary<int, List<string>> Connections = new Dictionary<int, List<string>>();
+        private readonly static ConnectionMapping<string> _connections =
+                new ConnectionMapping<string>();
+
+        private bool disposedValue = false;
+        private SqlTableDependency<Announcement> _tableDependency;
         static SyncDataHub()
         {
         }
 
         public override Task OnConnectedAsync()
         {
-            var userId = GetLoggedUserId();
-            if (userId != 0)
+            var userId = ((ClaimsIdentity)Context.User.Identity).FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrEmpty(userId))
             {
-                if (Connections.ContainsKey(userId))
-                {
-                    Connections[userId].Add(Context.ConnectionId);
-                }
-                else
-                {
-                    Connections[userId] = new List<string> { Context.ConnectionId };
-                }
+                _connections.Add(userId, Context.ConnectionId);
+                Groups.AddToGroupAsync(Context.ConnectionId, userId);
             }
-
-
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            var userId = GetLoggedUserId();
-            if (userId != 0)
+            var userId = ((ClaimsIdentity)Context.User.Identity).FindFirst(ClaimTypes.Name)?.Value;
+            if (!string.IsNullOrEmpty(userId))
             {
-                if (Connections.ContainsKey(userId))
-                {
-                    Connections[userId]?.Remove(Context.ConnectionId);
-                }
+                _connections.Remove(userId, Context.ConnectionId);
             }
-
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendUpdateData(int userId)
+        public async Task SendUpdateData()
         {
-            var clients = GetClientsByUserId(userId);
+            var userId = ((ClaimsIdentity)Context.User.Identity).FindFirst(ClaimTypes.Name)?.Value;
+            var clients = Clients.Clients(_connections.GetConnections(userId));
             await clients.SendAsync("newDataInserted");
 
         }
 
-        private IClientProxy GetClientsByUserId(int userId)
+        public class ConnectionMapping<T>
         {
-            List<string> connentionIds;
-            Connections.TryGetValue(userId, out connentionIds);
-            if (connentionIds?.Count > 0)
-            {
-                return Clients.Clients(connentionIds);
-            }
-            else
-            {
-                return null;
-            }
-        }
+            private readonly Dictionary<T, HashSet<string>> _connections =
+                new Dictionary<T, HashSet<string>>();
 
-        private int GetLoggedUserId()
-        {
-            try
+            public int Count
             {
-                var testUserId = "1";
-                return Convert.ToInt32(((ClaimsIdentity)Context.User.Identity).FindFirst(ClaimTypes.Name)?.Value ?? testUserId);
+                get
+                {
+                    return _connections.Count;
+                }
             }
-            catch
-            {
 
-                return 0;
+            public void Add(T key, string connectionId)
+            {
+                lock (_connections)
+                {
+                    HashSet<string> connections;
+                    if (!_connections.TryGetValue(key, out connections))
+                    {
+                        connections = new HashSet<string>();
+                        _connections.Add(key, connections);
+                    }
+
+                    lock (connections)
+                    {
+                        connections.Add(connectionId);
+                    }
+                }
+            }
+
+            public IEnumerable<string> GetConnections(T key)
+            {
+                HashSet<string> connections;
+                if (_connections.TryGetValue(key, out connections))
+                {
+                    return connections;
+                }
+
+                return Enumerable.Empty<string>();
+            }
+
+            public void Remove(T key, string connectionId)
+            {
+                lock (_connections)
+                {
+                    HashSet<string> connections;
+                    if (!_connections.TryGetValue(key, out connections))
+                    {
+                        return;
+                    }
+
+                    lock (connections)
+                    {
+                        connections.Remove(connectionId);
+
+                        if (connections.Count == 0)
+                        {
+                            _connections.Remove(key);
+                        }
+                    }
+                }
             }
         }
 

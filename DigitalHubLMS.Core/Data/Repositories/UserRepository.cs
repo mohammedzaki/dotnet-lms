@@ -70,13 +70,17 @@ namespace DigitalHubLMS.Core.Data.Repositories
             var valid = await _signInManager.UserManager.CheckPasswordAsync(user, password);
             if (valid)
             {
+                if (user.DeletedAt != null || user.IsBanned == true)
+                {
+                    return null;
+                }
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var roles = _dbContext.Roles
                     .Where(item => userRoles.Any(n => n == item.Name))
                     .Select(e => new Role { Id = e.Id, Name = e.Name, IsActive = e.IsActive, ConcurrencyStamp = null }).ToList();
                 var userInfo = _dbContext.UserInfos
                     .Where(a => a.UserId == user.Id)
-                    .Select(e => new UserInfo { Id = e.Id, Title = e.Title, Description = e.Description}).First();
+                    .Select(e => new UserInfo { Id = e.Id, Title = e.Title, Description = e.Description }).First();
                 user.Username = user.UserName;
                 user.Roles = roles;
                 if (user.Roles != null)
@@ -154,14 +158,66 @@ namespace DigitalHubLMS.Core.Data.Repositories
             await AddToGroups(user);
             await CreateUserInfo(user);
             await transaction.CommitAsync();
-            var message = new Message(new string[] { user.Email }, "Confirmation Email", "Dear " + user.DisplayName + "<br /> Welcome to MPED E-Learning system! Here's your login info: <br />" +
-                "Username: " + user.UserName + "<br /> Password: "+ user.Password + "<br /> Please use the following link to login: <a href='lms.mped.gov.eg'> lms.mped.gov.eg </a>");
+            // var message = new Message(new string[] { user.Email }, "Confirmation Email", "Dear " + user.DisplayName + "<br /> Welcome to MPED E-Learning system! Here's your login info: <br />" +
+            //     "Username: " + user.UserName + "<br /> Password: " + user.Password + "<br /> Please use the following link to login: <a href='lms.mped.gov.eg'> lms.mped.gov.eg </a>");
+            var message = new Message(new string[] { user.Email }, "Confirmation Email", "<table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"width:100.0%; background:#E6E6E6\"><tbody><tr style=\"height:52.5pt\"><td style=\"padding:0in 0in 0in 0in; height:52.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in; background:#21192A\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\"><img src=\"https://i.ibb.co/hddFLSk/back2.png\" id=\"_x0000_i1025\"></p></div></td></tr></tbody></table></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in; background:white\"><tbody><tr style=\"height:45.0pt\"><td style=\"padding:0in 0in 0in 0in; height:45.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" dir=\"rtl\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"520\" style=\"width:390.0pt\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><b><span lang=\"AR-SA\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\">مرحباً </span></b></span><span class=\"textcontainer\"><b><span dir=\"LTR\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\">" + user.UserName + "</span></b></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span class=\"textcontainer\"><b><span lang=\"AR-SA\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\"><span dir=\"RTL\"></span><span dir=\"RTL\"></span>, </span></b></span><b><span dir=\"LTR\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\"></span></b></p></div></td></tr><tr style=\"height:7.5pt\"><td style=\"padding:0in 0in 0in 0in; height:7.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">يسعدنا أن نخبركم أنه تم ترشيحكم للانضمام إلى منصة التعليم الإلكتروني لوزارة التخطيط والتنمية الاقتصادية</span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">ويمكنكم الآن تسجيل الدخول الى المنصة باستخدام الصلاحيات الموضحة أدناه: </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">اسم المستخدم: </span></span><span class=\"textcontainer\"><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\">" + user.UserName + "</span></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span class=\"textcontainer\"><span style=\"font-size:10.5pt; line-height:200%; color:#494949\"><span dir=\"RTL\"></span><span dir=\"RTL\"></span> </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:3.75pt\"><td style=\"padding:0in 0in 0in 0in; height:3.75pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">كلمة المرور: " + user.Password + " </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td width=\"100%\" style=\"width:100.0%; padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" dir=\"rtl\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr style=\"height:34.5pt\"><td style=\"background:#3D9F96; padding:0in 22.5pt 1.5pt 22.5pt; height:34.5pt\"><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:15.0pt; direction:rtl; unicode-bidi:embed\"><b><span style=\"font-size:13.5pt; font-family:&quot;Helvetica&quot;,sans-serif; color:white\"><a href=\"https://lms.mped.gov.eg\" target=\"_blank\"><span lang=\"AR-SA\" style=\"font-family:&quot;Calibri&quot;,sans-serif; color:white; text-decoration:none\">الدخول الى المنصة التعليمية</span></a></span></b><span dir=\"LTR\"></span><span dir=\"LTR\"></span><b><span dir=\"LTR\" style=\"font-size:13.5pt; font-family:&quot;Helvetica&quot;,sans-serif; color:white\"><span dir=\"LTR\"></span><span dir=\"LTR\"></span> </span></b></p></td></tr></tbody></table></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">اضغط على الزر أو اتبع الرابط </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\"><span class=\"MsoHyperlink\"><span lang=\"EN-US\" dir=\"LTR\" style=\"font-family:&quot;Helvetica&quot;,sans-serif; color:#303F9F\">https://lms.mped.gov.eg</span></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span> </span></span><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\"></span></p></div></td></tr></tbody></table></div></td></tr><tr style=\"height:45.0pt\"><td style=\"padding:0in 0in 0in 0in; height:45.0pt\"></td></tr></tbody></table></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in\"><tbody><tr style=\"height:30.0pt\"><td style=\"padding:0in 0in 0in 0in; height:30.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\" width=\"600\" style=\"width:6.25in\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" style=\"line-height:200%\"><span class=\"textcontainer\"><span style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#929292\">Ministry of Planning and Economic Development </span></span><span style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#929292\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\"><span class=\"textcontainer\"><span style=\"font-size:10.5pt; font-family:&quot;Helvetica&quot;,sans-serif\"><a href=\"https://digitalhubgroup.com/\" target=\"_blank\"><span style=\"color:#929292; text-decoration:none\">Powered by Digital Hub.</span></a> </span></span><span style=\"font-size:10.5pt; font-family:&quot;Helvetica&quot;,sans-serif\"></span></p></div></td></tr><tr style=\"height:7.5pt\"><td style=\"padding:0in 0in 0in 0in; height:7.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" style=\"text-align:center\"><span class=\"textcontainer\"><span lang=\"AR-SA\" dir=\"RTL\" style=\"font-size:10.5pt; font-family:&quot;Arial&quot;,sans-serif; color:#929292\">جميع الحقوق محفوظة © 2021 </span></span><span style=\"font-size:10.5pt; font-family:&quot;Arial&quot;,sans-serif; color:#929292\"></span></p></div></td></tr><tr style=\"height:22.5pt\"><td style=\"padding:0in 0in 0in 0in; height:22.5pt\"></td></tr></tbody></table><p class=\"MsoNormal\"><span style=\"\">&nbsp;</span></p><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\" width=\"130\" style=\"width:97.5pt\"><tbody><tr style=\"height:.75pt\"><td style=\"padding:0in 0in 0in 0in; height:.75pt\"></td></tr></tbody></table><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"right\" width=\"120\" style=\"width:1.25in\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"></td></tr><tr style=\"height:22.5pt\"><td style=\"padding:0in 0in 0in 0in; height:22.5pt\"></td></tr></tbody></table></td></tr><tr style=\"height:52.5pt\"><td style=\"padding:0in 0in 0in 0in; height:52.5pt\"></td></tr></tbody></table></div></td></tr></tbody></table>");
             EmailSender.SendEmail(message);
             return user;
         }
 
+        private async Task<bool> CheckUser(User user, bool Isupdate = false)
+        {
+            var userexist = await _dbContext.Users.Where(e => (e.Email == user.Email || e.UserName == user.UserName) && e.DeletedAt == null).FirstOrDefaultAsync();
+            if (Isupdate == true)
+            {
+                if (userexist != null && user.Id != userexist.Id)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                if (userexist != null)
+                    return true;
+                else
+                    return false;
+            }
+
+        }
+
+        private async Task CreateUser(User user)
+        {
+            user.Id = GenerateNewID();
+            bool _userExist = await CheckUser(user);
+
+            if (!_userExist)
+            {
+                var result = await _userManager.CreateAsync(user, user.Password);
+                if (!result.Succeeded)
+                {
+                    var ex = new AppException("create new user validation failed");
+                    foreach (var item in result.Errors)
+                    {
+                        ex.Errors.Add(item.Code, item.Description);
+                    }
+                    throw ex;
+                }
+            }
+            else
+            {
+                var ex = new AppException("create new user validation failed");
+                throw ex;
+            }
+        }
+
         public override async Task<User> UpdateAsync(User user)
         {
+            bool _userExist = await CheckUser(user,true);
+            if (_userExist)
+            {
+                var ex = new AppException("update user validation failed");
+                throw ex;
+            }
             user.UpdatedAt = DateTime.Now;
             user.UpdatedBy = User.GetLoggedInUserId<long>();
             using var transaction = _dbContext.Database.BeginTransaction();
@@ -173,20 +229,6 @@ namespace DigitalHubLMS.Core.Data.Repositories
             return user;
         }
 
-        private async Task CreateUser(User user)
-        {
-            user.Id = GenerateNewID();
-            var result = await _userManager.CreateAsync(user, user.Password);
-            if (!result.Succeeded)
-            {
-                var ex = new AppException("create new user validation failed");
-                foreach (var item in result.Errors)
-                {
-                    ex.Errors.Add(item.Code, item.Description);
-                }
-                throw ex;
-            }
-        }
 
         private async Task AssignUserRoles(User user)
         {
@@ -231,6 +273,32 @@ namespace DigitalHubLMS.Core.Data.Repositories
             var groupsToRemove = await _dbContext.UserGroups
                     .Where(item => user.Id == item.UserId && newGroups.All(e => e != item.GroupId))
                     .Select(e => e.Id).ToListAsync();
+            var groupsToRemoveNotIds = await _dbContext.UserGroups
+                    .Where(item => user.Id == item.UserId && newGroups.All(e => e != item.GroupId))
+                    .ToListAsync();
+
+
+            var coursesDepartmentsRemove = await _dbContext.CourseDepartments.Where(item => newGroups.All(e => e != item.GroupId)).ToListAsync();
+
+            foreach (var courseDept in coursesDepartmentsRemove)
+            {
+                if (courseDept.CourseId != null)
+                {
+                    var removeenrols = _dbContext.CourseEnrols.Where(e => e.UserId == user.Id && e.CourseId == courseDept.CourseId).ToList();
+                    if (removeenrols.Count != 0)
+                    {
+                        foreach (var item in removeenrols)
+                        {
+                            await CourseEnrolRepository.DeleteAsync(item);
+                        }
+                    }
+                }
+            }
+
+            foreach (var ggId in groupsToRemoveNotIds)
+            {
+                await UserGroupRepository.DeleteAsync(ggId);
+            }
 
             foreach (var gId in newGroups)
             {
@@ -241,7 +309,11 @@ namespace DigitalHubLMS.Core.Data.Repositories
                 {
                     if (courseDept.CourseId != null)
                     {
-                        await CourseEnrolRepository.SaveAsync(new CourseEnrol { Type = "course", CourseId = courseDept.CourseId, UserId = user.Id });
+                        bool existenrols = _dbContext.CourseEnrols.Any(e => e.UserId == user.Id && e.CourseId == courseDept.CourseId);
+                        if (!existenrols)
+                        {
+                            await CourseEnrolRepository.SaveAsync(new CourseEnrol { Type = "course", CourseId = courseDept.CourseId, UserId = user.Id, Progress = 0 });
+                        }
                         /*
                          if ($changeClass->wasRecentlyCreated) {
                             if ($user->email) {
@@ -252,10 +324,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     }
                 }
             }
-            foreach (var gId in groupsToRemove)
-            {
-                await UserGroupRepository.DeleteAsync(gId);
-            }
+
             user.Departments = user.SelectedGroups;
         }
 
@@ -358,9 +427,9 @@ namespace DigitalHubLMS.Core.Data.Repositories
             }
         }
 
-        public async Task<bool> SetUserForgetPassword(string username)
+        public async Task<bool> SetUserForgetPassword(string _email)
         {
-            var user = await _dbContext.Users.Where(e => e.UserName == username).FirstOrDefaultAsync();
+            var user = await _dbContext.Users.Where(e => e.Email == _email).FirstOrDefaultAsync();
             if (user == null)
             {
                 throw new BadHttpRequestException("There was a problem changing the password.");
@@ -372,8 +441,11 @@ namespace DigitalHubLMS.Core.Data.Repositories
             user.UpdatedBy = user.Id;
             user.IsBanned = true;
             user.IsVerified = false;
+            user.Password = "1q2w3e4r5t";
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
+            var message = new Message(new string[] { user.Email }, "Forget Password Confirmation Email", "<table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"width:100.0%; background:#E6E6E6\"><tbody><tr style=\"height:52.5pt\"><td style=\"padding:0in 0in 0in 0in; height:52.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in; background:#21192A\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\"><img src=\"https://i.ibb.co/hddFLSk/back2.png\" id=\"_x0000_i1025\"></p></div></td></tr></tbody></table></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in; background:white\"><tbody><tr style=\"height:45.0pt\"><td style=\"padding:0in 0in 0in 0in; height:45.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" dir=\"rtl\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"520\" style=\"width:390.0pt\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><b><span lang=\"AR-SA\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\">مرحباً </span></b></span><span class=\"textcontainer\"><b><span dir=\"LTR\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\">" + user.UserName + "</span></b></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span class=\"textcontainer\"><b><span lang=\"AR-SA\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\"><span dir=\"RTL\"></span><span dir=\"RTL\"></span>, </span></b></span><b><span dir=\"LTR\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\"></span></b></p></div></td></tr><tr style=\"height:7.5pt\"><td style=\"padding:0in 0in 0in 0in; height:7.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">يسعدنا أن نخبركم أنه تم ترشيحكم للانضمام إلى منصة التعليم الإلكتروني لوزارة التخطيط والتنمية الاقتصادية</span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">ويمكنكم الآن تسجيل الدخول الى المنصة باستخدام الصلاحيات الموضحة أدناه: </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">اسم المستخدم: </span></span><span class=\"textcontainer\"><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\">" + user.UserName + "</span></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span class=\"textcontainer\"><span style=\"font-size:10.5pt; line-height:200%; color:#494949\"><span dir=\"RTL\"></span><span dir=\"RTL\"></span> </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:3.75pt\"><td style=\"padding:0in 0in 0in 0in; height:3.75pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">كلمة المرور: " + user.Password + " </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td width=\"100%\" style=\"width:100.0%; padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" dir=\"rtl\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr style=\"height:34.5pt\"><td style=\"background:#3D9F96; padding:0in 22.5pt 1.5pt 22.5pt; height:34.5pt\"><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:15.0pt; direction:rtl; unicode-bidi:embed\"><b><span style=\"font-size:13.5pt; font-family:&quot;Helvetica&quot;,sans-serif; color:white\"><a href=\"https://lms.mped.gov.eg\" target=\"_blank\"><span lang=\"AR-SA\" style=\"font-family:&quot;Calibri&quot;,sans-serif; color:white; text-decoration:none\">الدخول الى المنصة التعليمية</span></a></span></b><span dir=\"LTR\"></span><span dir=\"LTR\"></span><b><span dir=\"LTR\" style=\"font-size:13.5pt; font-family:&quot;Helvetica&quot;,sans-serif; color:white\"><span dir=\"LTR\"></span><span dir=\"LTR\"></span> </span></b></p></td></tr></tbody></table></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">اضغط على الزر أو اتبع الرابط </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\"><span class=\"MsoHyperlink\"><span lang=\"EN-US\" dir=\"LTR\" style=\"font-family:&quot;Helvetica&quot;,sans-serif; color:#303F9F\">https://lms.mped.gov.eg</span></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span> </span></span><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\"></span></p></div></td></tr></tbody></table></div></td></tr><tr style=\"height:45.0pt\"><td style=\"padding:0in 0in 0in 0in; height:45.0pt\"></td></tr></tbody></table></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in\"><tbody><tr style=\"height:30.0pt\"><td style=\"padding:0in 0in 0in 0in; height:30.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\" width=\"600\" style=\"width:6.25in\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" style=\"line-height:200%\"><span class=\"textcontainer\"><span style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#929292\">Ministry of Planning and Economic Development </span></span><span style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#929292\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\"><span class=\"textcontainer\"><span style=\"font-size:10.5pt; font-family:&quot;Helvetica&quot;,sans-serif\"><a href=\"https://digitalhubgroup.com/\" target=\"_blank\"><span style=\"color:#929292; text-decoration:none\">Powered by Digital Hub.</span></a> </span></span><span style=\"font-size:10.5pt; font-family:&quot;Helvetica&quot;,sans-serif\"></span></p></div></td></tr><tr style=\"height:7.5pt\"><td style=\"padding:0in 0in 0in 0in; height:7.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" style=\"text-align:center\"><span class=\"textcontainer\"><span lang=\"AR-SA\" dir=\"RTL\" style=\"font-size:10.5pt; font-family:&quot;Arial&quot;,sans-serif; color:#929292\">جميع الحقوق محفوظة © 2021 </span></span><span style=\"font-size:10.5pt; font-family:&quot;Arial&quot;,sans-serif; color:#929292\"></span></p></div></td></tr><tr style=\"height:22.5pt\"><td style=\"padding:0in 0in 0in 0in; height:22.5pt\"></td></tr></tbody></table><p class=\"MsoNormal\"><span style=\"\">&nbsp;</span></p><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\" width=\"130\" style=\"width:97.5pt\"><tbody><tr style=\"height:.75pt\"><td style=\"padding:0in 0in 0in 0in; height:.75pt\"></td></tr></tbody></table><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"right\" width=\"120\" style=\"width:1.25in\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"></td></tr><tr style=\"height:22.5pt\"><td style=\"padding:0in 0in 0in 0in; height:22.5pt\"></td></tr></tbody></table></td></tr><tr style=\"height:52.5pt\"><td style=\"padding:0in 0in 0in 0in; height:52.5pt\"></td></tr></tbody></table></div></td></tr></tbody></table>");
+            EmailSender.SendEmail(message);
             return true;
         }
 

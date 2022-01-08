@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DigitalHubLMS.Core.Data.Entities;
 using DigitalHubLMS.Core.Data.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using MZCore.Helpers;
 using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.Core.Data.Repositories
@@ -38,13 +39,11 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public async Task<bool> SetUserAnnouncementRead(long announcementId)
         {
-            var announcement  = await _dbContext.AnnouncementUsers.FindAsync(announcementId);
-            if (announcement == null)
-            {
-                throw new KeyNotFoundException("Announcement not exists");
-            }
-            announcement.Read = 1;
-            _dbContext.Update(announcement);
+            AnnouncementUser announcementUser = new AnnouncementUser();
+            announcementUser.UserId = User.GetLoggedInUserId<long>();
+            announcementUser.AnnouncementId = announcementId;
+            announcementUser.Read = 1;
+            await _dbContext.AddAsync(announcementUser);
             await _dbContext.SaveChangesAsync();
             return true;
         }

@@ -35,7 +35,31 @@ namespace DigitalHubLMS.API.Controllers.Admin
                             progress = enrol.Progress,
                             course = enrol.Course.Title,
                             year = enrol.Course.CreatedAt.Value.Year,
-                            month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(enrol.Course.CreatedAt.Value.Month)
+                            month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(enrol.Course.CreatedAt.Value.Month),
+                            start  = enrol.Course.CreatedAt.Value.ToShortDateString(),
+                            updated = enrol.Course.UpdatedAt.Value.ToShortDateString()
+                        }).ToListAsync();
+            return list;
+        }
+
+        [HttpGet("get-by-course")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<List<ReportUser>>> GetByCourse(long courseId)
+        {
+            var list = await _dbContext.Users
+                .Include(e => e.CourseEnrols)
+                .ThenInclude(e => e.Course)
+                .SelectMany(e => e.CourseEnrols.Where(e => e.CourseId == courseId),
+                        (user, enrol) => new ReportUser
+                        {
+                            employee = user.DisplayName,
+                            progress = enrol.Progress,
+                            course = enrol.Course.Title,
+                            year = enrol.Course.CreatedAt.Value.Year,
+                            month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(enrol.Course.CreatedAt.Value.Month),
+                            start = enrol.Course.CreatedAt.Value.ToString(),
+                            updated = enrol.Course.UpdatedAt.Value.ToString()
                         }).ToListAsync();
             return list;
         }
