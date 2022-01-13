@@ -11,7 +11,7 @@ using MZCore.Patterns.Repositroy;
 
 namespace DigitalHubLMS.Core.Data.Repositories
 {
-    public class AnnouncementRepository : EntityRepository<DigitalHubLMSContext, Announcement, long>, IAnnouncementRepository
+    public class AnnouncementRepository : EntityRepository<DigitalHubLMSContext, AnnouncementUser, long>, IAnnouncementRepository
     {
         public AnnouncementRepository(DigitalHubLMSContext context,
             ClaimsPrincipal claimsPrincipal)
@@ -39,11 +39,43 @@ namespace DigitalHubLMS.Core.Data.Repositories
 
         public async Task<bool> SetUserAnnouncementRead(long announcementId)
         {
+            bool announcement = _dbContext.AnnouncementUsers.Any(a => a.AnnouncementId == announcementId && a.UserId == User.GetLoggedInUserId<long>());
+            if (announcement == true)
+            {
+                var announcementU = _dbContext.AnnouncementUsers.Where(a => a.AnnouncementId == announcementId && a.UserId == User.GetLoggedInUserId<long>()).FirstOrDefault();
+                announcementU.Read = 1;
+                _dbContext.Update(announcementU);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
             AnnouncementUser announcementUser = new AnnouncementUser();
+            announcementUser.Id = GenerateNewID();
+            announcementUser.CreatedAt = DateTime.Now;
+            announcementUser.UpdatedAt = DateTime.Now;
+            announcementUser.CreatedBy = User.GetLoggedInUserId<long>();
+            announcementUser.UpdatedBy = User.GetLoggedInUserId<long>();
             announcementUser.UserId = User.GetLoggedInUserId<long>();
             announcementUser.AnnouncementId = announcementId;
             announcementUser.Read = 1;
             await _dbContext.AddAsync(announcementUser);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> SetUserAnnouncement(AnnouncementUser announcementU)
+        {
+            bool announcement = _dbContext.AnnouncementUsers.Any(a => a.AnnouncementId == announcementU.AnnouncementId && a.UserId == announcementU.UserId);
+            if (announcement == true)
+            {
+                return true;
+            }
+            announcementU.Id = GenerateNewID();
+            announcementU.CreatedAt = DateTime.Now;
+            announcementU.UpdatedAt = DateTime.Now;
+            announcementU.CreatedBy = User.GetLoggedInUserId<long>();
+            announcementU.UpdatedBy = User.GetLoggedInUserId<long>();
+            announcementU.UserId = User.GetLoggedInUserId<long>();
+            announcementU.Read = 0;
+            await _dbContext.AddAsync(announcementU);
             await _dbContext.SaveChangesAsync();
             return true;
         }

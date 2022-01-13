@@ -24,6 +24,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         [Column("priority")]
         [StringLength(255)]
         public string Priority { get; set; }
+        [NotMapped]
+        public virtual ICollection<User> Included { get; set; }
 
         [SwaggerSchema(ReadOnly = true)]
         [InverseProperty(nameof(Entities.AnnouncementData.Announcement))]

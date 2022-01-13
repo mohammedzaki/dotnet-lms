@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace DigitalHubLMS.Core.Data.Repositories.Contracts
 {
-    public interface IAnnouncementRepository : IRepository<Announcement, long>
+    public interface IAnnouncementRepository : IRepository<AnnouncementUser, long>
     {
         Task<List<AnnouncementUser>> GetUserAnnouncements(long id);
         Task<bool> SetUserAnnouncementRead(long id);
+        Task<bool> SetUserAnnouncement(AnnouncementUser announcementU);
     }
 }

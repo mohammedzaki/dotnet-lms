@@ -247,6 +247,7 @@ namespace DigitalHubLMS.API
             services.AddScoped<IRepository<CourseCategory, long>, EntityRepository<DigitalHubLMSContext, CourseCategory, long>>();
             services.AddScoped<IRepository<CourseDepartment, long>, EntityRepository<DigitalHubLMSContext, CourseDepartment, long>>();
             services.AddScoped<IRepository<CourseData, long>, EntityRepository<DigitalHubLMSContext, CourseData, long>>();
+            services.AddScoped<IRepository<AnnouncementUser, long>, EntityRepository<DigitalHubLMSContext, AnnouncementUser, long>>();
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddScoped<ICertificateGenerator, CertificateGenerator>();
