@@ -28,7 +28,7 @@ namespace DigitalHubLMS.API.Controllers
             var enroll = await _dbContext.CourseEnrols
                 .Include(e => e.Course)
                 .ThenInclude(e => e.CourseMeta)
-                .Where(e => e.UserId == userId && e.Type == "course")
+                .Where(e => e.UserId == userId && e.Type == "course" && e.Course.Published == true)
                 .OrderByDescending(e => e.CreatedAt)
                 .ToListAsync();
             if (enroll.Count > 0)
@@ -48,7 +48,7 @@ namespace DigitalHubLMS.API.Controllers
                 double NotStartedPercent = NotStarted * 100;
                 double TotalDonePercent = Math.Ceiling((TotalProgress / TotalPercent) * 100);
                 double TotalNotStartedPercent = Math.Ceiling((NotStartedPercent / TotalPercent) * 100);
-                var TotalInProgressPercent = Math.Ceiling(100 - (TotalDonePercent + TotalNotStartedPercent));
+                var TotalInProgressPercent = (Math.Ceiling(100 - (TotalDonePercent + TotalNotStartedPercent))) > 0 ? Math.Ceiling(100 - (TotalDonePercent + TotalNotStartedPercent)) : 0;
                 enroll.ForEach(en =>
                 {
                     if (en.Progress.HasValue)
@@ -59,7 +59,7 @@ namespace DigitalHubLMS.API.Controllers
                 });
                 var TotalCertificates = _dbContext.Certificates.Where(e => e.UserId == userId).ToListAsync().Result.Count;
                 var courses = await _dbContext.Courses
-                .Where(e => e.CreatedAt.Value.Year == DateTime.Now.Year && e.CourseEnrols.Any(a => a.UserId == userId) && e.CourseEnrols.Any(a => a.Type == "course"))
+                .Where(e => e.CourseEnrols.Any(a => a.UserId == userId) && e.CourseEnrols.Any(a => a.Type == "course") && e.Published == true)
                 .Include(e => e.CourseEnrols)
                 .Select(e => new CourseUserProgress
                 {
@@ -71,7 +71,7 @@ namespace DigitalHubLMS.API.Controllers
                 })
                 .ToListAsync();
                 var year_courses = await _dbContext.Courses
-                .Where(e => e.CreatedAt.Value.Year == DateTime.Now.Year && e.CourseEnrols.Any(a => a.UserId == userId) && e.CourseEnrols.Any(a => a.Type == "course"))
+                .Where(e => e.CreatedAt.Value.Year == DateTime.Now.Year && e.CourseEnrols.Any(a => a.UserId == userId) && e.CourseEnrols.Any(a => a.Type == "course") && e.Published == true)
                 .Select(e => new { e.CreatedAt.Value.Year, e.CreatedAt.Value.Month })
                 .GroupBy(e => new { e.Year, e.Month })
                 .OrderBy(e => e.Key.Year)

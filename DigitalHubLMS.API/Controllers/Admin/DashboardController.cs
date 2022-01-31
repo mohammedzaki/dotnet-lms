@@ -39,7 +39,7 @@ namespace DigitalHubLMS.API.Controllers.Admin
                 .Select(g => new { year = g.Key.Year, month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month), count = g.Count() })
                 .ToListAsync();
             var courses = await _dbContext.Courses
-                .Where(e => e.CreatedAt.Value.Year == DateTime.Now.Year)
+                .Where(e => e.Published == true)
                 .Include(e => e.CourseEnrols)
                 .Select(e => new CourseUserProgress
                 {

@@ -126,6 +126,14 @@ namespace DigitalHubLMS.Core.Data.Entities
 
         [SwaggerSchema(ReadOnly = true)]
         [NotMapped]
+        public long? Grade { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
+        [NotMapped]
+        public long? CurrentClass { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
+        [NotMapped]
         public int ClassesCount { get; set; }
 
         [NotMapped]

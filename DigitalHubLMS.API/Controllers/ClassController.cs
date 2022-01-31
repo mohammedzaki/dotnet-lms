@@ -51,7 +51,7 @@ namespace DigitalHubLMS.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public virtual async Task<ActionResult<CourseEnrol>> Change([Required] long current_class, [Required] long course_id)
+        public virtual async Task<ActionResult<CourseEnrol>> Change([Required] long current_class, [Required] long course_id, long? grade)
         {
             var userId = User.GetLoggedInUserId<long>();
             var changeClass = await _dbContext.CourseEnrols
@@ -62,11 +62,13 @@ namespace DigitalHubLMS.API.Controllers
                 changeClass.CourseId = course_id;
                 changeClass.UserId = userId;
                 changeClass.CurrentClass = current_class;
+                changeClass.Grade = grade.Value;
                 changeClass = await CourseEnrolRepository.SaveAsync(changeClass);
             }
             else
             {
                 changeClass.CurrentClass = current_class;
+                changeClass.Grade = grade.Value;
                 changeClass = await CourseEnrolRepository.UpdateAsync(changeClass);
             }
             return Created(nameof(Change), changeClass);

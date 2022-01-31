@@ -369,6 +369,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
         public async Task<Course> GetUserCoursePage(long userId, string courseSlug)
         {
             var course = await _dbContext.Courses
+                .Include(e => e.CourseEnrols)
                 .Include(e => e.Sections)
                 .ThenInclude(e => e.CourseClasses)
                 .Include(e => e.CourseCategories)
@@ -394,6 +395,8 @@ namespace DigitalHubLMS.Core.Data.Repositories
                     });
                     course.Categories = course.CourseCategories.Select(e => new Category { Id = e.Category.Id, Name = e.Category.Name }).ToList();
                     course.Progress = enroll.Progress;
+                    course.Grade = enroll.Grade;
+                    course.CurrentClass = enroll.CurrentClass;
                     course.ClassesCount = classCount;
                     var certificate = await _dbContext.Certificates.Where(e => e.UserId == userId && e.Status == true && e.CourseId == course.Id).FirstOrDefaultAsync();
                     if (certificate != null)

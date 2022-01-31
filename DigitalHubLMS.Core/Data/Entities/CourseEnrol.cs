@@ -23,6 +23,8 @@ namespace DigitalHubLMS.Core.Data.Entities
         public long? CurrentClass { get; set; }
         [Column("progress")]
         public long? Progress { get; set; }
+        [Column("grade")]
+        public long? Grade { get; set; }
         [Required]
         [Column("type")]
         [StringLength(255)]
