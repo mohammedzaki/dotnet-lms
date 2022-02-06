@@ -153,7 +153,7 @@ namespace DigitalHubLMS.API.Controllers
                     done++;
                 }
             });
-            var progress = (done / classes.Count) * 100;
+            double progress = ((Convert.ToDouble(done) / Convert.ToDouble(classes.Count)) * 100);
             var changeClass = await _dbContext.CourseEnrols
                 .Where(e => e.CourseId == course_id && e.UserId == user_id).FirstOrDefaultAsync();
             if (changeClass == null)
@@ -161,12 +161,12 @@ namespace DigitalHubLMS.API.Controllers
                 changeClass = new CourseEnrol();
                 changeClass.CourseId = course_id;
                 changeClass.UserId = user_id;
-                changeClass.Progress = progress;
+                changeClass.Progress = Convert.ToInt64(progress);
                 changeClass = await CourseEnrolRepository.SaveAsync(changeClass);
             }
             else
             {
-                changeClass.Progress = progress;
+                changeClass.Progress = Convert.ToInt64(progress);
                 changeClass = await CourseEnrolRepository.UpdateAsync(changeClass);
             }
             var certificate = await _dbContext.Certificates

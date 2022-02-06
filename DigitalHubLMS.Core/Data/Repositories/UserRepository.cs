@@ -28,6 +28,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
         private readonly IRepository<ProfilePicture, long> ProfilePictureRepository;
         private readonly IRepository<UserGroup, long> UserGroupRepository;
         private readonly IRepository<CourseEnrol, long> CourseEnrolRepository;
+        private readonly IRepository<Announcement, long> AnnouncementRepository;
         private readonly IEmailSender EmailSender;
 
         public UserRepository(
@@ -39,6 +40,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             IRepository<UserSecurityQuestion, long> userSecurityQuestionRepository,
             IRepository<UserGroup, long> userGroupRepository,
             IRepository<CourseEnrol, long> courseEnrolRepository,
+            IRepository<Announcement, long> announcementRepository,
             ClaimsPrincipal claimsPrincipal,
             IEmailSender emailSender)
             : base(context, claimsPrincipal)
@@ -50,6 +52,7 @@ namespace DigitalHubLMS.Core.Data.Repositories
             ProfilePictureRepository = profilePictureRepository;
             UserGroupRepository = userGroupRepository;
             CourseEnrolRepository = courseEnrolRepository;
+            AnnouncementRepository = announcementRepository;
             EmailSender = emailSender;
         }
 
@@ -313,14 +316,19 @@ namespace DigitalHubLMS.Core.Data.Repositories
                         if (!existenrols)
                         {
                             await CourseEnrolRepository.SaveAsync(new CourseEnrol { Type = "course", CourseId = courseDept.CourseId, UserId = user.Id, Progress = 0 });
+                            await AnnouncementRepository.SaveAsync(new Announcement { Included = { user }, Title = "New Course", Message = "You enrolled for a new course, please check your course page.", Priority = "0" });
                         }
                         /*
+                         * courseDept.Course.Title
+                         * 
                          if ($changeClass->wasRecentlyCreated) {
                             if ($user->email) {
                                 dispatch(new EnrolledEmailJob($user->email, $user, $ccourse));
                             }
                          }
                          */
+
+                        
                     }
                 }
             }
@@ -436,17 +444,34 @@ namespace DigitalHubLMS.Core.Data.Repositories
             }
             var hasher = new PasswordHasher<User>();
             var SecurityStamp = Guid.NewGuid().ToString();
-            var hasedPassword = hasher.HashPassword(user, "1q2w3e4r5t");
+            var password = CreateRandomPassword();
+            var hasedPassword = hasher.HashPassword(user, password);
             user.PasswordHash = hasedPassword;
             user.UpdatedBy = user.Id;
             user.IsBanned = true;
             user.IsVerified = false;
-            user.Password = "1q2w3e4r5t";
+            user.Password = password;
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
             var message = new Message(new string[] { user.Email }, "Forget Password Confirmation Email", "<table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"width:100.0%; background:#E6E6E6\"><tbody><tr style=\"height:52.5pt\"><td style=\"padding:0in 0in 0in 0in; height:52.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in; background:#21192A\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\"><img src=\"https://i.ibb.co/hddFLSk/back2.png\" id=\"_x0000_i1025\"></p></div></td></tr></tbody></table></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in; background:white\"><tbody><tr style=\"height:45.0pt\"><td style=\"padding:0in 0in 0in 0in; height:45.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" dir=\"rtl\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"520\" style=\"width:390.0pt\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><b><span lang=\"AR-SA\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\">مرحباً </span></b></span><span class=\"textcontainer\"><b><span dir=\"LTR\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\">" + user.UserName + "</span></b></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span class=\"textcontainer\"><b><span lang=\"AR-SA\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\"><span dir=\"RTL\"></span><span dir=\"RTL\"></span>, </span></b></span><b><span dir=\"LTR\" style=\"font-size:15.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#282828\"></span></b></p></div></td></tr><tr style=\"height:7.5pt\"><td style=\"padding:0in 0in 0in 0in; height:7.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">يسعدنا أن نخبركم أنه تم ترشيحكم للانضمام إلى منصة التعليم الإلكتروني لوزارة التخطيط والتنمية الاقتصادية</span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">ويمكنكم الآن تسجيل الدخول الى المنصة باستخدام الصلاحيات الموضحة أدناه: </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">اسم المستخدم: </span></span><span class=\"textcontainer\"><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\">" + user.UserName + "</span></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span class=\"textcontainer\"><span style=\"font-size:10.5pt; line-height:200%; color:#494949\"><span dir=\"RTL\"></span><span dir=\"RTL\"></span> </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:3.75pt\"><td style=\"padding:0in 0in 0in 0in; height:3.75pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" dir=\"RTL\" style=\"text-align:right; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">كلمة المرور: " + user.Password + " </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td width=\"100%\" style=\"width:100.0%; padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" dir=\"rtl\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr style=\"height:34.5pt\"><td style=\"background:#3D9F96; padding:0in 22.5pt 1.5pt 22.5pt; height:34.5pt\"><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:15.0pt; direction:rtl; unicode-bidi:embed\"><b><span style=\"font-size:13.5pt; font-family:&quot;Helvetica&quot;,sans-serif; color:white\"><a href=\"https://lms.mped.gov.eg\" target=\"_blank\"><span lang=\"AR-SA\" style=\"font-family:&quot;Calibri&quot;,sans-serif; color:white; text-decoration:none\">الدخول الى المنصة التعليمية</span></a></span></b><span dir=\"LTR\"></span><span dir=\"LTR\"></span><b><span dir=\"LTR\" style=\"font-size:13.5pt; font-family:&quot;Helvetica&quot;,sans-serif; color:white\"><span dir=\"LTR\"></span><span dir=\"LTR\"></span> </span></b></p></td></tr></tbody></table></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\">اضغط على الزر أو اتبع الرابط </span></span><span dir=\"LTR\" style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#494949\"></span></p></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" dir=\"RTL\" style=\"text-align:center; line-height:200%; direction:rtl; unicode-bidi:embed\"><span class=\"textcontainer\"><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\"><span class=\"MsoHyperlink\"><span lang=\"EN-US\" dir=\"LTR\" style=\"font-family:&quot;Helvetica&quot;,sans-serif; color:#303F9F\">https://lms.mped.gov.eg</span></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span><span dir=\"RTL\"></span> </span></span><span lang=\"AR-SA\" style=\"font-size:10.5pt; line-height:200%; color:#494949\"></span></p></div></td></tr></tbody></table></div></td></tr><tr style=\"height:45.0pt\"><td style=\"padding:0in 0in 0in 0in; height:45.0pt\"></td></tr></tbody></table></div></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div align=\"center\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"600\" style=\"width:6.25in\"><tbody><tr style=\"height:30.0pt\"><td style=\"padding:0in 0in 0in 0in; height:30.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\" width=\"600\" style=\"width:6.25in\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" style=\"line-height:200%\"><span class=\"textcontainer\"><span style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#929292\">Ministry of Planning and Economic Development </span></span><span style=\"font-size:10.5pt; line-height:200%; font-family:&quot;Helvetica&quot;,sans-serif; color:#929292\"></span></p></div></td></tr><tr style=\"height:15.0pt\"><td style=\"padding:0in 0in 0in 0in; height:15.0pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\"><span class=\"textcontainer\"><span style=\"font-size:10.5pt; font-family:&quot;Helvetica&quot;,sans-serif\"><a href=\"https://digitalhubgroup.com/\" target=\"_blank\"><span style=\"color:#929292; text-decoration:none\">Powered by Digital Hub.</span></a> </span></span><span style=\"font-size:10.5pt; font-family:&quot;Helvetica&quot;,sans-serif\"></span></p></div></td></tr><tr style=\"height:7.5pt\"><td style=\"padding:0in 0in 0in 0in; height:7.5pt\"></td></tr><tr><td style=\"padding:0in 0in 0in 0in\"><div><p class=\"MsoNormal\" align=\"center\" style=\"text-align:center\"><span class=\"textcontainer\"><span lang=\"AR-SA\" dir=\"RTL\" style=\"font-size:10.5pt; font-family:&quot;Arial&quot;,sans-serif; color:#929292\">جميع الحقوق محفوظة © 2021 </span></span><span style=\"font-size:10.5pt; font-family:&quot;Arial&quot;,sans-serif; color:#929292\"></span></p></div></td></tr><tr style=\"height:22.5pt\"><td style=\"padding:0in 0in 0in 0in; height:22.5pt\"></td></tr></tbody></table><p class=\"MsoNormal\"><span style=\"\">&nbsp;</span></p><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\" width=\"130\" style=\"width:97.5pt\"><tbody><tr style=\"height:.75pt\"><td style=\"padding:0in 0in 0in 0in; height:.75pt\"></td></tr></tbody></table><table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"right\" width=\"120\" style=\"width:1.25in\"><tbody><tr><td style=\"padding:0in 0in 0in 0in\"></td></tr><tr style=\"height:22.5pt\"><td style=\"padding:0in 0in 0in 0in; height:22.5pt\"></td></tr></tbody></table></td></tr><tr style=\"height:52.5pt\"><td style=\"padding:0in 0in 0in 0in; height:52.5pt\"></td></tr></tbody></table></div></td></tr></tbody></table>");
             EmailSender.SendEmail(message);
             return true;
+        }
+
+        public string CreateRandomPassword(int length = 8)
+        {
+            // Create a string of characters, numbers, special characters that allowed in the password  
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
+            Random random = new Random();
+
+            // Select one random character at a time from the string  
+            // and create an array of chars  
+            char[] chars = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(0, validChars.Length)];
+            }
+            return new string(chars);
         }
 
         public async Task<bool> UpdateUserInfo(long userId, string title, string description)

@@ -32,5 +32,6 @@ namespace DigitalHubLMS.Core.Data.Repositories.Contracts
         public SignInManager<User> GetSignInManager();
 
         public Task<ProfilePicture> GetProfilePic(long userId);
+        public string CreateRandomPassword(int length);
     }
 }

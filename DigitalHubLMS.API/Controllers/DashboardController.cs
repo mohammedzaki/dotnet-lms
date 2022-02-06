@@ -34,7 +34,7 @@ namespace DigitalHubLMS.API.Controllers
             if (enroll.Count > 0)
             {
                 var progress = new System.Collections.Generic.List<long>();
-                var course = enroll.First();
+                var course = enroll.OrderByDescending(a => a.UpdatedAt).First();
                 var currentCourse = new CurrentUserCourse();
                 currentCourse.Title = course.Course.Title;
                 currentCourse.Thumbnail = course.Course.Thumbnail;
